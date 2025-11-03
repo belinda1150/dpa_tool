@@ -1,0 +1,227 @@
+/**
+ * Module Styles - Common utility classes
+ * Zimbabwe DPA Tool
+ * Replace inline styles with reusable CSS classes
+ */
+
+/* Typography Utilities */
+.text-xs {
+  font-size: 11px;
+}
+
+.text-sm {
+  font-size: 12px;
+}
+
+.text-md {
+  font-size: 14px;
+}
+
+.text-lg {
+  font-size: 16px;
+}
+
+/* Margin Utilities */
+.m-0 {
+  margin: 0;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.mt-n22 {
+  margin-top: -22px;
+}
+
+.ml-5 {
+  margin-left: 5px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.ml-15 {
+  margin-left: 15px;
+}
+
+.my-10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.my-5 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* Padding Utilities */
+.p-0 {
+  padding: 0;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+.p-15 {
+  padding: 15px;
+}
+
+.pl-30 {
+  padding-left: 30px;
+}
+
+.px-10-20 {
+  padding: 10px 20px;
+}
+
+/* Text Alignment */
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Background Boxes */
+.bg-box-light {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  margin-bottom: 20px;
+}
+
+.bg-box-light-simple {
+  background: #f9f9f9;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.bg-box-warning {
+  background-color: #fff3cd;
+  padding: 15px;
+  border: 1px solid #f0ad4e;
+  border-radius: 4px;
+  white-space: pre-wrap;
+}
+
+.bg-box-warning-simple {
+  background: #fff3cd;
+  padding: 10px;
+  border: 1px solid #f39c12;
+}
+
+.bg-box-yellow {
+  background-color: #fffbf0;
+  padding: 15px;
+  border: 1px solid #f0e68c;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  margin-bottom: 0;
+}
+
+.bg-box-no-mb {
+  margin-bottom: 0;
+}
+
+/* Timeline / Activity Styles */
+.activity-item {
+  margin-bottom: 15px;
+  padding-left: 30px;
+  border-left: 2px solid #3498db;
+  position: relative;
+}
+
+/* Button Utilities */
+.btn-print {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.btn-back {
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+/* List Utilities */
+.list-sm {
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+.list-xs {
+  font-size: 11px;
+  margin: 0;
+}
+
+.list-nested {
+  margin: 5px 0 0 15px;
+}
+
+/* Alert Utilities */
+.alert-sm {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.alert-mt {
+  margin-top: 15px;
+  margin-bottom: 0;
+}
+
+/* Stats Box */
+.stats-number {
+  margin: 10px 0;
+}
+
+.stats-label {
+  margin: 0;
+}
+
+/* Label Utilities */
+.label-md {
+  font-size: 14px;
+}
+
+/* No Print Utility */
+.no-print {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
+}
+
+/* Pull Right with Margin */
+.pull-right-adjusted {
+  margin-top: -22px;
+}

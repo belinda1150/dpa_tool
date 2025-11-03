@@ -1,0 +1,88 @@
+/**
+ * Dashboard Custom Styles
+ * Zimbabwe DPA Tool
+ */
+
+/* Header Styles */
+.navbar-cls-top {
+  margin-bottom: 0;
+}
+
+.navbar-user-info {
+  color: white;
+  padding: 15px 50px 5px 50px;
+  float: right;
+  font-size: 16px;
+}
+
+.role-badge {
+  background-color: #5bc0de;
+}
+
+/* Compliance Score Panel */
+.panel-compliance-header {
+  background-color: #00a950;
+  color: white;
+}
+
+.compliance-score {
+  font-size: 72px;
+}
+
+.compliance-score-excellent {
+  color: #00CE6F;
+}
+
+.compliance-score-good {
+  color: #FFA500;
+}
+
+.compliance-score-poor {
+  color: #DB0630;
+}
+
+.compliance-progress {
+  height: 30px;
+}
+
+.compliance-status {
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.status-icon-excellent {
+  color: #00CE6F;
+}
+
+.status-icon-good {
+  color: #FFA500;
+}
+
+.status-icon-poor {
+  color: #DB0630;
+}
+
+/* Statistics Cards */
+.stat-details {
+  font-size: 12px;
+}
+
+.icon-box-purple {
+  background-color: #A95DF0;
+}
+
+.icon-box-green {
+  background-color: #00CE6F;
+}
+
+.icon-box-blue {
+  background-color: #2EA7EB;
+}
+
+.icon-box-red {
+  background-color: #FF6347;
+}
+
+.link-primary {
+  color: #337ab7;
+}
