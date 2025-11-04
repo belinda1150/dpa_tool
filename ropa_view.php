@@ -5,7 +5,7 @@
  * Date: October 2025
  */
 
-require_once '../config/config.php';
+require_once 'config/config.php';
 require_once 'includes/auth.php';
 require_login();
 
@@ -366,11 +366,53 @@ $incidents = db_fetch_all($stmt);
                             </div>
                         </div>
 
+                        <!-- DPIA Requirement Check -->
+                        <?php
+                        $dpia_required = (
+                            $ropa['has_special_categories'] ||
+                            $ropa['has_minors'] ||
+                            $ropa['has_cross_border'] ||
+                            $ropa['estimated_data_subjects'] >= DPIA_THRESHOLD_SUBJECTS
+                        );
+                        ?>
+
+                        <?php if ($dpia_required && empty($dpias)): ?>
+                        <!-- DPIA Required Alert -->
+                        <div class="alert alert-warning" style="border-left: 4px solid #f0ad4e;">
+                            <h4><i class="fa fa-exclamation-triangle"></i> DPIA Required</h4>
+                            <p><strong>This processing activity requires a Data Protection Impact Assessment (DPIA).</strong></p>
+                            <p>A DPIA is mandatory because this activity involves:</p>
+                            <ul>
+                                <?php if ($ropa['has_special_categories']): ?>
+                                <li><i class="fa fa-check"></i> <strong>Special categories of personal data</strong> (e.g., health, biometrics, criminal records)</li>
+                                <?php endif; ?>
+                                <?php if ($ropa['has_minors']): ?>
+                                <li><i class="fa fa-check"></i> <strong>Processing of minors' data</strong> (children under 18 years)</li>
+                                <?php endif; ?>
+                                <?php if ($ropa['has_cross_border']): ?>
+                                <li><i class="fa fa-check"></i> <strong>Cross-border data transfers</strong></li>
+                                <?php endif; ?>
+                                <?php if ($ropa['estimated_data_subjects'] >= DPIA_THRESHOLD_SUBJECTS): ?>
+                                <li><i class="fa fa-check"></i> <strong>Large-scale processing</strong> (<?php echo number_format($ropa['estimated_data_subjects']); ?> data subjects - threshold: <?php echo number_format(DPIA_THRESHOLD_SUBJECTS); ?>)</li>
+                                <?php endif; ?>
+                            </ul>
+                            <p style="margin-top: 15px;">
+                                <a href="dpia_wizard.php?ropa_id=<?php echo $ropa_id; ?>" class="btn btn-warning btn-lg">
+                                    <i class="fa fa-shield"></i> Start DPIA Assessment
+                                </a>
+                            </p>
+                            <small class="text-muted">
+                                <i class="fa fa-info-circle"></i>
+                                As required by CDPA s.24-25, a DPIA must be conducted before processing begins or when there are significant changes to the processing.
+                            </small>
+                        </div>
+                        <?php endif; ?>
+
                         <!-- Linked DPIAs -->
                         <?php if (!empty($dpias)): ?>
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <i class="fa fa-shield"></i> Linked DPIAs
+                                <i class="fa fa-shield"></i> Linked DPIAs (<?php echo count($dpias); ?>)
                             </div>
                             <div class="panel-body">
                                 <table class="table table-striped">
@@ -403,6 +445,13 @@ $incidents = db_fetch_all($stmt);
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
+                                <?php if ($dpia_required): ?>
+                                <div style="margin-top: 10px;">
+                                    <a href="dpia_wizard.php?ropa_id=<?php echo $ropa_id; ?>" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-plus"></i> Create New DPIA
+                                    </a>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <?php endif; ?>
@@ -483,6 +532,7 @@ $incidents = db_fetch_all($stmt);
 
     <script src="assets/js/jquery-1.10.2.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
     <script src="assets/js/custom.js"></script>
 </body>
 </html>

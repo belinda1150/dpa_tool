@@ -54,9 +54,10 @@ $stats = db_fetch_one($stats_stmt);
 
 // Get list of users who have acknowledged
 $ack_list_query = "SELECT CONCAT(u.first_name, ' ', u.last_name) as user_name,
-                   pa.acknowledged_at, u.department
+                   pa.acknowledged_at, d.dept_name
                    FROM policy_acknowledgements pa
                    JOIN users u ON pa.user_id = u.user_id
+                   LEFT JOIN departments d ON u.dept_id = d.dept_id
                    WHERE pa.policy_id = ?
                    ORDER BY pa.acknowledged_at DESC";
 $ack_list_stmt = db_query($ack_list_query, [$policy_id]);
@@ -111,22 +112,13 @@ $ack_percentage = $stats['total_users'] > 0
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-file-text"></i> Policy Details
-                    <small><?php echo htmlspecialchars($policy['policy_title']); ?></small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="policy_list.php">Policies</a></li>
-                    <li class="active">View Policy</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Policy Details</h2>
+                        <h5><?php echo htmlspecialchars($policy['policy_title']); ?></h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['flash_message'])): ?>
@@ -328,8 +320,8 @@ $ack_percentage = $stats['total_users'] > 0
                                 <?php foreach (array_slice($acknowledgements, 0, 10) as $ack): ?>
                                     <li style="padding: 5px 0; border-bottom: 1px solid #eee;">
                                         <i class="fa fa-user"></i> <strong><?php echo htmlspecialchars($ack['user_name']); ?></strong>
-                                        <?php if ($ack['department']): ?>
-                                            <br><small class="text-muted"><?php echo htmlspecialchars($ack['department']); ?></small>
+                                        <?php if (!empty($ack['dept_name'])): ?>
+                                            <br><small class="text-muted"><?php echo htmlspecialchars($ack['dept_name']); ?></small>
                                         <?php endif; ?>
                                         <br><small class="text-muted">
                                             <i class="fa fa-clock-o"></i> <?php echo date('d M Y, H:i', strtotime($ack['acknowledged_at'])); ?>
@@ -356,6 +348,7 @@ $ack_percentage = $stats['total_users'] > 0
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

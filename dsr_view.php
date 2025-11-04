@@ -23,14 +23,12 @@ if ($dsr_id <= 0) {
 $query = "SELECT d.*,
           u.first_name as handler_first, u.last_name as handler_last, u.email as handler_email,
           creator.first_name as creator_first, creator.last_name as creator_last,
-          pa.activity_name,
           DATEDIFF(NOW(), d.received_at) as days_elapsed,
           DATEDIFF(d.completed_at, d.received_at) as days_to_complete,
           (30 - DATEDIFF(NOW(), d.received_at)) as days_remaining
           FROM dsr_requests d
           LEFT JOIN users u ON d.assigned_to = u.user_id
           LEFT JOIN users creator ON d.created_by = creator.user_id
-          LEFT JOIN processing_activities pa ON d.ropa_id = pa.ropa_id
           WHERE d.dsr_id = ? AND d.org_id = ?";
 
 $stmt = db_query($query, [$dsr_id, $org_id]);
@@ -81,21 +79,13 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
             <div id="page-inner">
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-user-circle"></i> DSR Request Details
-                    <small>DSR-<?php echo str_pad($dsr_id, 5, '0', STR_PAD_LEFT); ?></small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="dsr_list.php">DSR Requests</a></li>
-                    <li class="active">View Request</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>DSR Request Details</h2>
+                        <h5>DSR-<?php echo str_pad($dsr_id, 5, '0', STR_PAD_LEFT); ?></h5>
+                    </div>
+                </div>
+                <hr />
 
     <div class="row">
         <div class="col-md-8">
@@ -170,13 +160,7 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
                         <tr>
                             <th>Linked ROPA:</th>
                             <td>
-                                <?php
-                                if ($dsr['activity_name']) {
-                                    echo '<a href="ropa_view.php?id=' . $dsr['ropa_id'] . '">' . htmlspecialchars($dsr['activity_name']) . '</a>';
-                                } else {
-                                    echo '<span class="text-muted">Not Linked</span>';
-                                }
-                                ?>
+                                <span class="text-muted">Not Linked</span>
                             </td>
                         </tr>
                     </table>
@@ -433,6 +417,7 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

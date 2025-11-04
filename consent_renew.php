@@ -116,23 +116,13 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-refresh"></i> Renew Consent
-                    <small>Create fresh consent record</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="consent_list.php">Consent Management</a></li>
-                    <li><a href="consent_view.php?id=<?php echo $original_consent_id; ?>">View Consent</a></li>
-                    <li class="active">Renew</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Renew Consent</h2>
+                        <h5>Create fresh consent record</h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Original Consent Info -->
     <div class="row">
@@ -350,6 +340,7 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

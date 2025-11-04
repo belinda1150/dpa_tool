@@ -162,21 +162,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-users"></i> Assign Training to Staff
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="training_list.php">Training</a></li>
-                    <li class="active">Assign Training</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Assign Training to Staff</h2>
+                        <h5>Bulk assign training courses to users or departments</h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Form -->
     <div class="row">
@@ -344,6 +336,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 <script>
 $(document).ready(function() {

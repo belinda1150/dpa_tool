@@ -85,23 +85,13 @@ foreach ($incidents as $incident) {
         <div id="page-wrapper">
             <div id="page-inner">
 
-<div class="container-fluid">
-
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-exclamation-triangle"></i> Incidents & Breach Manager
-                    <small>Security incidents and data breach tracking</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li class="active">Incidents</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Incidents & Breach Manager</h2>
+                        <h5>Security incidents and data breach tracking</h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['flash_message'])): ?>
@@ -423,27 +413,28 @@ foreach ($incidents as $incident) {
 
 </div>
 
-<script>
-$(document).ready(function() {
-    // Initialize DataTables
-    $('#incidentsTable').DataTable({
-        "order": [[6, "desc"]], // Sort by incident date (descending)
-        "pageLength": 25,
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        "columnDefs": [
-            { "orderable": false, "targets": [10] } // Actions column not sortable
-        ]
-    });
-});
-</script>
-
-
             </div>
         </div>
     </div>
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/dataTables/jquery.dataTables.js"></script>
+<script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
 <script src="assets/js/custom.js"></script>
+<script>
+$(document).ready(function() {
+    // Initialize DataTables
+    $('#incidentsTable').DataTable({
+        "order": [[4, "desc"]], // Sort by detected date (descending)
+        "pageLength": 25,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "columnDefs": [
+            { "orderable": false, "targets": [8] } // Actions column not sortable
+        ]
+    });
+});
+</script>
 </body>
 </html>

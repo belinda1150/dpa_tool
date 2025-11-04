@@ -51,9 +51,10 @@ $stats = db_fetch_one($stats_stmt);
 
 // Get recent completions
 $completions_query = "SELECT CONCAT(u.first_name, ' ', u.last_name) as user_name,
-                      ta.completed_at, ta.score, u.department
+                      ta.completed_at, ta.score, d.dept_name
                       FROM training_assignments ta
                       JOIN users u ON ta.user_id = u.user_id
+                      LEFT JOIN departments d ON u.dept_id = d.dept_id
                       WHERE ta.training_id = ? AND ta.status = 'completed'
                       ORDER BY ta.completed_at DESC
                       LIMIT 10";
@@ -93,22 +94,13 @@ $completion_rate = $stats['total_assigned'] > 0
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-graduation-cap"></i> Training Course Details
-                    <small><?php echo htmlspecialchars($training['training_title']); ?></small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="training_list.php">Training</a></li>
-                    <li class="active">View Training</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Training Course Details</h2>
+                        <h5><?php echo htmlspecialchars($training['training_title']); ?></h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Action Buttons -->
     <div class="row">
@@ -306,8 +298,8 @@ $completion_rate = $stats['total_assigned'] > 0
                                                 Score: <?php echo $completion['score']; ?>%
                                             </span>
                                         <?php endif; ?>
-                                        <?php if ($completion['department']): ?>
-                                            <br><small class="text-muted"><?php echo htmlspecialchars($completion['department']); ?></small>
+                                        <?php if (!empty($completion['dept_name'])): ?>
+                                            <br><small class="text-muted"><?php echo htmlspecialchars($completion['dept_name']); ?></small>
                                         <?php endif; ?>
                                         <br><small class="text-muted">
                                             <i class="fa fa-clock-o"></i> <?php echo date('d M Y, H:i', strtotime($completion['completed_at'])); ?>
@@ -333,6 +325,7 @@ $completion_rate = $stats['total_assigned'] > 0
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

@@ -192,23 +192,13 @@ unset($_SESSION['form_errors']);
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-edit"></i> Edit Risk
-                    <small>RISK-<?php echo str_pad($risk_id, 4, '0', STR_PAD_LEFT); ?></small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="risk_list.php">Risk Register</a></li>
-                    <li><a href="risk_view.php?id=<?php echo $risk_id; ?>">View Risk</a></li>
-                    <li class="active">Edit</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Edit Risk</h2>
+                        <h5>RISK-<?php echo str_pad($risk_id, 4, '0', STR_PAD_LEFT); ?></h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Form Errors -->
     <?php if (!empty($form_errors)): ?>
@@ -622,6 +612,7 @@ $(document).ready(function() {
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

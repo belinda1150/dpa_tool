@@ -172,21 +172,13 @@ if (!$is_edit) {
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-<?php echo $is_edit ? 'edit' : 'plus'; ?>"></i> <?php echo $is_edit ? 'Edit' : 'Add New'; ?> Policy
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="policy_list.php">Policies</a></li>
-                    <li class="active"><?php echo $is_edit ? 'Edit' : 'Add'; ?> Policy</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2><?php echo $is_edit ? 'Edit' : 'Add New'; ?> Policy</h2>
+                        <h5>Policy management and version control</h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Form -->
     <div class="row">
@@ -307,6 +299,7 @@ if (!$is_edit) {
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

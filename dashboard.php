@@ -157,6 +157,143 @@ $query = "SELECT * FROM notifications
 $stmt = db_query($query, [$org_id, $user_id]);
 $notifications = db_fetch_all($stmt);
 
+// ============================================
+// ECHARTS DATA - Department Compliance
+// ============================================
+$query = "SELECT d.dept_name,
+          COUNT(DISTINCT pa.ropa_id) as total_ropa,
+          COALESCE(SUM(CASE WHEN pa.status = 'validated' THEN 1 ELSE 0 END), 0) as validated_ropa,
+          COUNT(DISTINCT dp.dpia_id) as total_dpia,
+          COALESCE(SUM(CASE WHEN dp.status = 'approved' THEN 1 ELSE 0 END), 0) as approved_dpia,
+          COUNT(DISTINCT r.risk_id) as total_risks,
+          COALESCE(SUM(CASE WHEN r.status = 'closed' THEN 1 ELSE 0 END), 0) as closed_risks
+          FROM departments d
+          LEFT JOIN processing_activities pa ON d.dept_id = pa.dept_id AND pa.org_id = ?
+          LEFT JOIN dpia dp ON pa.ropa_id = dp.ropa_id AND dp.org_id = ?
+          LEFT JOIN risks r ON d.dept_id = r.dept_id AND r.org_id = ?
+          WHERE d.org_id = ?
+          GROUP BY d.dept_id, d.dept_name
+          ORDER BY d.dept_name";
+$stmt = db_query($query, [$org_id, $org_id, $org_id, $org_id]);
+$dept_compliance_raw = db_fetch_all($stmt) ?: [];
+
+// Calculate compliance score per department
+$dept_compliance = [];
+foreach ($dept_compliance_raw as $dept) {
+    $score = 0;
+    $weights = 0;
+
+    // ROPA compliance (weight: 40)
+    if ($dept['total_ropa'] > 0) {
+        $score += ($dept['validated_ropa'] / $dept['total_ropa']) * 40;
+        $weights += 40;
+    }
+
+    // DPIA compliance (weight: 30)
+    if ($dept['total_dpia'] > 0) {
+        $score += ($dept['approved_dpia'] / $dept['total_dpia']) * 30;
+        $weights += 30;
+    }
+
+    // Risk management (weight: 30)
+    if ($dept['total_risks'] > 0) {
+        $score += ($dept['closed_risks'] / $dept['total_risks']) * 30;
+        $weights += 30;
+    }
+
+    // If department has any data, calculate weighted average
+    if ($weights > 0) {
+        $final_score = ($score / $weights) * 100;
+    } else {
+        $final_score = 0; // No data for this department
+    }
+
+    $dept_compliance[] = [
+        'name' => $dept['dept_name'],
+        'score' => round($final_score, 1)
+    ];
+}
+
+// ============================================
+// ECHARTS DATA - Risk Distribution by Category
+// ============================================
+$query = "SELECT risk_category, COUNT(*) as count
+          FROM risks
+          WHERE org_id = ? AND status != 'closed'
+          GROUP BY risk_category
+          ORDER BY count DESC";
+$stmt = db_query($query, [$org_id]);
+$risk_distribution = db_fetch_all($stmt) ?: [];
+
+// If no risks, add a placeholder
+if (empty($risk_distribution)) {
+    $risk_distribution = [
+        ['risk_category' => 'No Open Risks', 'count' => 0]
+    ];
+}
+
+// ============================================
+// ECHARTS DATA - Compliance Score Trend Over Time
+// ============================================
+$compliance_trend = [];
+
+// Check if dashboard_snapshots table exists
+$table_check = $dpa_db->query("SHOW TABLES LIKE 'dashboard_snapshots'");
+$table_exists = $table_check->num_rows > 0;
+
+if ($table_exists) {
+    // Get historical data from database
+    $query = "SELECT DATE(snapshot_date) as date, compliance_score
+              FROM dashboard_snapshots
+              WHERE org_id = ?
+              ORDER BY snapshot_date DESC
+              LIMIT 30";
+    $stmt = db_query($query, [$org_id]);
+    $compliance_trend_raw = db_fetch_all($stmt) ?: [];
+
+    // Reverse to get chronological order
+    $compliance_trend = array_reverse($compliance_trend_raw);
+
+    // If no historical data exists, create today's snapshot
+    if (empty($compliance_trend)) {
+        // Save today's snapshot
+        $snapshot_query = "INSERT INTO dashboard_snapshots
+                          (org_id, snapshot_date, compliance_score, kpis_json,
+                           total_ropa, validated_ropa, total_dpia, approved_dpia,
+                           total_risks, open_risks, total_incidents, active_incidents,
+                           total_dsr, pending_dsr)
+                          VALUES (?, CURDATE(), ?, '{}', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                          ON DUPLICATE KEY UPDATE compliance_score = VALUES(compliance_score)";
+
+        db_query($snapshot_query, [
+            $org_id,
+            $compliance_score,
+            $stats['ropa']['total'] ?? 0,
+            $stats['ropa']['validated'] ?? 0,
+            $stats['dpia']['total'] ?? 0,
+            $stats['dpia']['approved'] ?? 0,
+            $stats['risks']['total'] ?? 0,
+            $stats['risks']['open'] ?? 0,
+            $stats['incidents']['total'] ?? 0,
+            $stats['incidents']['active'] ?? 0,
+            $stats['dsr']['total'] ?? 0,
+            $stats['dsr']['pending'] ?? 0
+        ]);
+
+        // Show today's data
+        $compliance_trend[] = [
+            'date' => date('Y-m-d'),
+            'compliance_score' => $compliance_score
+        ];
+    }
+} else {
+    // Table doesn't exist yet - show current score only
+    $compliance_trend[] = [
+        'date' => date('Y-m-d'),
+        'compliance_score' => $compliance_score
+    ];
+}
+
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -214,6 +351,45 @@ $notifications = db_fetch_all($stmt);
                                     }
                                     ?>
                                 </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ECharts Visualizations -->
+                <!-- Compliance Score Trend Over Time -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-line-chart"></i> Compliance Score Trend Over Time
+                            </div>
+                            <div class="panel-body">
+                                <div id="complianceTrendChart" style="width: 100%; height: 400px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Department Compliance & Risk Distribution -->
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-bar-chart"></i> Department Compliance Comparison
+                            </div>
+                            <div class="panel-body">
+                                <div id="deptComplianceChart" style="width: 100%; height: 400px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-pie-chart"></i> Risk Distribution by Category
+                            </div>
+                            <div class="panel-body">
+                                <div id="riskDistributionChart" style="width: 100%; height: 400px;"></div>
                             </div>
                         </div>
                     </div>
@@ -451,6 +627,247 @@ $notifications = db_fetch_all($stmt);
     <script src="assets/js/jquery-1.10.2.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/echarts.min.js"></script>
     <script src="assets/js/custom.js"></script>
+
+    <script>
+    // ============================================
+    // ECHARTS INITIALIZATION
+    // ============================================
+
+    // Prepare data from PHP
+    var deptComplianceData = <?php echo json_encode($dept_compliance); ?>;
+    var riskDistributionData = <?php echo json_encode($risk_distribution); ?>;
+    var complianceTrendData = <?php echo json_encode($compliance_trend); ?>;
+
+    // ============================================
+    // 1. COMPLIANCE SCORE TREND OVER TIME
+    // ============================================
+    var complianceTrendChart = echarts.init(document.getElementById('complianceTrendChart'));
+
+    var trendDates = complianceTrendData.map(function(item) { return item.date; });
+    var trendScores = complianceTrendData.map(function(item) { return parseFloat(item.compliance_score); });
+
+    var complianceTrendOption = {
+        tooltip: {
+            trigger: 'axis',
+            formatter: function(params) {
+                return params[0].axisValue + '<br/>' +
+                       'Compliance Score: <strong>' + params[0].value + '%</strong>';
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: trendDates,
+            axisLabel: {
+                rotate: 45
+            }
+        },
+        yAxis: {
+            type: 'value',
+            min: 0,
+            max: 100,
+            axisLabel: {
+                formatter: '{value}%'
+            }
+        },
+        series: [{
+            name: 'Compliance Score',
+            type: 'line',
+            smooth: true,
+            symbol: 'circle',
+            symbolSize: 8,
+            lineStyle: {
+                width: 3
+            },
+            areaStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                    offset: 0,
+                    color: 'rgba(52, 152, 219, 0.5)'
+                }, {
+                    offset: 1,
+                    color: 'rgba(52, 152, 219, 0.1)'
+                }])
+            },
+            itemStyle: {
+                color: '#3498db'
+            },
+            data: trendScores,
+            markLine: {
+                silent: true,
+                lineStyle: {
+                    color: '#27ae60',
+                    type: 'dashed'
+                },
+                data: [{
+                    yAxis: 80,
+                    label: {
+                        formatter: 'Target: 80%',
+                        position: 'end'
+                    }
+                }]
+            }
+        }]
+    };
+
+    complianceTrendChart.setOption(complianceTrendOption);
+
+    // ============================================
+    // 2. DEPARTMENT COMPLIANCE COMPARISON
+    // ============================================
+    var deptComplianceChart = echarts.init(document.getElementById('deptComplianceChart'));
+
+    var deptNames = deptComplianceData.map(function(item) { return item.name; });
+    var deptScores = deptComplianceData.map(function(item) { return item.score; });
+
+    var deptComplianceOption = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            },
+            formatter: function(params) {
+                var score = params[0].value;
+                var status = score >= 80 ? 'Excellent' : (score >= 60 ? 'Good' : 'Needs Improvement');
+                return params[0].axisValue + '<br/>' +
+                       'Score: <strong>' + score + '%</strong><br/>' +
+                       'Status: ' + status;
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            min: 0,
+            max: 100,
+            axisLabel: {
+                formatter: '{value}%'
+            }
+        },
+        yAxis: {
+            type: 'category',
+            data: deptNames,
+            axisLabel: {
+                fontSize: 11
+            }
+        },
+        series: [{
+            name: 'Compliance Score',
+            type: 'bar',
+            barWidth: '60%',
+            data: deptScores.map(function(score) {
+                var color;
+                if (score >= 80) {
+                    color = '#27ae60'; // Green
+                } else if (score >= 60) {
+                    color = '#f39c12'; // Orange
+                } else {
+                    color = '#e74c3c'; // Red
+                }
+                return {
+                    value: score,
+                    itemStyle: { color: color }
+                };
+            }),
+            label: {
+                show: true,
+                position: 'right',
+                formatter: '{c}%',
+                fontSize: 11,
+                fontWeight: 'bold'
+            }
+        }]
+    };
+
+    deptComplianceChart.setOption(deptComplianceOption);
+
+    // ============================================
+    // 3. RISK DISTRIBUTION BY CATEGORY
+    // ============================================
+    var riskDistributionChart = echarts.init(document.getElementById('riskDistributionChart'));
+
+    var riskData = riskDistributionData.map(function(item) {
+        return {
+            name: item.risk_category,
+            value: parseInt(item.count)
+        };
+    });
+
+    // Color palette for risk categories
+    var riskColors = ['#e74c3c', '#e67e22', '#f39c12', '#3498db', '#9b59b6', '#1abc9c', '#34495e'];
+
+    var riskDistributionOption = {
+        tooltip: {
+            trigger: 'item',
+            formatter: function(params) {
+                return params.name + '<br/>' +
+                       'Count: <strong>' + params.value + '</strong><br/>' +
+                       'Percentage: <strong>' + params.percent + '%</strong>';
+            }
+        },
+        legend: {
+            orient: 'vertical',
+            right: '10%',
+            top: 'center',
+            formatter: function(name) {
+                var item = riskData.find(function(d) { return d.name === name; });
+                return name + ': ' + (item ? item.value : 0);
+            }
+        },
+        color: riskColors,
+        series: [{
+            name: 'Risk Category',
+            type: 'pie',
+            radius: ['40%', '70%'],
+            center: ['35%', '50%'],
+            avoidLabelOverlap: false,
+            itemStyle: {
+                borderRadius: 10,
+                borderColor: '#fff',
+                borderWidth: 2
+            },
+            label: {
+                show: false,
+                position: 'center'
+            },
+            emphasis: {
+                label: {
+                    show: true,
+                    fontSize: '18',
+                    fontWeight: 'bold',
+                    formatter: function(params) {
+                        return params.name + '\n' + params.value;
+                    }
+                }
+            },
+            labelLine: {
+                show: false
+            },
+            data: riskData
+        }]
+    };
+
+    riskDistributionChart.setOption(riskDistributionOption);
+
+    // ============================================
+    // RESPONSIVE CHARTS
+    // ============================================
+    window.addEventListener('resize', function() {
+        complianceTrendChart.resize();
+        deptComplianceChart.resize();
+        riskDistributionChart.resize();
+    });
+    </script>
 </body>
 </html>

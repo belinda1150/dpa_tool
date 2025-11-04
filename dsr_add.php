@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $request_details = sanitize_input($_POST['request_details'] ?? '');
     $request_method = sanitize_input($_POST['request_method'] ?? '');
     $assigned_to = !empty($_POST['assigned_to']) ? intval($_POST['assigned_to']) : null;
-    $ropa_id = !empty($_POST['ropa_id']) ? intval($_POST['ropa_id']) : null;
     $priority = sanitize_input($_POST['priority'] ?? 'medium');
 
     // Validation
@@ -56,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $assigned_to, $user_id
         ]);
 
-        $dsr_id = db_last_insert_id();
+        $dsr_id = db_insert_id();
 
         // Log audit
         log_audit($org_id, $user_id, 'dsr_request', $dsr_id, 'create', "Created DSR request: $request_type for $subject_name");
@@ -102,10 +101,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $users_query = "SELECT user_id, first_name, last_name, email FROM users WHERE org_id = ? ORDER BY first_name, last_name";
 $users = db_fetch_all(db_query($users_query, [$org_id]));
 
-// Fetch ROPA entries
-$ropa_query = "SELECT ropa_id, activity_name FROM processing_activities WHERE org_id = ? AND status = 'active' ORDER BY activity_name";
-$ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
-
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -126,22 +121,13 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
         <div id="page-wrapper">
             <div id="page-inner">
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-plus-circle"></i> Register New DSR Request
-                    <small>Data Subject Rights Request</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="dsr_list.php">DSR Requests</a></li>
-                    <li class="active">New Request</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Register New DSR Request</h2>
+                        <h5>Data Subject Rights Request</h5>
+                    </div>
+                </div>
+                <hr />
 
     <?php if (!empty($errors)): ?>
         <div class="alert alert-danger alert-dismissible">
@@ -241,8 +227,8 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Request Method <span class="text-danger">*</span></label>
-                                    <select name="request_method" class="form-control" required>
+                                    <label>Request Method</label>
+                                    <select name="request_method" class="form-control">
                                         <option value="">-- Select Method --</option>
                                         <option value="Email">Email</option>
                                         <option value="Letter">Letter / Post</option>
@@ -251,28 +237,17 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
                                         <option value="Online Form">Online Form</option>
                                         <option value="Other">Other</option>
                                     </select>
+                                    <small class="text-muted">How the request was received (optional)</small>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label>Request Description <span class="text-danger">*</span></label>
-                            <textarea name="request_description" class="form-control" rows="6" required
+                            <textarea name="request_details" class="form-control" rows="6" required
                                       placeholder="Detailed description of what the data subject is requesting. Include all relevant details such as:&#10;- Specific data or processing activities they're referring to&#10;- Reasons for the request (if provided)&#10;- Any specific timeframes or conditions mentioned&#10;- Supporting documentation provided"></textarea>
                         </div>
 
-                        <div class="form-group">
-                            <label>Linked Processing Activity (ROPA)</label>
-                            <select name="ropa_id" class="form-control">
-                                <option value="">-- Not Linked --</option>
-                                <?php foreach ($ropa_entries as $ropa): ?>
-                                    <option value="<?php echo $ropa['ropa_id']; ?>">
-                                        <?php echo htmlspecialchars($ropa['activity_name']); ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <small class="text-muted">Link to the processing activity this request relates to (if applicable)</small>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -397,6 +372,7 @@ $(document).ready(function() {
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

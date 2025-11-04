@@ -72,22 +72,13 @@ $status_color = $status_colors[$transfer['status']] ?? 'default';
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-globe"></i> Cross-Border Transfer Details
-                    <small>Transfer to <?php echo htmlspecialchars($transfer['destination_country']); ?></small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="crossborder_list.php">Cross-Border Transfers</a></li>
-                    <li class="active">View Transfer</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Cross-Border Transfer Details</h2>
+                        <h5>Transfer to <?php echo htmlspecialchars($transfer['destination_country']); ?></h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Action Buttons -->
     <div class="row">
@@ -302,6 +293,7 @@ $status_color = $status_colors[$transfer['status']] ?? 'default';
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

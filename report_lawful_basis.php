@@ -96,22 +96,13 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
-    <div class="row no-print">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-gavel"></i> Lawful Basis Compliance Report
-                    <small>CDPA s.22-23</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="reports.php">Reports</a></li>
-                    <li class="active">Lawful Basis Compliance</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row no-print">
+                    <div class="col-md-12">
+                        <h2>Lawful Basis Compliance Report</h2>
+                        <h5>CDPA s.22-23 - Processing lawfulness assessment</h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Action Buttons -->
     <div class="row no-print">
@@ -452,6 +443,7 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 <script src="assets/js/jquery.dataTables.min.js"></script>
 <script>

@@ -110,7 +110,7 @@ $flash = get_flash_message();
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2><i class="fa fa-bell"></i> Notifications</h2>
+                        <h2>Notifications</h2>
                         <h5>Your system alerts and updates</h5>
                     </div>
                 </div>
@@ -280,6 +280,7 @@ $flash = get_flash_message();
 
     <script src="assets/js/jquery-1.10.2.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
     <script src="assets/js/custom.js"></script>
 </body>
 </html>

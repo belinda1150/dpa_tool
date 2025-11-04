@@ -44,21 +44,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
+        // Generate a unique subject reference
+        $subject_ref = 'SUBJ-' . date('Ymd') . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+
+        // Get a default purpose_id (use first available purpose or create a default one)
+        $purpose_check = "SELECT purpose_id FROM purposes LIMIT 1";
+        $purpose_result = db_fetch_one(db_query($purpose_check, []));
+        $purpose_id = $purpose_result ? $purpose_result['purpose_id'] : 1;
+
         $query = "INSERT INTO consents (
-                  org_id, subject_name, subject_email, subject_phone, subject_id_number,
-                  purpose, purpose_description, consent_date, consent_method, consent_evidence,
+                  org_id, subject_ref, subject_name, subject_email, subject_phone, subject_id_number,
+                  purpose_id, purpose, purpose_description, consent_date, consent_method, consent_evidence,
                   expiry_date, data_categories, retention_period, withdrawal_method,
                   ropa_id, status, created_by
-                  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active', ?)";
+                  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'granted', ?)";
 
         $stmt = db_query($query, [
-            $org_id, $subject_name, $subject_email, $subject_phone, $subject_id_number,
-            $purpose, $purpose_description, $consent_date, $consent_method, $consent_evidence,
+            $org_id, $subject_ref, $subject_name, $subject_email, $subject_phone, $subject_id_number,
+            $purpose_id, $purpose, $purpose_description, $consent_date, $consent_method, $consent_evidence,
             $expiry_date, $data_categories, $retention_period, $withdrawal_method,
             $ropa_id, $user_id
         ]);
 
-        $consent_id = db_last_insert_id();
+        $consent_id = db_insert_id();
 
         // Log audit
         log_audit($org_id, $user_id, 'consent', $consent_id, 'create', "Recorded consent: $purpose for $subject_name");
@@ -92,22 +100,13 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
         <div id="page-wrapper">
             <div id="page-inner">
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-plus-circle"></i> Record New Consent
-                    <small>Data Subject Consent</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="consent_list.php">Consent Management</a></li>
-                    <li class="active">Record Consent</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Record New Consent</h2>
+                        <h5>Data Subject Consent</h5>
+                    </div>
+                </div>
+                <hr />
 
     <?php if (!empty($errors)): ?>
         <div class="alert alert-danger alert-dismissible">
@@ -380,6 +379,7 @@ $(document).ready(function() {
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

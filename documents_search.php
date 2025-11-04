@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['search'])) {
 
     // Build query
     $query = "SELECT d.*,
-              CONCAT(u.first_name, ' ', u.last_name') as uploaded_by_name,
+              CONCAT(u.first_name, ' ', u.last_name) as uploaded_by_name,
               COUNT(DISTINCT dl.link_id) as link_count
               FROM documents d
               LEFT JOIN users u ON d.uploaded_by = u.user_id
@@ -116,21 +116,13 @@ function formatBytes($bytes, $precision = 2) {
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-search"></i> Advanced Document Search
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="documents_list.php">Documents</a></li>
-                    <li class="active">Search</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Advanced Document Search</h2>
+                        <h5>Search and filter documents by multiple criteria</h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Search Form -->
     <div class="row">
@@ -336,6 +328,7 @@ function formatBytes($bytes, $precision = 2) {
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

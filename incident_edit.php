@@ -113,22 +113,13 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
             <div id="page-inner">
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-edit"></i> Update Incident
-                    <small>INC-<?php echo str_pad($incident_id, 5, '0', STR_PAD_LEFT); ?></small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="incident_list.php">Incidents</a></li>
-                    <li><a href="incident_view.php?id=<?php echo $incident_id; ?>">View Incident</a></li>
-                    <li class="active">Update Incident</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Update Incident</h2>
+                        <h5>INC-<?php echo str_pad($incident_id, 5, '0', STR_PAD_LEFT); ?></h5>
+                    </div>
+                </div>
+                <hr />
 
     <?php if (!empty($errors)): ?>
         <div class="alert alert-danger alert-dismissible">
@@ -390,6 +381,7 @@ $(document).ready(function() {
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

@@ -164,21 +164,14 @@ $compliance_score = max(0, min(100, $compliance_score));
         <div id="page-wrapper">
             <div id="page-inner">
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-file-text"></i> Reports &amp; Compliance
-                    <small>POTRAZ Reporting</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li class="active">Reports</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Reports &amp; Compliance
+                    </h2>
+                        <h5>POTRAZ Reporting</h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Compliance Score Card -->
     <div class="row">
@@ -337,9 +330,9 @@ $compliance_score = max(0, min(100, $compliance_score));
                 <div class="panel-body">
                     <div class="list-group">
                         <!-- Annual Compliance Report -->
-                        <a href="report_annual_compliance.php" class="list-group-item">
+                        <div class="list-group-item">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-9">
                                     <h4 class="list-group-item-heading">
                                         <i class="fa fa-calendar text-primary"></i> Annual Compliance Report
                                     </h4>
@@ -349,18 +342,18 @@ $compliance_score = max(0, min(100, $compliance_score));
                                         <br><strong>Recommended Frequency:</strong> Annually (or as requested by POTRAZ)
                                     </p>
                                 </div>
-                                <div class="col-md-4 text-right" style="padding-top: 20px;">
+                                <div class="col-md-3" style="display: flex; align-items: center; justify-content: flex-end;">
                                     <a href="report_annual_compliance.php?format=pdf" class="btn btn-primary">
                                         <i class="fa fa-file-pdf-o"></i> Generate PDF
                                     </a>
                                 </div>
                             </div>
-                        </a>
+                        </div>
 
                         <!-- Data Breach Notifications Report -->
-                        <a href="report_breach_notifications.php" class="list-group-item">
+                        <div class="list-group-item">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-9">
                                     <h4 class="list-group-item-heading">
                                         <i class="fa fa-exclamation-triangle text-danger"></i> Data Breach Notifications Report
                                     </h4>
@@ -370,7 +363,7 @@ $compliance_score = max(0, min(100, $compliance_score));
                                         <br><strong>Recommended Frequency:</strong> Quarterly or as needed
                                     </p>
                                 </div>
-                                <div class="col-md-4 text-right" style="padding-top: 20px;">
+                                <div class="col-md-3" style="display: flex; align-items: center; justify-content: flex-end; gap: 5px;">
                                     <a href="report_breach_notifications.php?format=pdf" class="btn btn-danger">
                                         <i class="fa fa-file-pdf-o"></i> Generate PDF
                                     </a>
@@ -379,12 +372,12 @@ $compliance_score = max(0, min(100, $compliance_score));
                                     </a>
                                 </div>
                             </div>
-                        </a>
+                        </div>
 
                         <!-- Lawful Basis Compliance Report -->
-                        <a href="report_lawful_basis.php" class="list-group-item">
+                        <div class="list-group-item">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-9">
                                     <h4 class="list-group-item-heading">
                                         <i class="fa fa-gavel text-warning"></i> Lawful Basis Compliance Report
                                     </h4>
@@ -394,18 +387,18 @@ $compliance_score = max(0, min(100, $compliance_score));
                                         <br><strong>Recommended Frequency:</strong> Quarterly or before POTRAZ audits
                                     </p>
                                 </div>
-                                <div class="col-md-4 text-right" style="padding-top: 20px;">
+                                <div class="col-md-3" style="display: flex; align-items: center; justify-content: flex-end;">
                                     <a href="report_lawful_basis.php" class="btn btn-warning">
                                         <i class="fa fa-file-text-o"></i> Generate Report
                                     </a>
                                 </div>
                             </div>
-                        </a>
+                        </div>
 
                         <!-- ROPA Register Export -->
-                        <a href="ropa_export.php?format=pdf" class="list-group-item">
+                        <div class="list-group-item">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-9">
                                     <h4 class="list-group-item-heading">
                                         <i class="fa fa-book text-info"></i> ROPA Register (Full Export)
                                     </h4>
@@ -415,7 +408,7 @@ $compliance_score = max(0, min(100, $compliance_score));
                                         <br><strong>Recommended Frequency:</strong> Keep current and export when updated
                                     </p>
                                 </div>
-                                <div class="col-md-4 text-right" style="padding-top: 20px;">
+                                <div class="col-md-3" style="display: flex; align-items: center; justify-content: flex-end; gap: 5px;">
                                     <a href="ropa_export.php?format=pdf" class="btn btn-info">
                                         <i class="fa fa-file-pdf-o"></i> Generate PDF
                                     </a>
@@ -424,12 +417,12 @@ $compliance_score = max(0, min(100, $compliance_score));
                                     </a>
                                 </div>
                             </div>
-                        </a>
+                        </div>
 
                         <!-- Risk Register Export -->
-                        <a href="risk_export.php?format=pdf" class="list-group-item">
+                        <div class="list-group-item">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-9">
                                     <h4 class="list-group-item-heading">
                                         <i class="fa fa-fire text-warning"></i> Risk Register (Full Export)
                                     </h4>
@@ -439,7 +432,7 @@ $compliance_score = max(0, min(100, $compliance_score));
                                         <br><strong>Recommended Frequency:</strong> Quarterly review and export
                                     </p>
                                 </div>
-                                <div class="col-md-4 text-right" style="padding-top: 20px;">
+                                <div class="col-md-3" style="display: flex; align-items: center; justify-content: flex-end; gap: 5px;">
                                     <a href="risk_export.php?format=pdf" class="btn btn-warning">
                                         <i class="fa fa-file-pdf-o"></i> Generate PDF
                                     </a>
@@ -448,7 +441,7 @@ $compliance_score = max(0, min(100, $compliance_score));
                                     </a>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -576,6 +569,7 @@ $compliance_score = max(0, min(100, $compliance_score));
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

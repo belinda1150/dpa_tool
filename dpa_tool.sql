@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2025 at 05:16 AM
+-- Generation Time: Nov 04, 2025 at 08:46 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -85,7 +85,42 @@ INSERT INTO `audit_log` (`log_id`, `org_id`, `user_id`, `entity_type`, `entity_i
 (37, 1, 1, 'user', 2, 'update', NULL, '{\"action\":\"force_password_reset\"}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-01 16:28:38'),
 (38, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-01 20:15:51'),
 (39, 1, 2, 'user', 2, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-02 03:45:49'),
-(40, 1, 2, 'user', 2, 'update', NULL, '{\"action\":\"mandatory_password_reset\"}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-02 03:46:21');
+(40, 1, 2, 'user', 2, 'update', NULL, '{\"action\":\"mandatory_password_reset\"}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-02 03:46:21'),
+(41, 1, 2, 'user', 2, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 06:08:27'),
+(42, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 06:08:44'),
+(43, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 07:12:38'),
+(44, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 07:12:58'),
+(45, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 08:16:00'),
+(46, 1, 1, 'user', 3, 'create', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 08:17:47'),
+(47, 1, 1, 'user', 1, 'update', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 08:18:04'),
+(48, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 09:07:19'),
+(49, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 09:42:21'),
+(50, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 10:04:49'),
+(51, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 10:05:04'),
+(52, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 10:13:02'),
+(53, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 10:13:15'),
+(54, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 11:17:43'),
+(55, 1, 1, 'storage_location', 1, 'create', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 11:19:08'),
+(56, 1, 1, 'storage_location', 1, 'update', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 11:19:31'),
+(57, 1, 1, 'recipient', 1, 'create', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 11:25:10'),
+(58, 1, 1, 'recipient', 1, 'update', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 11:25:20'),
+(59, 1, 1, 'ropa', 1, 'create', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 11:27:45'),
+(60, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 12:07:41'),
+(61, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 12:07:54'),
+(62, 1, 1, 'dpia', 2, 'create', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 13:10:23'),
+(63, 1, 1, 'dpia', 2, 'update', NULL, '{\"action\":\"submitted\"}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 13:12:26'),
+(64, 1, 1, 'cross_border_transfer', 1, 'create', '\"Created cross-border transfer to Switzerland\"', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 13:43:20'),
+(65, 1, 1, 'consent', 2, 'create', '\"Recorded consent: Profiling &amp; Automated Decisions for test\"', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 14:35:29'),
+(66, 1, 1, 'risk', 1, 'create', '\"Created risk: test\"', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 14:38:01'),
+(67, 1, 1, 'control', 1, 'create', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 14:39:59'),
+(68, 1, 1, 'incident', 1, 'create', '\"Created incident: testing\"', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 14:49:25'),
+(69, 1, 1, 'dsr_request', 1, 'create', '\"Created DSR request: Right to Restriction for tester\"', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 15:04:03'),
+(70, 1, 1, 'CREATE', 0, 'create', '\"Created policy: test (v1.0)\"', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 15:15:25'),
+(71, 1, 1, 'CREATE', 0, 'create', '\"Created training: test\"', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-03 15:22:48'),
+(72, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-04 06:24:14'),
+(73, 1, 1, 'user', 1, '', NULL, NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-04 06:25:37'),
+(74, 1, 1, 'ASSIGN', 0, 'create', '\"Assigned training to user ID 2\"', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-04 06:27:44'),
+(75, 1, 1, 'UPDATE', 0, 'create', '\"Updated training: test\"', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-11-04 06:28:28');
 
 -- --------------------------------------------------------
 
@@ -130,6 +165,13 @@ CREATE TABLE `consents` (
   `withdrawal_date` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `consents`
+--
+
+INSERT INTO `consents` (`consent_id`, `org_id`, `subject_ref`, `purpose_id`, `ropa_id`, `consent_method`, `consent_text`, `privacy_notice_version`, `captured_at`, `expires_at`, `status`, `withdrawn_at`, `withdrawal_reason`, `created_at`, `updated_at`, `subject_name`, `subject_email`, `subject_phone`, `subject_id_number`, `purpose`, `purpose_description`, `consent_date`, `consent_evidence`, `expiry_date`, `data_categories`, `retention_period`, `withdrawal_method`, `withdrawal_method_used`, `created_by`, `withdrawn_by`, `renewal_notes`, `renewed_from_consent_id`, `renewed_to_consent_id`, `withdrawal_date`) VALUES
+(2, 1, 'SUBJ-20251103-4688', 1, NULL, 'Email Confirmation', NULL, NULL, '2025-11-03 14:35:29', NULL, 'granted', NULL, NULL, '2025-11-03 14:35:29', '2025-11-03 14:35:29', 'test', 'test@gmail.com', '0775013543', '', 'Profiling &amp; Automated Decisions', 'test', '2025-11-03', 'test', '2025-11-25', 'test', '3 years', 'test', NULL, 1, NULL, NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -145,6 +187,13 @@ CREATE TABLE `controls` (
   `framework_ref` varchar(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `controls`
+--
+
+INSERT INTO `controls` (`control_id`, `org_id`, `control_name`, `control_description`, `control_type`, `framework_ref`, `created_at`) VALUES
+(1, 1, 'test', 'test', 'detective', 'test', '2025-11-03 14:39:59');
 
 -- --------------------------------------------------------
 
@@ -174,6 +223,13 @@ CREATE TABLE `cross_border_transfers` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `cross_border_transfers`
+--
+
+INSERT INTO `cross_border_transfers` (`cb_id`, `org_id`, `ropa_id`, `destination_country`, `recipient_org`, `recipient_contact`, `data_type_transferred`, `transfer_frequency`, `safeguard_id`, `safeguard_details`, `potraz_notification_ref`, `status`, `submitted_at`, `approved_at`, `approval_notes`, `is_high_risk`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'Switzerland', 'microsoft', 'belz', 'test', 'continuous', 5, 'belzie', 'ZIM0012', 'pending', NULL, NULL, NULL, 0, 1, '2025-11-03 13:43:20', '2025-11-03 13:43:20');
+
 -- --------------------------------------------------------
 
 --
@@ -186,8 +242,25 @@ CREATE TABLE `dashboard_snapshots` (
   `snapshot_date` date NOT NULL,
   `kpis_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`kpis_json`)),
   `compliance_score` decimal(5,2) DEFAULT 0.00,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `total_ropa` int(11) DEFAULT 0,
+  `validated_ropa` int(11) DEFAULT 0,
+  `total_dpia` int(11) DEFAULT 0,
+  `approved_dpia` int(11) DEFAULT 0,
+  `total_risks` int(11) DEFAULT 0,
+  `open_risks` int(11) DEFAULT 0,
+  `total_incidents` int(11) DEFAULT 0,
+  `active_incidents` int(11) DEFAULT 0,
+  `total_dsr` int(11) DEFAULT 0,
+  `pending_dsr` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dashboard_snapshots`
+--
+
+INSERT INTO `dashboard_snapshots` (`snap_id`, `org_id`, `snapshot_date`, `kpis_json`, `compliance_score`, `created_at`, `total_ropa`, `validated_ropa`, `total_dpia`, `approved_dpia`, `total_risks`, `open_risks`, `total_incidents`, `active_incidents`, `total_dsr`, `pending_dsr`) VALUES
+(1, 1, '2025-11-03', '{}', 40.00, '2025-11-03 10:36:46', 0, 0, 1, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -328,7 +401,8 @@ CREATE TABLE `dpia` (
 --
 
 INSERT INTO `dpia` (`dpia_id`, `org_id`, `ropa_id`, `dpia_title`, `description`, `screening_result`, `screening_reason`, `inherent_risk_score`, `residual_risk_score`, `status`, `approver_id`, `approved_at`, `approval_notes`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 1, NULL, 'test', '', 'needed', '', 0, 0, 'draft', NULL, NULL, NULL, 1, '2025-10-29 15:48:49', '2025-10-29 15:48:49');
+(1, 1, NULL, 'test', '', 'needed', '', 0, 0, 'draft', NULL, NULL, NULL, 1, '2025-10-29 15:48:49', '2025-10-29 15:48:49'),
+(2, 1, 1, 'test', 'test', 'needed', 'test', 0, 10, 'submitted', NULL, NULL, NULL, 1, '2025-11-03 13:10:23', '2025-11-03 13:12:26');
 
 -- --------------------------------------------------------
 
@@ -355,6 +429,13 @@ CREATE TABLE `dpia_risks` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `dpia_risks`
+--
+
+INSERT INTO `dpia_risks` (`dpia_risk_id`, `dpia_id`, `risk_title`, `risk_description`, `risk_category`, `likelihood`, `impact`, `mitigation_measures`, `residual_likelihood`, `residual_impact`, `responsible_user_id`, `target_date`, `status`, `created_at`) VALUES
+(1, 2, 'test', 'test', 'compliance', 3, 4, 'test', 2, 5, 2, '2025-11-20', 'mitigating', '2025-11-03 13:11:26');
+
 -- --------------------------------------------------------
 
 --
@@ -376,7 +457,14 @@ CREATE TABLE `dpia_steps` (
 --
 
 INSERT INTO `dpia_steps` (`dpia_step_id`, `dpia_id`, `step_number`, `step_type`, `step_data`, `completed_at`, `created_at`) VALUES
-(1, 1, 1, 'screening', '{\"screening_result\":\"needed\",\"screening_reason\":\"\"}', '2025-10-29 15:48:49', '2025-10-29 15:48:49');
+(1, 1, 1, 'screening', '{\"screening_result\":\"needed\",\"screening_reason\":\"\"}', '2025-10-29 15:48:49', '2025-10-29 15:48:49'),
+(2, 2, 1, 'screening', '{\"screening_result\":\"needed\",\"screening_reason\":\"test\"}', '2025-11-03 13:10:23', '2025-11-03 13:10:23'),
+(3, 2, 2, 'processing_description', '{\"processing_description\":\"test\",\"necessity_justification\":\"test\",\"data_minimization\":\"test\",\"proportionality\":\"test\"}', '2025-11-03 13:10:51', '2025-11-03 13:10:51'),
+(4, 2, 3, 'risk_identification', '{\"risks_identified\":1}', '2025-11-03 13:11:26', '2025-11-03 13:11:26'),
+(5, 2, 4, 'mitigation', '{\"mitigations_added\":1}', '2025-11-03 13:11:53', '2025-11-03 13:11:53'),
+(6, 2, 5, 'residual_assessment', '{\"residual_risk_score\":10}', '2025-11-03 13:11:58', '2025-11-03 13:11:58'),
+(7, 2, 6, 'consultation', '{\"dpo_consulted\":0,\"stakeholders_consulted\":\"\",\"consultation_outcome\":\"\",\"evidence_notes\":\"\"}', '2025-11-03 13:12:18', '2025-11-03 13:12:18'),
+(8, 2, 7, 'review_submit', '{\"completed\":true,\"action\":\"submit\"}', '2025-11-03 13:12:26', '2025-11-03 13:12:26');
 
 -- --------------------------------------------------------
 
@@ -426,6 +514,13 @@ CREATE TABLE `dsr_requests` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `dsr_requests`
+--
+
+INSERT INTO `dsr_requests` (`dsr_id`, `org_id`, `request_ref`, `request_type`, `subject_name`, `subject_ref`, `subject_email`, `subject_phone`, `request_details`, `verification_method`, `verified_at`, `verified_by`, `received_at`, `status`, `rejection_reason`, `response_summary`, `completed_at`, `assigned_to`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 1, 'DSR-20251103-3C04C9', '', 'tester', '', 'tester@gmail.com', '0717445676', 'test test', NULL, NULL, NULL, '2025-11-03 15:04:03', 'received', NULL, NULL, NULL, 3, 1, '2025-11-03 15:04:03', '2025-11-03 15:04:03');
+
 -- --------------------------------------------------------
 
 --
@@ -458,6 +553,13 @@ CREATE TABLE `incidents` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `incidents`
+--
+
+INSERT INTO `incidents` (`incident_id`, `org_id`, `ropa_id`, `incident_ref`, `incident_title`, `description`, `severity`, `notifiable`, `data_subjects_affected`, `data_categories_affected`, `how_detected`, `detected_at`, `detected_by`, `notified_at`, `notification_method`, `potraz_ref`, `root_cause`, `corrective_actions`, `status`, `resolved_at`, `closed_at`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'INC-20251103-5F0456', 'testing', 'test', 'critical', 1, 200, 'email addresses', 'testing', '2025-11-03 13:00:00', 2, NULL, NULL, NULL, NULL, NULL, 'investigating', NULL, NULL, 1, '2025-11-03 14:49:25', '2025-11-03 14:49:25');
 
 -- --------------------------------------------------------
 
@@ -524,6 +626,17 @@ CREATE TABLE `notifications` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`notification_id`, `org_id`, `user_id`, `notification_type`, `title`, `message`, `entity_type`, `entity_id`, `link_url`, `is_read`, `read_at`, `priority`, `created_at`) VALUES
+(1, 1, 1, 'dpia_pending', 'DPIA Required', 'The processing activity \'payroll\' requires a Data Protection Impact Assessment.', 'ropa', 1, 'dpia_wizard.php?ropa_id=1', 0, NULL, 'high', '2025-11-03 11:27:45'),
+(2, 1, 2, 'risk_assigned', 'Risk Assigned to You', 'You have been assigned as the owner of risk: test', 'risk', 1, 'risk_view.php?id=1', 0, NULL, 'high', '2025-11-03 14:38:01'),
+(3, 1, 2, 'incident_assigned', 'Incident Detected', 'New incident detected: testing', 'incident', 1, 'incident_view.php?id=1', 0, NULL, 'high', '2025-11-03 14:49:26'),
+(4, 1, 3, 'dsr_assigned', 'New DSR Request Assigned', 'A Right to Restriction request has been assigned to you for tester. Response due within 30 days.', 'dsr_request', 1, 'dsr_view.php?id=1', 0, NULL, 'medium', '2025-11-03 15:04:03'),
+(5, 1, 2, 'training_assigned', 'New Training Assigned', 'You have been assigned training: test. Due date: 30 Nov 2025', 'training', 1, 'training_my.php', 0, NULL, 'medium', '2025-11-04 06:27:44');
+
 -- --------------------------------------------------------
 
 --
@@ -573,6 +686,13 @@ CREATE TABLE `policies` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `policies`
+--
+
+INSERT INTO `policies` (`policy_id`, `org_id`, `policy_title`, `policy_type`, `version`, `description`, `document_path`, `published_at`, `review_due_date`, `status`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 1, 'test', 'data_protection', '1.0', 'test', 'uploads/policies/policy_1_1762182925.docx', NULL, '2025-11-25', 'archived', 1, '2025-11-03 15:15:25', '2025-11-03 15:15:25');
+
 -- --------------------------------------------------------
 
 --
@@ -616,6 +736,13 @@ CREATE TABLE `processing_activities` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `processing_activities`
+--
+
+INSERT INTO `processing_activities` (`ropa_id`, `org_id`, `dept_id`, `activity_name`, `description`, `purpose_id`, `lawful_basis_id`, `retention_id`, `data_source`, `has_special_categories`, `has_minors`, `has_cross_border`, `estimated_data_subjects`, `security_measures`, `status`, `created_by`, `validated_by`, `validated_at`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 'payroll', 'wow', 1, 3, 1, 'both', 1, 1, 1, 2000, 'none at the moment', 'draft', 1, NULL, NULL, '2025-11-03 11:27:45', '2025-11-03 11:27:45');
+
 -- --------------------------------------------------------
 
 --
@@ -654,6 +781,13 @@ CREATE TABLE `recipients` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `recipients`
+--
+
+INSERT INTO `recipients` (`recipient_id`, `org_id`, `recipient_name`, `recipient_type`, `contact_person`, `email`, `phone`, `country`, `created_at`) VALUES
+(1, 1, 'cloud', 'authority', 'mpofu', 'mpofu@zimnat.co.zw', '0775075123', 'Zimbabwe', '2025-11-03 11:25:10');
+
 -- --------------------------------------------------------
 
 --
@@ -669,6 +803,13 @@ CREATE TABLE `retention_policies` (
   `justification` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `retention_policies`
+--
+
+INSERT INTO `retention_policies` (`retention_id`, `org_id`, `policy_name`, `retention_period`, `retention_days`, `justification`, `created_at`) VALUES
+(1, 1, 'test', '12/12/2025', NULL, NULL, '2025-11-03 11:22:03');
 
 -- --------------------------------------------------------
 
@@ -700,6 +841,13 @@ CREATE TABLE `risks` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `risks`
+--
+
+INSERT INTO `risks` (`risk_id`, `org_id`, `dept_id`, `dpia_id`, `risk_title`, `risk_description`, `risk_category`, `owner_id`, `likelihood`, `impact`, `residual_likelihood`, `residual_impact`, `status`, `due_date`, `closed_date`, `closure_notes`, `created_by`, `risk_owner_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, NULL, 'test', 'test', '', 2, 3, 3, 3, 3, '', '2025-11-25', NULL, NULL, 1, NULL, '2025-11-03 14:38:01', '2025-11-03 14:38:01');
 
 -- --------------------------------------------------------
 
@@ -755,6 +903,13 @@ CREATE TABLE `ropa_data_categories` (
   `data_category_id` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `ropa_data_categories`
+--
+
+INSERT INTO `ropa_data_categories` (`id`, `ropa_id`, `data_category_id`) VALUES
+(1, 1, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -766,6 +921,13 @@ CREATE TABLE `ropa_recipients` (
   `ropa_id` int(11) UNSIGNED NOT NULL,
   `recipient_id` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ropa_recipients`
+--
+
+INSERT INTO `ropa_recipients` (`id`, `ropa_id`, `recipient_id`) VALUES
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -779,6 +941,13 @@ CREATE TABLE `ropa_storage_locations` (
   `location_id` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `ropa_storage_locations`
+--
+
+INSERT INTO `ropa_storage_locations` (`id`, `ropa_id`, `location_id`) VALUES
+(1, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -790,6 +959,13 @@ CREATE TABLE `ropa_subject_categories` (
   `ropa_id` int(11) UNSIGNED NOT NULL,
   `subject_category_id` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ropa_subject_categories`
+--
+
+INSERT INTO `ropa_subject_categories` (`id`, `ropa_id`, `subject_category_id`) VALUES
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -832,6 +1008,13 @@ CREATE TABLE `storage_locations` (
   `security_measures` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `storage_locations`
+--
+
+INSERT INTO `storage_locations` (`location_id`, `org_id`, `location_name`, `location_type`, `provider`, `country`, `region`, `security_measures`, `created_at`) VALUES
+(1, 1, 'headquaters', 'on-premise', 'dande', 'zimbabwe', 'harare', '', '2025-11-03 11:19:08');
 
 -- --------------------------------------------------------
 
@@ -910,6 +1093,13 @@ CREATE TABLE `training` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `training`
+--
+
+INSERT INTO `training` (`training_id`, `org_id`, `training_title`, `training_type`, `description`, `content_path`, `duration_minutes`, `passing_score`, `due_days`, `status`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 1, 'test', 'data_protection', 'test', 'uploads/training/training_1_1762183368.docx', 180, 80, 30, 'active', 1, '2025-11-03 15:22:48', '2025-11-04 06:28:28');
+
 -- --------------------------------------------------------
 
 --
@@ -928,6 +1118,13 @@ CREATE TABLE `training_assignments` (
   `status` enum('assigned','in_progress','completed','overdue') DEFAULT 'assigned',
   `certificate_path` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `training_assignments`
+--
+
+INSERT INTO `training_assignments` (`assign_id`, `training_id`, `user_id`, `assigned_at`, `due_at`, `started_at`, `completed_at`, `score`, `status`, `certificate_path`) VALUES
+(1, 1, 2, '2025-11-04 06:27:44', '2025-11-29 22:00:00', NULL, NULL, NULL, 'assigned', NULL);
 
 -- --------------------------------------------------------
 
@@ -959,8 +1156,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `org_id`, `role_id`, `dept_id`, `first_name`, `last_name`, `email`, `password`, `password_reset_required`, `phone`, `two_factor_enabled`, `two_factor_secret`, `status`, `last_login`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, NULL, 'belinda', 'moyo', 'natiemoyo2001@gmail.com', '$2y$10$jYT8FswKhWlppEVyCCyT3.hbk0hISAFfzske6s.lU47.d5ycfXBHe', 0, '&lt;br /&gt;&lt;b&gt;Deprecated&lt;/b&gt;:  htmlsp', 0, NULL, 'active', '2025-11-01 16:26:13', '2025-10-28 15:30:16', '2025-11-01 16:26:32'),
-(2, 1, 3, 1, 'test', 'test', 'test@gmail.com', '$2y$10$32/Lw6jiO7HmjoxUiMW/Y.At9nwLINkdc2nGDGqM0VMKSRyYhGi9i', 0, '0775075122', 0, NULL, 'active', '2025-11-02 03:45:49', '2025-10-31 07:46:25', '2025-11-02 03:46:21');
+(1, 1, 1, NULL, 'belinda', 'moyo', 'natiemoyo2001@gmail.com', '$2y$10$jYT8FswKhWlppEVyCCyT3.hbk0hISAFfzske6s.lU47.d5ycfXBHe', 0, '', 0, NULL, 'active', '2025-11-04 06:25:37', '2025-10-28 15:30:16', '2025-11-04 06:25:37'),
+(2, 1, 3, 1, 'test', 'test', 'test@gmail.com', '$2y$10$32/Lw6jiO7HmjoxUiMW/Y.At9nwLINkdc2nGDGqM0VMKSRyYhGi9i', 0, '0775075122', 0, NULL, 'active', '2025-11-02 03:45:49', '2025-10-31 07:46:25', '2025-11-02 03:46:21'),
+(3, 1, 4, NULL, 'testing', 'testing', 'testing@gmail.com', '$2y$10$dvGEYkZ9QJV1v4cRIjLsIuxnY9GuKFDwF8.0b07t6sx8zx4tOUGSa', 0, '', 0, NULL, 'active', NULL, '2025-11-03 08:17:47', '2025-11-03 08:17:47');
 
 -- --------------------------------------------------------
 
@@ -1316,31 +1514,31 @@ ALTER TABLE `user_sessions`
 -- AUTO_INCREMENT for table `audit_log`
 --
 ALTER TABLE `audit_log`
-  MODIFY `log_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `log_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `consents`
 --
 ALTER TABLE `consents`
-  MODIFY `consent_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `consent_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `controls`
 --
 ALTER TABLE `controls`
-  MODIFY `control_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `control_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `cross_border_transfers`
 --
 ALTER TABLE `cross_border_transfers`
-  MODIFY `cb_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `cb_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `dashboard_snapshots`
 --
 ALTER TABLE `dashboard_snapshots`
-  MODIFY `snap_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `snap_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `data_categories`
@@ -1370,19 +1568,19 @@ ALTER TABLE `document_links`
 -- AUTO_INCREMENT for table `dpia`
 --
 ALTER TABLE `dpia`
-  MODIFY `dpia_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `dpia_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `dpia_risks`
 --
 ALTER TABLE `dpia_risks`
-  MODIFY `dpia_risk_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `dpia_risk_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `dpia_steps`
 --
 ALTER TABLE `dpia_steps`
-  MODIFY `dpia_step_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `dpia_step_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `dsr_actions`
@@ -1394,13 +1592,13 @@ ALTER TABLE `dsr_actions`
 -- AUTO_INCREMENT for table `dsr_requests`
 --
 ALTER TABLE `dsr_requests`
-  MODIFY `dsr_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `dsr_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `incidents`
 --
 ALTER TABLE `incidents`
-  MODIFY `incident_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `incident_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `incident_actions`
@@ -1418,7 +1616,7 @@ ALTER TABLE `lawful_basis`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `notification_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `notification_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `organizations`
@@ -1430,7 +1628,7 @@ ALTER TABLE `organizations`
 -- AUTO_INCREMENT for table `policies`
 --
 ALTER TABLE `policies`
-  MODIFY `policy_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `policy_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `policy_acknowledgements`
@@ -1442,7 +1640,7 @@ ALTER TABLE `policy_acknowledgements`
 -- AUTO_INCREMENT for table `processing_activities`
 --
 ALTER TABLE `processing_activities`
-  MODIFY `ropa_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `ropa_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `purposes`
@@ -1454,19 +1652,19 @@ ALTER TABLE `purposes`
 -- AUTO_INCREMENT for table `recipients`
 --
 ALTER TABLE `recipients`
-  MODIFY `recipient_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `recipient_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `retention_policies`
 --
 ALTER TABLE `retention_policies`
-  MODIFY `retention_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `retention_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `risks`
 --
 ALTER TABLE `risks`
-  MODIFY `risk_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `risk_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `risk_controls`
@@ -1484,25 +1682,25 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `ropa_data_categories`
 --
 ALTER TABLE `ropa_data_categories`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ropa_recipients`
 --
 ALTER TABLE `ropa_recipients`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ropa_storage_locations`
 --
 ALTER TABLE `ropa_storage_locations`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ropa_subject_categories`
 --
 ALTER TABLE `ropa_subject_categories`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `safeguards`
@@ -1514,7 +1712,7 @@ ALTER TABLE `safeguards`
 -- AUTO_INCREMENT for table `storage_locations`
 --
 ALTER TABLE `storage_locations`
-  MODIFY `location_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `location_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `subject_categories`
@@ -1532,19 +1730,19 @@ ALTER TABLE `system_settings`
 -- AUTO_INCREMENT for table `training`
 --
 ALTER TABLE `training`
-  MODIFY `training_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `training_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `training_assignments`
 --
 ALTER TABLE `training_assignments`
-  MODIFY `assign_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `assign_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

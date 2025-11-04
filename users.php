@@ -36,7 +36,7 @@ $flash = get_flash_message();
     <title><?php echo APP_NAME; ?> - User Management</title>
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="assets/js/dataTables/dataTables.bootstrap.css?v=2" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -96,7 +96,7 @@ $flash = get_flash_message();
                                             <tr>
                                                 <td><?php echo htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); ?></td>
                                                 <td><?php echo htmlspecialchars($user['email']); ?></td>
-                                                <td><?php echo $user['phone'] ? htmlspecialchars($user['phone']) : 'N/A'; ?></td>
+                                                <td><?php echo !empty($user['phone']) ? htmlspecialchars($user['phone']) : 'N/A'; ?></td>
                                                 <td>
                                                     <?php
                                                     $role_class = '';

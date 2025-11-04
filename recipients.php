@@ -34,7 +34,7 @@ $flash = get_flash_message();
     <title><?php echo APP_NAME; ?> - Recipients Management</title>
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="assets/js/dataTables/dataTables.bootstrap.css?v=2" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -157,10 +157,12 @@ $flash = get_flash_message();
     <script src="assets/js/custom.js"></script>
     <script>
         $(document).ready(function() {
+            <?php if (!empty($recipients)): ?>
             $('#recipientsTable').dataTable({
                 "order": [[0, "asc"]],
                 "pageLength": 25
             });
+            <?php endif; ?>
         });
     </script>
 </body>

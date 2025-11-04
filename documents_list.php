@@ -113,23 +113,13 @@ function formatBytes($bytes, $precision = 2) {
         <div id="page-wrapper">
             <div id="page-inner">
 
-<div class="container-fluid">
-
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-folder-open"></i> Document Repository
-                    <small>Governance & e-Filing</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li class="active">Documents</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Document Repository</h2>
+                        <h5>Governance & e-Filing</h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['flash_message'])): ?>
@@ -389,6 +379,7 @@ function formatBytes($bytes, $precision = 2) {
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 <script>
 $(document).ready(function() {

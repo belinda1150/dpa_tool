@@ -81,6 +81,14 @@ function sanitize_input($data) {
     return $data;
 }
 
+function safe_html($value, $default = '') {
+    // Safe HTML output - handles NULL values for PHP 8.1+
+    if ($value === null || $value === '') {
+        return $default;
+    }
+    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+}
+
 function format_date($date, $format = 'Y-m-d') {
     if (empty($date)) return '';
     return date($format, strtotime($date));

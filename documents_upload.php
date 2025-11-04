@@ -170,21 +170,13 @@ $incidents_list = db_fetch_all(db_query("SELECT incident_id, incident_title FROM
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-upload"></i> Upload Document
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="documents_list.php">Documents</a></li>
-                    <li class="active">Upload</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Upload Document</h2>
+                        <h5>Upload and manage compliance documents</h5>
+                    </div>
+                </div>
+                <hr />
 
     <form method="POST" enctype="multipart/form-data" id="uploadForm">
         <div class="row">
@@ -402,6 +394,7 @@ $incidents_list = db_fetch_all(db_query("SELECT incident_id, incident_title FROM
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 <script>
 $(document).ready(function() {

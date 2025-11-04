@@ -261,6 +261,19 @@ if ($dpia_id && $current_step >= 3) {
     $existing_risks = db_fetch_all($stmt);
 }
 
+// Get ROPA details if ropa_id is provided
+$ropa_details = null;
+if ($ropa_id) {
+    $query = "SELECT pa.*, d.dept_name, p.purpose_name, lb.basis_name
+              FROM processing_activities pa
+              LEFT JOIN departments d ON pa.dept_id = d.dept_id
+              LEFT JOIN purposes p ON pa.purpose_id = p.purpose_id
+              LEFT JOIN lawful_basis lb ON pa.lawful_basis_id = lb.lawful_basis_id
+              WHERE pa.ropa_id = ? AND pa.org_id = ?";
+    $stmt = db_query($query, [$ropa_id, $org_id]);
+    $ropa_details = db_fetch_one($stmt);
+}
+
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -341,6 +354,45 @@ if ($dpia_id && $current_step >= 3) {
                     <h2>Data Protection Impact Assessment (DPIA) Wizard</h2>
                     <h5>Step-by-step privacy risk assessment</h5>
                 </div>
+
+                <?php if ($ropa_details): ?>
+                <!-- ROPA Activity Information -->
+                <div class="alert alert-info">
+                    <h4><i class="fa fa-info-circle"></i> Processing Activity Requiring DPIA</h4>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-md-6">
+                            <p><strong>Activity Name:</strong> <?php echo htmlspecialchars($ropa_details['activity_name']); ?></p>
+                            <p><strong>Department:</strong> <?php echo htmlspecialchars($ropa_details['dept_name'] ?? 'N/A'); ?></p>
+                            <p><strong>Purpose:</strong> <?php echo htmlspecialchars($ropa_details['purpose_name'] ?? 'N/A'); ?></p>
+                            <p><strong>Lawful Basis:</strong> <?php echo htmlspecialchars($ropa_details['basis_name'] ?? 'N/A'); ?></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Estimated Data Subjects:</strong> <?php echo number_format($ropa_details['estimated_data_subjects'] ?? 0); ?></p>
+                            <p><strong>Flags:</strong>
+                                <?php if ($ropa_details['has_special_categories']): ?>
+                                    <span class="label label-primary">Special Categories</span>
+                                <?php endif; ?>
+                                <?php if ($ropa_details['has_minors']): ?>
+                                    <span class="label label-warning">Minors</span>
+                                <?php endif; ?>
+                                <?php if ($ropa_details['has_cross_border']): ?>
+                                    <span class="label label-info">Cross-Border</span>
+                                <?php endif; ?>
+                            </p>
+                            <p><strong>Status:</strong>
+                                <?php if ($ropa_details['status'] == 'validated'): ?>
+                                    <span class="label label-success">Validated</span>
+                                <?php else: ?>
+                                    <span class="label label-warning">Draft</span>
+                                <?php endif; ?>
+                            </p>
+                            <p><a href="ropa_view.php?id=<?php echo $ropa_details['ropa_id']; ?>" class="btn btn-sm btn-primary" target="_blank">
+                                <i class="fa fa-external-link"></i> View Full ROPA Entry
+                            </a></p>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
 
                 <!-- Wizard Progress Steps -->
                 <div class="wizard-steps">
@@ -848,6 +900,7 @@ if ($dpia_id && $current_step >= 3) {
 
     <script src="assets/js/jquery-1.10.2.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
     <script src="assets/js/custom.js"></script>
     <script>
         let riskCounter = <?php echo count($existing_risks) > 0 ? count($existing_risks) : 1; ?>;

@@ -164,22 +164,13 @@ unset($_SESSION['form_errors'], $_SESSION['form_data']);
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-plus-circle"></i> Add New Risk
-                    <small>Register and assess organizational risk</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="risk_list.php">Risk Register</a></li>
-                    <li class="active">Add Risk</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Add New Risk</h2>
+                        <h5>Register and assess organizational risk</h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Form Errors -->
     <?php if (!empty($form_errors)): ?>
@@ -573,6 +564,7 @@ $(document).ready(function() {
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

@@ -22,16 +22,16 @@ if ($incident_id <= 0) {
 // Handle POTRAZ notification form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'notify_potraz') {
     $potraz_ref = sanitize_input($_POST['potraz_ref'] ?? '');
-    $potraz_notes = sanitize_input($_POST['potraz_notes'] ?? '');
+    $notification_method = sanitize_input($_POST['notification_method'] ?? '');
 
     if (!empty($potraz_ref)) {
         $query = "UPDATE incidents SET
-                  potraz_notified_date = NOW(),
-                  potraz_reference = ?,
-                  potraz_notes = ?
+                  notified_at = NOW(),
+                  potraz_ref = ?,
+                  notification_method = ?
                   WHERE incident_id = ? AND org_id = ?";
 
-        db_query($query, [$potraz_ref, $potraz_notes, $incident_id, $org_id]);
+        db_query($query, [$potraz_ref, $notification_method, $incident_id, $org_id]);
         log_audit($org_id, $user_id, 'incident', $incident_id, 'update', "POTRAZ notified: $potraz_ref");
         set_flash_message('POTRAZ notification recorded successfully!', 'success');
         redirect("incident_view.php?id=$incident_id");
@@ -40,16 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
 // Fetch incident details
 $query = "SELECT i.*,
-          u.first_name as handler_first, u.last_name as handler_last,
-          reporter.first_name as reporter_first, reporter.last_name as reporter_last,
-          dept.dept_name,
+          u.first_name as detector_first, u.last_name as detector_last,
+          creator.first_name as creator_first, creator.last_name as creator_last,
           pa.activity_name,
-          TIMESTAMPDIFF(HOUR, i.incident_date, NOW()) as hours_since,
-          TIMESTAMPDIFF(HOUR, i.incident_date, i.potraz_notified_date) as hours_to_notification
+          TIMESTAMPDIFF(HOUR, i.detected_at, NOW()) as hours_since,
+          TIMESTAMPDIFF(HOUR, i.detected_at, i.notified_at) as hours_to_notification
           FROM incidents i
-          LEFT JOIN users u ON i.incident_handler_id = u.user_id
-          LEFT JOIN users reporter ON i.reported_by = reporter.user_id
-          LEFT JOIN departments dept ON i.dept_id = dept.dept_id
+          LEFT JOIN users u ON i.detected_by = u.user_id
+          LEFT JOIN users creator ON i.created_by = creator.user_id
           LEFT JOIN processing_activities pa ON i.ropa_id = pa.ropa_id
           WHERE i.incident_id = ? AND i.org_id = ?";
 
@@ -90,21 +88,13 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
             <div id="page-inner">
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-exclamation-triangle"></i> View Incident
-                    <small>INC-<?php echo str_pad($incident_id, 5, '0', STR_PAD_LEFT); ?></small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="incident_list.php">Incidents</a></li>
-                    <li class="active">View Incident</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>View Incident</h2>
+                        <h5>INC-<?php echo str_pad($incident_id, 5, '0', STR_PAD_LEFT); ?></h5>
+                    </div>
+                </div>
+                <hr />
 
     <?php if (isset($_SESSION['flash_message'])): ?>
         <div class="alert alert-<?php echo htmlspecialchars($_SESSION['flash_type']); ?> alert-dismissible">
@@ -114,7 +104,7 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
     <?php endif; ?>
 
     <!-- POTRAZ Notification Alert -->
-    <?php if ($incident['is_data_breach'] == 1 && empty($incident['potraz_notified_date'])): ?>
+    <?php if ($incident['notifiable'] == 1 && empty($incident['notified_at'])): ?>
         <?php
         $hours_remaining = BREACH_NOTIFICATION_HOURS - $incident['hours_since'];
         $is_overdue = $hours_remaining < 0;
@@ -137,11 +127,11 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
     <!-- Incident Summary -->
     <div class="row">
         <div class="col-md-8">
-            <div class="panel panel-<?php echo $incident['is_data_breach'] ? 'danger' : 'primary'; ?>">
+            <div class="panel panel-<?php echo $incident['notifiable'] ? 'danger' : 'primary'; ?>">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         <?php echo htmlspecialchars($incident['incident_title']); ?>
-                        <?php if ($incident['is_data_breach']): ?>
+                        <?php if ($incident['notifiable']): ?>
                             <span class="label label-danger pull-right">DATA BREACH</span>
                         <?php endif; ?>
                     </h3>
@@ -158,11 +148,10 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
                                 ?>
                             </td>
                         </tr>
-                        <tr><th>Occurred:</th><td><?php echo date('d M Y, H:i', strtotime($incident['incident_date'])); ?></td></tr>
-                        <tr><th>Department:</th><td><?php echo htmlspecialchars($incident['dept_name'] ?? 'N/A'); ?></td></tr>
+                        <tr><th>Detected:</th><td><?php echo date('d M Y, H:i', strtotime($incident['detected_at'])); ?></td></tr>
                         <tr><th>Linked ROPA:</th><td><?php echo htmlspecialchars($incident['activity_name'] ?? 'N/A'); ?></td></tr>
-                        <tr><th>Handler:</th><td><?php echo $incident['handler_first'] ? htmlspecialchars($incident['handler_first'].' '.$incident['handler_last']) : '<span class="text-muted">Unassigned</span>'; ?></td></tr>
-                        <tr><th>Reported By:</th><td><?php echo htmlspecialchars($incident['reporter_first'].' '.$incident['reporter_last']); ?></td></tr>
+                        <tr><th>Detected By:</th><td><?php echo $incident['detector_first'] ? htmlspecialchars($incident['detector_first'].' '.$incident['detector_last']) : '<span class="text-muted">Unknown</span>'; ?></td></tr>
+                        <tr><th>Created By:</th><td><?php echo htmlspecialchars($incident['creator_first'].' '.$incident['creator_last']); ?></td></tr>
                         <tr><th>Status:</th>
                             <td>
                                 <?php
@@ -177,15 +166,15 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
         </div>
 
         <div class="col-md-4">
-            <?php if ($incident['is_data_breach']): ?>
+            <?php if ($incident['notifiable']): ?>
                 <div class="panel panel-danger">
                     <div class="panel-heading"><h4 style="margin:0;">POTRAZ Notification Status</h4></div>
                     <div class="panel-body text-center">
-                        <?php if ($incident['potraz_notified_date']): ?>
+                        <?php if ($incident['notified_at']): ?>
                             <i class="fa fa-check-circle" style="font-size:48px;color:#27ae60;"></i>
                             <h4>Notified</h4>
-                            <p><?php echo date('d M Y, H:i', strtotime($incident['potraz_notified_date'])); ?></p>
-                            <p><strong>Ref:</strong> <?php echo htmlspecialchars($incident['potraz_reference']); ?></p>
+                            <p><?php echo date('d M Y, H:i', strtotime($incident['notified_at'])); ?></p>
+                            <p><strong>Ref:</strong> <?php echo htmlspecialchars($incident['potraz_ref']); ?></p>
                             <?php if ($incident['hours_to_notification'] <= BREACH_NOTIFICATION_HOURS): ?>
                                 <span class="label label-success">Within 72 hours</span>
                             <?php else: ?>
@@ -210,12 +199,12 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading"><h4 class="panel-title"><i class="fa fa-file-text"></i> Incident Description</h4></div>
-                <div class="panel-body"><p><?php echo nl2br(htmlspecialchars($incident['incident_description'])); ?></p></div>
+                <div class="panel-body"><p><?php echo nl2br(htmlspecialchars($incident['description'])); ?></p></div>
             </div>
         </div>
     </div>
 
-    <?php if ($incident['is_data_breach']): ?>
+    <?php if ($incident['notifiable']): ?>
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-warning">
@@ -302,8 +291,15 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
                         <input type="text" name="potraz_ref" class="form-control" required placeholder="e.g., POTRAZ/DPA/2025/001">
                     </div>
                     <div class="form-group">
-                        <label>Notification Notes</label>
-                        <textarea name="potraz_notes" class="form-control" rows="3" placeholder="Additional details about the notification..."></textarea>
+                        <label>Notification Method</label>
+                        <select name="notification_method" class="form-control">
+                            <option value="">-- Select Method --</option>
+                            <option value="Email">Email</option>
+                            <option value="Phone">Phone</option>
+                            <option value="Online Portal">Online Portal</option>
+                            <option value="Letter">Letter</option>
+                            <option value="In Person">In Person</option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -317,6 +313,7 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

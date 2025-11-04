@@ -166,24 +166,13 @@ unset($_SESSION['form_errors'], $_SESSION['form_data']);
         <div id="page-wrapper">
             <div id="page-inner">
 
-<div class="container-fluid">
-
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-exclamation-circle"></i> Report New Incident
-                    <small>Document security incident or data breach</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="incident_list.php">Incidents</a></li>
-                    <li class="active">Report Incident</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Report New Incident</h2>
+                        <h5>Document security incident or data breach</h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Form Errors -->
     <?php if (!empty($form_errors)): ?>
@@ -319,13 +308,13 @@ unset($_SESSION['form_errors'], $_SESSION['form_data']);
                                     <strong>This is a Notifiable Breach</strong> (Personal data compromised/exposed)
                                 </label>
                             </div>
-                            <p class="help-block text-danger" id="breachWarning" style="display: none;">
+                            <p class="help-block text-danger" id="breachWarning" style="display: <?php echo (isset($form_data['notifiable']) && $form_data['notifiable']) ? 'block' : 'none'; ?>;">
                                 <i class="fa fa-warning"></i>
                                 <strong>IMPORTANT:</strong> POTRAZ must be notified within 72 hours of breach discovery (SI 156 of 2022)
                             </p>
                         </div>
 
-                        <div id="breachFields" style="display: none;">
+                        <div id="breachFields" style="display: <?php echo (isset($form_data['notifiable']) && $form_data['notifiable']) ? 'block' : 'none'; ?>;">
                             <div class="form-group">
                                 <label for="data_subjects_affected">Number of Affected Data Subjects</label>
                                 <input type="number" name="data_subjects_affected" id="data_subjects_affected" class="form-control"
@@ -417,13 +406,13 @@ function toggleBreachFields() {
         $('#breachWarning').show();
         $('#breachLabel').show();
         $('#dataBreachPanel').removeClass('panel-warning').addClass('panel-danger');
-        $('#data_types_affected').attr('required', true);
+        $('#data_categories_affected').attr('required', true);
     } else {
         $('#breachFields').slideUp();
         $('#breachWarning').hide();
         $('#breachLabel').hide();
         $('#dataBreachPanel').removeClass('panel-danger').addClass('panel-warning');
-        $('#data_types_affected').attr('required', false);
+        $('#data_categories_affected').attr('required', false);
     }
 }
 
@@ -478,6 +467,7 @@ $(document).ready(function() {
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

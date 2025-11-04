@@ -145,23 +145,13 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa <?php echo $icon_class; ?>" style="color: <?php echo $icon_color; ?>"></i>
-                    <?php echo htmlspecialchars($doc['doc_name']); ?>
-                    <small>v<?php echo htmlspecialchars($doc['version']); ?></small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="documents_list.php">Documents</a></li>
-                    <li class="active">View Document</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2><?php echo htmlspecialchars($doc['doc_name']); ?></h2>
+                        <h5>v<?php echo htmlspecialchars($doc['version']); ?></h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Action Buttons -->
     <div class="row">
@@ -500,6 +490,7 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

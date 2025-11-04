@@ -84,24 +84,13 @@ foreach ($policies as $policy) {
         <div id="page-wrapper">
             <div id="page-inner">
 
-<div class="container-fluid">
-
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-file-text"></i> Policy Management
-                    <small>Organizational policies and documentation</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="#">Policy & Training</a></li>
-                    <li class="active">Policies</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Policy Management</h2>
+                        <h5>Organizational policies and documentation</h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['flash_message'])): ?>
@@ -318,6 +307,7 @@ foreach ($policies as $policy) {
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 <script>
 $(document).ready(function() {

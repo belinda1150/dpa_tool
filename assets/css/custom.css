@@ -309,9 +309,27 @@ color:#fff;
 
 }
 
+.navbar-user-info {
+    float: right;
+    padding: 15px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 30px;
+}
+
+.navbar-user-info .badge.role-badge {
+    background-color: #5bc0de;
+    color: #fff;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 3px;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
 .navbar-default {
 border:0px solid black;
-     
+
 }
 .navbar-header {
     background: #A70303;

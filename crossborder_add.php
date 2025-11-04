@@ -163,22 +163,13 @@ $high_risk_countries = ['China', 'Russia', 'North Korea', 'Iran', 'Syria', 'Cuba
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-globe"></i> Record Cross-Border Transfer
-                    <small>Document data transfer outside Zimbabwe</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="crossborder_list.php">Cross-Border Transfers</a></li>
-                    <li class="active">Record Transfer</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Record Cross-Border Transfer</h2>
+                        <h5>Document data transfer outside Zimbabwe</h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Form Errors -->
     <?php if (!empty($form_errors)): ?>
@@ -372,6 +363,7 @@ $high_risk_countries = ['China', 'Russia', 'North Korea', 'Iran', 'Syria', 'Cuba
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 <script>
 $(document).ready(function() {

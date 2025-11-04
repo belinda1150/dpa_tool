@@ -85,23 +85,13 @@ foreach ($transfers as $transfer) {
         <div id="page-wrapper">
             <div id="page-inner">
 
-<div class="container-fluid">
-
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-globe"></i> Cross-Border Transfers Register
-                    <small>Data transfers outside Zimbabwe</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li class="active">Cross-Border Transfers</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Cross-Border Transfers Register</h2>
+                        <h5>Data transfers outside Zimbabwe</h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['flash_message'])): ?>
@@ -315,6 +305,7 @@ foreach ($transfers as $transfer) {
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 <script>
 $(document).ready(function() {

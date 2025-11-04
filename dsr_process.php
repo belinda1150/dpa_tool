@@ -132,22 +132,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div id="page-inner">
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-cogs"></i> Process DSR Request
-                    <small>DSR-<?php echo str_pad($dsr_id, 5, '0', STR_PAD_LEFT); ?></small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="dsr_list.php">DSR Requests</a></li>
-                    <li><a href="dsr_view.php?id=<?php echo $dsr_id; ?>">View Request</a></li>
-                    <li class="active">Process</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Process DSR Request</h2>
+                        <h5>DSR-<?php echo str_pad($dsr_id, 5, '0', STR_PAD_LEFT); ?></h5>
+                    </div>
+                </div>
+                <hr />
 
     <div class="row">
         <div class="col-md-8">
@@ -459,6 +450,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>

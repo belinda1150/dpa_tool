@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               status = ?,
               approver_id = ?,
               approval_notes = ?,
-              approval_date = NOW()
+              approved_at = NOW()
               WHERE dpia_id = ? AND org_id = ?";
 
     $stmt = db_query($query, [$new_status, $user_id, $approval_notes, $dpia_id, $org_id]);
@@ -91,10 +91,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $priority = ($new_status === 'rejected' || $new_status === 'rework') ? 'high' : 'normal';
 
+            // Map status to correct notification type
+            $notification_type = 'dpia_' . $new_status;
+            if ($new_status === 'rework') {
+                $notification_type = 'dpia_revision_required';
+            }
+
             create_notification(
                 $org_id,
                 $creator_id,
-                'dpia_' . $new_status,
+                $notification_type,
                 $notif_title,
                 $notif_message,
                 'dpia',
@@ -201,23 +207,13 @@ foreach ($risks as $risk) {
 
 <div class="container-fluid">
 
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <i class="fa fa-check-circle"></i> Approve DPIA
-                    <small>Review and approve Data Protection Impact Assessment</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                    <li><a href="dpia_list.php">DPIA List</a></li>
-                    <li><a href="dpia_view.php?id=<?php echo $dpia_id; ?>">View DPIA</a></li>
-                    <li class="active">Approve</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Approve DPIA</h2>
+                        <h5>Review and approve Data Protection Impact Assessment</h5>
+                    </div>
+                </div>
+                <hr />
 
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['flash_message'])): ?>
@@ -572,6 +568,7 @@ document.getElementById('approvalForm').addEventListener('submit', function(e) {
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.metisMenu.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
 </html>
