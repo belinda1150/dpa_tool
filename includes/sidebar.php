@@ -10,9 +10,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <nav class="navbar-default navbar-side" role="navigation">
   <div class="sidebar-collapse">
     <ul class="nav" id="main-menu">
-      <li class="text-center">
-        <img src="assets/img/logo.png" class="user-image img-responsive" />
-      </li>
 
       <!-- Dashboard -->
       <li class="<?php echo ($current_page == 'dashboard.php') ? 'active' : ''; ?>">

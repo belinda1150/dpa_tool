@@ -40,14 +40,12 @@ if (isset($_GET['status'])) {
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <link rel="stylesheet" href="assets/css/login.css">
-  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 </head>
 
 <body>
   <div class="wrapper">
     <form class="login" method="post" action="index.php">
       <div class="login-header">
-        <img src="assets/img/logo.png" class="login-logo">
         <p class="title login-title">
           <?php echo APP_NAME; ?>
         </p>

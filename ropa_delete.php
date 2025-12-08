@@ -5,7 +5,7 @@
  * Date: October 2025
  */
 
-require_once '../config/config.php';
+require_once 'config/config.php';
 require_once 'includes/auth.php';
 require_login();
 require_permission('DPO'); // Only DPO can archive

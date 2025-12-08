@@ -786,7 +786,7 @@ CREATE TABLE `recipients` (
 --
 
 INSERT INTO `recipients` (`recipient_id`, `org_id`, `recipient_name`, `recipient_type`, `contact_person`, `email`, `phone`, `country`, `created_at`) VALUES
-(1, 1, 'cloud', 'authority', 'mpofu', 'mpofu@zimnat.co.zw', '0775075123', 'Zimbabwe', '2025-11-03 11:25:10');
+(1, 1, 'cloud', 'authority', 'mpofu', 'mpofu@example.com', '0775075123', 'Zimbabwe', '2025-11-03 11:25:10');
 
 -- --------------------------------------------------------
 
