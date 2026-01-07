@@ -7,6 +7,7 @@
 require_once 'config/database.php';
 require_once 'config/config.php';
 require_once 'includes/auth.php';
+require_once 'includes/stats_card.php';
 
 require_login();
 
@@ -91,71 +92,34 @@ foreach ($trainings as $training) {
     <?php endif; ?>
 
     <!-- Statistics Cards -->
-    <div class="row">
-        <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-graduation-cap fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $total_trainings; ?></div>
-                            <div>Total Courses</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-play-circle fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $active_count; ?></div>
-                            <div>Active</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-warning">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-pencil fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $draft_count; ?></div>
-                            <div>Drafts</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-archive fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $archived_count; ?></div>
-                            <div>Archived</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php
+    render_stats_row([
+        [
+            'value' => $total_trainings,
+            'label' => 'Courses',
+            'icon' => 'fa-graduation-cap',
+            'color' => 'blue'
+        ],
+        [
+            'value' => $active_count,
+            'label' => 'Active',
+            'icon' => 'fa-play-circle',
+            'color' => 'green'
+        ],
+        [
+            'value' => $draft_count,
+            'label' => 'Drafts',
+            'icon' => 'fa-pencil',
+            'color' => 'brown'
+        ],
+        [
+            'value' => $archived_count,
+            'label' => 'Archived',
+            'icon' => 'fa-archive',
+            'color' => 'purple'
+        ]
+    ]);
+    ?>
 
     <!-- Action Buttons -->
     <div class="row">

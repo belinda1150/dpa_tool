@@ -39,7 +39,7 @@ if (isset($_GET['status'])) {
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-  <link rel="stylesheet" href="assets/css/login.css">
+  <link rel="stylesheet" href="assets/css/login.css?v=<?php echo time(); ?>">
 </head>
 
 <body>
@@ -54,15 +54,38 @@ if (isset($_GET['status'])) {
         <?php endif; ?>
       </div>
 
-      <input type="text" placeholder="Email" name="email" autofocus required />
+      <input type="text" placeholder="Email" name="email" autofocus required style="padding-right: 15px;" />
       <i class="fa fa-user"></i>
-      <input type="password" placeholder="Password" name="password" required />
-      <i class="fa fa-key"></i>
+
+      <div style="position: relative;">
+        <input type="password" placeholder="Password" name="password" id="password" required style="padding-right: 50px;" />
+        <i class="fa fa-key"></i>
+        <span class="password-toggle" onclick="togglePassword()">
+          <i class="fa fa-eye" id="toggleIcon"></i>
+        </span>
+      </div>
 
       <button type="submit">
         <span class="state">Login</span>
       </button>
     </form>
   </div>
+
+  <script>
+    function togglePassword() {
+      const passwordField = document.getElementById('password');
+      const toggleIcon = document.getElementById('toggleIcon');
+
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+      } else {
+        passwordField.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      }
+    }
+  </script>
 </body>
 </html>

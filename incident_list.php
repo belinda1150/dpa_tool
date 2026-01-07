@@ -7,6 +7,7 @@
 require_once 'config/database.php';
 require_once 'config/config.php';
 require_once 'includes/auth.php';
+require_once 'includes/stats_card.php';
 
 // Require login
 require_login();
@@ -116,48 +117,34 @@ foreach ($incidents as $incident) {
     <?php endif; ?>
 
     <!-- Statistics Cards -->
-    <div class="row">
-        <div class="col-md-3 col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="text-center">
-                        <h2 class="text-primary" style="margin: 0; font-size: 36px;"><?php echo $total_incidents; ?></h2>
-                        <p class="text-muted">Total Incidents</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="panel <?php echo $data_breaches > 0 ? 'panel-danger' : 'panel-default'; ?>">
-                <div class="panel-body">
-                    <div class="text-center">
-                        <h2 style="margin: 0; font-size: 36px;"><?php echo $data_breaches; ?></h2>
-                        <p>Data Breaches</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="panel <?php echo $notification_overdue > 0 ? 'panel-danger' : 'panel-success'; ?>">
-                <div class="panel-body">
-                    <div class="text-center">
-                        <h2 style="margin: 0; font-size: 36px;"><?php echo $notification_overdue; ?></h2>
-                        <p>Notification Overdue</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="panel panel-warning">
-                <div class="panel-body">
-                    <div class="text-center">
-                        <h2 style="margin: 0; font-size: 36px;"><?php echo $open_incidents; ?></h2>
-                        <p>Open Incidents</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php
+    render_stats_row([
+        [
+            'value' => $total_incidents,
+            'label' => 'Incidents',
+            'icon' => 'fa-exclamation-circle',
+            'color' => 'blue'
+        ],
+        [
+            'value' => $data_breaches,
+            'label' => 'Data Breaches',
+            'icon' => 'fa-shield',
+            'color' => $data_breaches > 0 ? 'red' : 'blue'
+        ],
+        [
+            'value' => $notification_overdue,
+            'label' => 'Overdue',
+            'icon' => 'fa-clock',
+            'color' => $notification_overdue > 0 ? 'red' : 'green'
+        ],
+        [
+            'value' => $open_incidents,
+            'label' => 'Open',
+            'icon' => 'fa-folder-open',
+            'color' => 'brown'
+        ]
+    ]);
+    ?>
 
     <!-- Breach Notification Countdown -->
     <?php

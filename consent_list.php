@@ -7,6 +7,7 @@
 require_once 'config/database.php';
 require_once 'config/config.php';
 require_once 'includes/auth.php';
+require_once 'includes/stats_card.php';
 
 require_login();
 
@@ -72,51 +73,34 @@ foreach ($consents as $consent) {
                 <hr />
 
     <!-- Statistics Cards -->
-    <div class="row">
-        <div class="col-md-3">
-            <div class="panel panel-primary">
-                <div class="panel-body text-center">
-                    <h2 style="margin: 10px 0;"><?php echo $total; ?></h2>
-                    <p class="text-muted" style="margin: 0;">
-                        <i class="fa fa-list"></i> Total Consents
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-success">
-                <div class="panel-body text-center">
-                    <h2 style="margin: 10px 0;"><?php echo $active; ?></h2>
-                    <p class="text-muted" style="margin: 0;">
-                        <i class="fa fa-check-circle"></i> Active
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-warning">
-                <div class="panel-body text-center">
-                    <h2 style="margin: 10px 0;"><?php echo $withdrawn; ?></h2>
-                    <p class="text-muted" style="margin: 0;">
-                        <i class="fa fa-times-circle"></i> Withdrawn
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-danger">
-                <div class="panel-body text-center">
-                    <h2 style="margin: 10px 0;"><?php echo $expired; ?></h2>
-                    <p class="text-muted" style="margin: 0;">
-                        <i class="fa fa-calendar-times-o"></i> Expired
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php
+    render_stats_row([
+        [
+            'value' => $total,
+            'label' => 'Consents',
+            'icon' => 'fa-check-square',
+            'color' => 'blue'
+        ],
+        [
+            'value' => $active,
+            'label' => 'Active',
+            'icon' => 'fa-check-circle',
+            'color' => 'green'
+        ],
+        [
+            'value' => $withdrawn,
+            'label' => 'Withdrawn',
+            'icon' => 'fa-times-circle',
+            'color' => 'brown'
+        ],
+        [
+            'value' => $expired,
+            'label' => 'Expired',
+            'icon' => 'fa-calendar-times',
+            'color' => 'red'
+        ]
+    ]);
+    ?>
 
     <!-- Expiring Soon Alert -->
     <?php if ($expiring_soon > 0): ?>

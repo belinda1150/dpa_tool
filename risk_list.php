@@ -7,6 +7,7 @@
 require_once 'config/database.php';
 require_once 'config/config.php';
 require_once 'includes/auth.php';
+require_once 'includes/stats_card.php';
 
 // Require login
 require_login();
@@ -121,48 +122,34 @@ foreach ($risks as $risk) {
     <?php endif; ?>
 
     <!-- Statistics Cards -->
-    <div class="row">
-        <div class="col-md-3 col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="text-center">
-                        <h2 class="text-primary" style="margin: 0; font-size: 36px;"><?php echo $total_risks; ?></h2>
-                        <p class="text-muted">Total Risks</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="panel panel-danger">
-                <div class="panel-body">
-                    <div class="text-center">
-                        <h2 style="margin: 0; font-size: 36px;"><?php echo $critical_risks + $high_risks; ?></h2>
-                        <p>Critical/High Risks</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="panel panel-warning">
-                <div class="panel-body">
-                    <div class="text-center">
-                        <h2 style="margin: 0; font-size: 36px;"><?php echo $medium_risks; ?></h2>
-                        <p>Medium Risks</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <div class="panel panel-success">
-                <div class="panel-body">
-                    <div class="text-center">
-                        <h2 style="margin: 0; font-size: 36px;"><?php echo $low_risks; ?></h2>
-                        <p>Low Risks</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php
+    render_stats_row([
+        [
+            'value' => $total_risks,
+            'label' => 'Risks',
+            'icon' => 'fa-exclamation-triangle',
+            'color' => 'blue'
+        ],
+        [
+            'value' => $critical_risks + $high_risks,
+            'label' => 'Critical/High',
+            'icon' => 'fa-exclamation-circle',
+            'color' => 'red'
+        ],
+        [
+            'value' => $medium_risks,
+            'label' => 'Medium',
+            'icon' => 'fa-warning',
+            'color' => 'brown'
+        ],
+        [
+            'value' => $low_risks,
+            'label' => 'Low',
+            'icon' => 'fa-check-circle',
+            'color' => 'green'
+        ]
+    ]);
+    ?>
 
     <!-- Risk Heat Map -->
     <div class="row">

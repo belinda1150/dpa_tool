@@ -7,6 +7,7 @@
 require_once 'config/database.php';
 require_once 'config/config.php';
 require_once 'includes/auth.php';
+require_once 'includes/stats_card.php';
 
 require_login();
 
@@ -164,71 +165,34 @@ foreach ($assignments as $assignment) {
     <?php endif; ?>
 
     <!-- Statistics Cards -->
-    <div class="row">
-        <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-graduation-cap fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $total_assigned; ?></div>
-                            <div>Total Assigned</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-check-circle fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $completed_count; ?></div>
-                            <div>Completed</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-play-circle fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $in_progress_count; ?></div>
-                            <div>In Progress</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-exclamation-triangle fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $overdue_count; ?></div>
-                            <div>Overdue</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php
+    render_stats_row([
+        [
+            'value' => $total_assigned,
+            'label' => 'Assigned',
+            'icon' => 'fa-graduation-cap',
+            'color' => 'blue'
+        ],
+        [
+            'value' => $completed_count,
+            'label' => 'Completed',
+            'icon' => 'fa-check-circle',
+            'color' => 'green'
+        ],
+        [
+            'value' => $in_progress_count,
+            'label' => 'In Progress',
+            'icon' => 'fa-play-circle',
+            'color' => 'purple'
+        ],
+        [
+            'value' => $overdue_count,
+            'label' => 'Overdue',
+            'icon' => 'fa-exclamation-triangle',
+            'color' => 'red'
+        ]
+    ]);
+    ?>
 
     <!-- Training Assignments -->
     <div class="row">

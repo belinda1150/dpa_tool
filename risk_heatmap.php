@@ -8,6 +8,7 @@
 require_once 'config/database.php';
 require_once 'config/config.php';
 require_once 'includes/auth.php';
+require_once 'includes/stats_card.php';
 
 require_login();
 
@@ -181,48 +182,34 @@ $flash = get_flash_message();
                 <?php endif; ?>
 
                 <!-- Statistics -->
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="stat-panel text-center">
-                                    <h3 class="text-primary"><?php echo $total_risks; ?></h3>
-                                    <p>Total Risks</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="panel panel-danger">
-                            <div class="panel-body">
-                                <div class="stat-panel text-center">
-                                    <h3><?php echo $high_risks; ?></h3>
-                                    <p>High Risks (≥15)</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="panel panel-warning">
-                            <div class="panel-body">
-                                <div class="stat-panel text-center">
-                                    <h3><?php echo $medium_risks; ?></h3>
-                                    <p>Medium Risks (8-14)</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <div class="stat-panel text-center">
-                                    <h3><?php echo $low_risks; ?></h3>
-                                    <p>Low Risks (<8)</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                render_stats_row([
+                    [
+                        'value' => $total_risks,
+                        'label' => 'Risks',
+                        'icon' => 'fa-exclamation-triangle',
+                        'color' => 'blue'
+                    ],
+                    [
+                        'value' => $high_risks,
+                        'label' => 'High (≥15)',
+                        'icon' => 'fa-exclamation-circle',
+                        'color' => 'red'
+                    ],
+                    [
+                        'value' => $medium_risks,
+                        'label' => 'Medium (8-14)',
+                        'icon' => 'fa-warning',
+                        'color' => 'brown'
+                    ],
+                    [
+                        'value' => $low_risks,
+                        'label' => 'Low (<8)',
+                        'icon' => 'fa-check-circle',
+                        'color' => 'green'
+                    ]
+                ]);
+                ?>
 
                 <!-- Filters -->
                 <div class="row">

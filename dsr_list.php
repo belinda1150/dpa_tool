@@ -7,6 +7,7 @@
 require_once 'config/database.php';
 require_once 'config/config.php';
 require_once 'includes/auth.php';
+require_once 'includes/stats_card.php';
 
 require_login();
 
@@ -84,51 +85,34 @@ foreach ($requests as $req) {
                 <hr />
 
     <!-- Statistics Cards -->
-    <div class="row">
-        <div class="col-md-3">
-            <div class="panel panel-primary">
-                <div class="panel-body text-center">
-                    <h2 style="margin: 10px 0;"><?php echo $total; ?></h2>
-                    <p class="text-muted" style="margin: 0;">
-                        <i class="fa fa-list"></i> Total Requests
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-warning">
-                <div class="panel-body text-center">
-                    <h2 style="margin: 10px 0;"><?php echo $pending; ?></h2>
-                    <p class="text-muted" style="margin: 0;">
-                        <i class="fa fa-clock-o"></i> Pending
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-danger">
-                <div class="panel-body text-center">
-                    <h2 style="margin: 10px 0;"><?php echo $overdue; ?></h2>
-                    <p class="text-muted" style="margin: 0;">
-                        <i class="fa fa-exclamation-triangle"></i> Overdue (&gt;30 Days)
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-success">
-                <div class="panel-body text-center">
-                    <h2 style="margin: 10px 0;"><?php echo $completed; ?></h2>
-                    <p class="text-muted" style="margin: 0;">
-                        <i class="fa fa-check-circle"></i> Completed
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php
+    render_stats_row([
+        [
+            'value' => $total,
+            'label' => 'DSR Requests',
+            'icon' => 'fa-list',
+            'color' => 'blue'
+        ],
+        [
+            'value' => $pending,
+            'label' => 'Pending',
+            'icon' => 'fa-clock',
+            'color' => 'brown'
+        ],
+        [
+            'value' => $overdue,
+            'label' => 'Overdue',
+            'icon' => 'fa-exclamation-triangle',
+            'color' => 'red'
+        ],
+        [
+            'value' => $completed,
+            'label' => 'Completed',
+            'icon' => 'fa-check-circle',
+            'color' => 'green'
+        ]
+    ]);
+    ?>
 
     <!-- Overdue/Due Soon Alerts -->
     <?php if ($overdue > 0 || $due_soon > 0): ?>

@@ -7,6 +7,7 @@
 require_once 'config/database.php';
 require_once 'config/config.php';
 require_once 'includes/auth.php';
+require_once 'includes/stats_card.php';
 
 require_login();
 
@@ -104,71 +105,34 @@ foreach ($policies as $policy) {
     <?php endif; ?>
 
     <!-- Statistics Cards -->
-    <div class="row">
-        <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-file-text fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $total_policies; ?></div>
-                            <div>Total Policies</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-check-circle fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $published_count; ?></div>
-                            <div>Published</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-warning">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-pencil fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $draft_count; ?></div>
-                            <div>Drafts</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-exclamation-triangle fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $overdue_review_count; ?></div>
-                            <div>Overdue Review</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php
+    render_stats_row([
+        [
+            'value' => $total_policies,
+            'label' => 'Policies',
+            'icon' => 'fa-file-text',
+            'color' => 'blue'
+        ],
+        [
+            'value' => $published_count,
+            'label' => 'Published',
+            'icon' => 'fa-check-circle',
+            'color' => 'green'
+        ],
+        [
+            'value' => $draft_count,
+            'label' => 'Drafts',
+            'icon' => 'fa-pencil',
+            'color' => 'brown'
+        ],
+        [
+            'value' => $overdue_review_count,
+            'label' => 'Overdue Review',
+            'icon' => 'fa-exclamation-triangle',
+            'color' => 'red'
+        ]
+    ]);
+    ?>
 
     <!-- Action Buttons -->
     <div class="row">

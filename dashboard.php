@@ -7,6 +7,7 @@
 
 require_once 'config/config.php';
 require_once 'includes/auth.php';
+require_once 'includes/stats_card.php';
 require_login();
 
 // Check if password reset is required
@@ -322,6 +323,63 @@ if ($table_exists) {
                 </div>
                 <hr />
 
+                <!-- Statistics Cards -->
+                <?php
+                render_stats_row([
+                    [
+                        'value' => $stats['ropa']['total'],
+                        'label' => 'ROPA',
+                        'icon' => 'fa-list-alt',
+                        'color' => 'blue'
+                    ],
+                    [
+                        'value' => $stats['dpia']['total'],
+                        'label' => 'DPIAs',
+                        'icon' => 'fa-shield',
+                        'color' => 'green'
+                    ],
+                    [
+                        'value' => $stats['risks']['open'],
+                        'label' => 'Open Risks',
+                        'icon' => 'fa-exclamation-triangle',
+                        'color' => 'brown'
+                    ],
+                    [
+                        'value' => $stats['incidents']['active'],
+                        'label' => 'Incidents',
+                        'icon' => 'fa-exclamation-circle',
+                        'color' => 'red'
+                    ]
+                ]);
+
+                render_stats_row([
+                    [
+                        'value' => $stats['dsr']['pending'],
+                        'label' => 'Pending DSR',
+                        'icon' => 'fa-user-circle',
+                        'color' => 'purple'
+                    ],
+                    [
+                        'value' => $stats['consents']['active'],
+                        'label' => 'Consents',
+                        'icon' => 'fa-check-square',
+                        'color' => 'green'
+                    ],
+                    [
+                        'value' => $stats['crossborder']['total'],
+                        'label' => 'Cross-Border',
+                        'icon' => 'fa-globe',
+                        'color' => 'blue'
+                    ],
+                    [
+                        'value' => count($notifications),
+                        'label' => 'Notifications',
+                        'icon' => 'fa-bell',
+                        'color' => 'red'
+                    ]
+                ]);
+                ?>
+
                 <!-- Compliance Score -->
                 <div class="row">
                     <div class="col-md-12">
@@ -390,141 +448,6 @@ if ($table_exists) {
                             </div>
                             <div class="panel-body">
                                 <div id="riskDistributionChart" style="width: 100%; height: 400px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Statistics Cards -->
-                <div class="row">
-                    <!-- ROPA -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box bg-color-blue set-icon">
-                                <i class="fa fa-list-alt"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo $stats['ropa']['total']; ?></p>
-                                <p class="text-muted">Processing Activities</p>
-                                <p class="text-muted stat-details">
-                                    <?php echo $stats['ropa']['validated']; ?> Validated |
-                                    <?php echo $stats['ropa']['draft']; ?> Draft
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- DPIA -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box bg-color-green set-icon">
-                                <i class="fa fa-shield"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo $stats['dpia']['total']; ?></p>
-                                <p class="text-muted">DPIAs</p>
-                                <p class="text-muted stat-details">
-                                    <?php echo $stats['dpia']['pending_approval']; ?> Pending Approval
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Risks -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box bg-color-brown set-icon">
-                                <i class="fa fa-exclamation-triangle"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo $stats['risks']['open']; ?></p>
-                                <p class="text-muted">Open Risks</p>
-                                <p class="text-muted stat-details">
-                                    <?php echo $stats['risks']['high_risk']; ?> High Risk |
-                                    <?php echo $stats['risks']['overdue']; ?> Overdue
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Incidents -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box bg-color-red set-icon">
-                                <i class="fa fa-warning"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo $stats['incidents']['active']; ?></p>
-                                <p class="text-muted">Active Incidents</p>
-                                <p class="text-muted stat-details">
-                                    <?php echo $stats['incidents']['pending_notification']; ?> Pending Notification
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <!-- DSR Requests -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box set-icon icon-box-purple">
-                                <i class="fa fa-user-circle"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo $stats['dsr']['pending']; ?></p>
-                                <p class="text-muted">Pending DSR</p>
-                                <p class="text-muted stat-details">
-                                    <?php echo $stats['dsr']['overdue']; ?> Overdue
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Consents -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box set-icon icon-box-green">
-                                <i class="fa fa-check-square-o"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo $stats['consents']['active']; ?></p>
-                                <p class="text-muted">Active Consents</p>
-                                <p class="text-muted stat-details">
-                                    <?php echo $stats['consents']['expiring_soon']; ?> Expiring Soon
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cross-Border -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box set-icon icon-box-blue">
-                                <i class="fa fa-globe"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo $stats['crossborder']['total']; ?></p>
-                                <p class="text-muted">Cross-Border Transfers</p>
-                                <p class="text-muted stat-details">
-                                    <?php echo $stats['crossborder']['pending']; ?> Pending
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Notifications -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box set-icon icon-box-red">
-                                <i class="fa fa-bell"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo count($notifications); ?></p>
-                                <p class="text-muted">Unread Notifications</p>
-                                <p class="text-muted stat-details">
-                                    <a href="#notificationsPanel" class="link-primary">View All</a>
-                                </p>
                             </div>
                         </div>
                     </div>

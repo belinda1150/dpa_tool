@@ -7,6 +7,7 @@
 require_once 'config/database.php';
 require_once 'config/config.php';
 require_once 'includes/auth.php';
+require_once 'includes/stats_card.php';
 
 require_login();
 
@@ -133,71 +134,34 @@ function formatBytes($bytes, $precision = 2) {
     <?php endif; ?>
 
     <!-- Statistics Cards -->
-    <div class="row">
-        <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-file fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $total_docs; ?></div>
-                            <div>Total Documents</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-database fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo formatBytes($total_size); ?></div>
-                            <div>Total Storage</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-warning">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-clock-o fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $expiring_soon; ?></div>
-                            <div>Expiring Soon</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-calendar-times-o fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $expired; ?></div>
-                            <div>Expired</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php
+    render_stats_row([
+        [
+            'value' => $total_docs,
+            'label' => 'Documents',
+            'icon' => 'fa-file',
+            'color' => 'blue'
+        ],
+        [
+            'value' => formatBytes($total_size),
+            'label' => 'Storage',
+            'icon' => 'fa-database',
+            'color' => 'purple'
+        ],
+        [
+            'value' => $expiring_soon,
+            'label' => 'Expiring Soon',
+            'icon' => 'fa-clock',
+            'color' => 'brown'
+        ],
+        [
+            'value' => $expired,
+            'label' => 'Expired',
+            'icon' => 'fa-calendar-times',
+            'color' => 'red'
+        ]
+    ]);
+    ?>
 
     <!-- Action Buttons & Filters -->
     <div class="row">

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DPA Tool - ROPA List
  * Version: 1.0
@@ -30,6 +31,7 @@ $flash = get_flash_message();
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -38,7 +40,10 @@ $flash = get_flash_message();
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/js/dataTables/dataTables.bootstrap.css?v=2" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
 </head>
+
 <body>
     <div id="wrapper">
         <?php include 'includes/header.php'; ?>
@@ -55,10 +60,10 @@ $flash = get_flash_message();
                 <hr />
 
                 <?php if ($flash): ?>
-                <div class="alert alert-<?php echo $flash['type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    <?php echo htmlspecialchars($flash['message']); ?>
-                </div>
+                    <div class="alert alert-<?php echo $flash['type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <?php echo htmlspecialchars($flash['message']); ?>
+                    </div>
                 <?php endif; ?>
 
                 <div class="row">
@@ -96,69 +101,69 @@ $flash = get_flash_message();
                                         </thead>
                                         <tbody>
                                             <?php foreach ($ropa_entries as $entry): ?>
-                                            <tr>
-                                                <td><?php echo htmlspecialchars($entry['activity_name']); ?></td>
-                                                <td><?php echo htmlspecialchars($entry['dept_name'] ?? 'N/A'); ?></td>
-                                                <td><?php echo htmlspecialchars($entry['purpose_name'] ?? 'N/A'); ?></td>
-                                                <td>
-                                                    <?php if ($entry['basis_name']): ?>
-                                                        <span class="label label-info"><?php echo htmlspecialchars($entry['basis_name']); ?></span>
-                                                    <?php else: ?>
-                                                        <span class="label label-danger">Missing</span>
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td>
-                                                    <?php
-                                                    $status_class = '';
-                                                    switch ($entry['status']) {
-                                                        case 'validated':
-                                                            $status_class = 'success';
-                                                            break;
-                                                        case 'draft':
-                                                            $status_class = 'warning';
-                                                            break;
-                                                        case 'archived':
-                                                            $status_class = 'default';
-                                                            break;
-                                                    }
-                                                    ?>
-                                                    <span class="label label-<?php echo $status_class; ?>">
-                                                        <?php echo ucfirst($entry['status']); ?>
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <?php if ($entry['has_special_categories']): ?>
-                                                        <span class="label label-danger" title="Contains Special Categories">
-                                                            <i class="fa fa-exclamation-circle"></i> Special
+                                                <tr>
+                                                    <td><?php echo htmlspecialchars($entry['activity_name']); ?></td>
+                                                    <td><?php echo htmlspecialchars($entry['dept_name'] ?? 'N/A'); ?></td>
+                                                    <td><?php echo htmlspecialchars($entry['purpose_name'] ?? 'N/A'); ?></td>
+                                                    <td>
+                                                        <?php if ($entry['basis_name']): ?>
+                                                            <span class="label label-info"><?php echo htmlspecialchars($entry['basis_name']); ?></span>
+                                                        <?php else: ?>
+                                                            <span class="label label-danger">Missing</span>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                        $status_class = '';
+                                                        switch ($entry['status']) {
+                                                            case 'validated':
+                                                                $status_class = 'success';
+                                                                break;
+                                                            case 'draft':
+                                                                $status_class = 'warning';
+                                                                break;
+                                                            case 'archived':
+                                                                $status_class = 'default';
+                                                                break;
+                                                        }
+                                                        ?>
+                                                        <span class="label label-<?php echo $status_class; ?>">
+                                                            <?php echo ucfirst($entry['status']); ?>
                                                         </span>
-                                                    <?php endif; ?>
-                                                    <?php if ($entry['has_minors']): ?>
-                                                        <span class="label label-warning" title="Involves Minors">
-                                                            <i class="fa fa-child"></i> Minors
-                                                        </span>
-                                                    <?php endif; ?>
-                                                    <?php if ($entry['has_cross_border']): ?>
-                                                        <span class="label label-info" title="Cross-Border Transfer">
-                                                            <i class="fa fa-globe"></i> X-Border
-                                                        </span>
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td><?php echo htmlspecialchars($entry['first_name'] . ' ' . $entry['last_name']); ?></td>
-                                                <td>
-                                                    <a href="ropa_view.php?id=<?php echo $entry['ropa_id']; ?>" class="btn btn-info btn-xs" title="View">
-                                                        <i class="fa fa-eye"></i>
-                                                    </a>
-                                                    <a href="ropa_edit.php?id=<?php echo $entry['ropa_id']; ?>" class="btn btn-warning btn-xs" title="Edit">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
-                                                    <?php if (is_dpo()): ?>
-                                                    <a href="ropa_delete.php?id=<?php echo $entry['ropa_id']; ?>" class="btn btn-danger btn-xs" title="Archive"
-                                                       onclick="return confirm('Are you sure you want to archive this entry?');">
-                                                        <i class="fa fa-archive"></i>
-                                                    </a>
-                                                    <?php endif; ?>
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                    <td>
+                                                        <?php if ($entry['has_special_categories']): ?>
+                                                            <span class="label label-danger" title="Contains Special Categories">
+                                                                <i class="fa fa-exclamation-circle"></i> Special
+                                                            </span>
+                                                        <?php endif; ?>
+                                                        <?php if ($entry['has_minors']): ?>
+                                                            <span class="label label-warning" title="Involves Minors">
+                                                                <i class="fa fa-child"></i> Minors
+                                                            </span>
+                                                        <?php endif; ?>
+                                                        <?php if ($entry['has_cross_border']): ?>
+                                                            <span class="label label-info" title="Cross-Border Transfer">
+                                                                <i class="fa fa-globe"></i> X-Border
+                                                            </span>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <td><?php echo htmlspecialchars($entry['first_name'] . ' ' . $entry['last_name']); ?></td>
+                                                    <td>
+                                                        <a href="ropa_view.php?id=<?php echo $entry['ropa_id']; ?>" class="btn btn-info btn-xs" title="View">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                        <a href="ropa_edit.php?id=<?php echo $entry['ropa_id']; ?>" class="btn btn-warning btn-xs" title="Edit">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <?php if (is_dpo()): ?>
+                                                            <a href="ropa_delete.php?id=<?php echo $entry['ropa_id']; ?>" class="btn btn-danger btn-xs" title="Archive"
+                                                                onclick="return confirm('Are you sure you want to archive this entry?');">
+                                                                <i class="fa fa-archive"></i>
+                                                            </a>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                </tr>
                                             <?php endforeach; ?>
                                         </tbody>
                                     </table>
@@ -181,10 +186,13 @@ $flash = get_flash_message();
     <script>
         $(document).ready(function() {
             $('#ropaTable').dataTable({
-                "order": [[0, "asc"]],
+                "order": [
+                    [0, "asc"]
+                ],
                 "pageLength": 25
             });
         });
     </script>
 </body>
+
 </html>

@@ -17,6 +17,10 @@ $notif_query = "SELECT COUNT(*) as count FROM notifications WHERE org_id = ? AND
 $notif_stmt = db_query($notif_query, [$_org_id, $_user_id]);
 $unread_notifications = db_fetch_one($notif_stmt)['count'] ?? 0;
 ?>
+
+<!-- FontAwesome 6.5.1 CDN (Free) - Modern Icons Support -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <nav class="navbar navbar-default navbar-cls-top" role="navigation">
      <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">

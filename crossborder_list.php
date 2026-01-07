@@ -7,6 +7,7 @@
 require_once 'config/database.php';
 require_once 'config/config.php';
 require_once 'includes/auth.php';
+require_once 'includes/stats_card.php';
 
 require_login();
 
@@ -105,71 +106,34 @@ foreach ($transfers as $transfer) {
     <?php endif; ?>
 
     <!-- Statistics Cards -->
-    <div class="row">
-        <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-globe fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $total_transfers; ?></div>
-                            <div>Total Transfers</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-warning">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-clock-o fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $pending_count; ?></div>
-                            <div>Pending Notification</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-check fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $approved_count; ?></div>
-                            <div>Approved</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-exclamation-triangle fa-3x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div style="font-size: 36px; font-weight: bold;"><?php echo $high_risk_count; ?></div>
-                            <div>High-Risk Countries</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php
+    render_stats_row([
+        [
+            'value' => $total_transfers,
+            'label' => 'Transfers',
+            'icon' => 'fa-globe',
+            'color' => 'blue'
+        ],
+        [
+            'value' => $pending_count,
+            'label' => 'Pending',
+            'icon' => 'fa-clock',
+            'color' => 'brown'
+        ],
+        [
+            'value' => $approved_count,
+            'label' => 'Approved',
+            'icon' => 'fa-check-circle',
+            'color' => 'green'
+        ],
+        [
+            'value' => $high_risk_count,
+            'label' => 'High-Risk',
+            'icon' => 'fa-exclamation-triangle',
+            'color' => 'red'
+        ]
+    ]);
+    ?>
 
     <!-- Action Buttons -->
     <div class="row">
