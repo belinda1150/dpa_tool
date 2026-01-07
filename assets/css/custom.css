@@ -199,8 +199,9 @@ max-width:170px;
 }
 
 .navbar-cls-top .navbar-brand {
-	color: #fff;
-background: #00a950;
+	color: #004889;
+background: #FFFFFF;
+border: none;
 width: 260px;
 text-align: center;
 height: 60px;
@@ -208,7 +209,8 @@ font-size: 30px;
 font-weight: 700;
 }
 .active-menu {
-    background-color:#428bca!important;
+    background-color:#004889!important;
+    color:#FFFFFF!important;
 }
 
 .arrow {
@@ -231,10 +233,24 @@ font-weight: 700;
 
 .nav-second-level li a {
     padding-left: 37px;
+    color: #FFFFFF;
+    background: #004889;
+}
+
+.nav-second-level li a:hover {
+    color: #FFFFFF;
+    background: #003366;
 }
 
 .nav-third-level li a {
     padding-left: 55px;
+    color: #FFFFFF;
+    background: #004889;
+}
+
+.nav-third-level li a:hover {
+    color: #FFFFFF;
+    background: #003366;
 }
 .sidebar-collapse , .sidebar-collapse .nav{
 	background:none;
@@ -243,21 +259,22 @@ font-weight: 700;
 	padding:0;
 }
 .sidebar-collapse .nav > li > a {
-	color:#fff;
-	background:#00a950;
+	color:#FFFFFF;
+	background:#004889;
 	text-shadow:none;
-	
+
 }
 .sidebar-collapse > .nav > li > a {
 	padding:15px 10px;
 }
 .sidebar-collapse > .nav > li {
-	border-bottom: 1px solid rgba(107, 108, 109, 0.19);
+	border-bottom: 1px solid #FFFFFF;
 }
 .sidebar-collapse .nav > li > a:hover,
 .sidebar-collapse .nav > li > a:focus {
-	
-	background:#0A0A0A;
+
+	background:#003366;
+	color:#FFFFFF;
 	outline:0;
 }
 
@@ -269,7 +286,7 @@ font-weight: 700;
 	left:20px;
 	width:15px;
 	height:1px;
-	background:#ff0000;
+	background:#FFFFFF;
 	top:20px;
 }
 .nav-second-level > li > a:after,
@@ -280,7 +297,7 @@ font-weight: 700;
 	left:20px;
 	width:1px;
 	height:100%;
-	background:#ff0000;
+	background:#FFFFFF;
 	top:0px;
 	z-index:10;
 }
@@ -294,25 +311,37 @@ font-weight: 700;
 }
 .navbar-side {
 	border:none;
-	background-color: #ffffff;
-	
+	background-color: #004889;
+
+}
+
+.sidebar-logo {
+	text-align: center;
+	padding: 20px;
+	background: #FFFFFF;
+	border-bottom: none;
+}
+
+.sidebar-logo img {
+	max-width: 150px;
+	height: auto;
 }
 .navbar-cls-top {
-	background:#4D4D4D;
-	border-bottom:none;
-	
+	background:#004889;
+	border-bottom: 2px solid #FFFFFF;
+
 }
 .navbar-cls-top .navbar-brand:hover {
 
-background: #00a950;
-color:#fff;
+background: #F0F0F0;
+color:#004889;
 
 }
 
 .navbar-user-info {
     float: right;
     padding: 15px;
-    color: #fff;
+    color: #FFFFFF;
     font-size: 14px;
     line-height: 30px;
 }

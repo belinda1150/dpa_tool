@@ -62,6 +62,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Role is required';
     }
 
+    // Handle profile picture upload
+    $profile_picture_path = $user['profile_picture'];
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+        $file = $_FILES['profile_picture'];
+        $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $allowed_image_types = ['jpg', 'jpeg', 'png', 'gif'];
+
+        if (!in_array($file_ext, $allowed_image_types)) {
+            $errors[] = 'Profile picture must be JPG, PNG, or GIF';
+        } elseif ($file['size'] > 2097152) { // 2MB
+            $errors[] = 'Profile picture must be less than 2MB';
+        } else {
+            $upload_dir = UPLOAD_PATH . 'profiles/';
+            if (!file_exists($upload_dir)) {
+                mkdir($upload_dir, 0755, true);
+            }
+
+            $new_filename = 'profile_' . $user_id . '_' . time() . '.' . $file_ext;
+            $upload_path = $upload_dir . $new_filename;
+
+            if (move_uploaded_file($file['tmp_name'], $upload_path)) {
+                // Delete old profile picture if exists
+                if (!empty($user['profile_picture']) && file_exists($user['profile_picture'])) {
+                    unlink($user['profile_picture']);
+                }
+                $profile_picture_path = 'uploads/profiles/' . $new_filename;
+            } else {
+                $errors[] = 'Failed to upload profile picture';
+            }
+        }
+    }
+
     // Password change (optional)
     $new_password = $_POST['new_password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
@@ -81,7 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'first_name' => $first_name,
             'last_name' => $last_name,
             'phone' => $phone,
-            'status' => $status
+            'status' => $status,
+            'profile_picture' => $profile_picture_path
         ];
 
         $success = update_user($user_id, $data);
@@ -151,7 +184,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <i class="fa fa-edit"></i> User Information
                             </div>
                             <div class="panel-body">
-                                <form method="post" action="users_edit.php?id=<?php echo $user_id; ?>">
+                                <form method="post" action="users_edit.php?id=<?php echo $user_id; ?>" enctype="multipart/form-data">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Profile Picture</label>
+                                                <div style="margin-bottom: 10px;">
+                                                    <?php if (!empty($user['profile_picture']) && file_exists($user['profile_picture'])): ?>
+                                                        <img src="<?php echo htmlspecialchars($user['profile_picture']); ?>"
+                                                             alt="Current Profile Picture"
+                                                             style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #ddd;">
+                                                    <?php else: ?>
+                                                        <div style="width: 100px; height: 100px; border-radius: 50%; background-color: #ddd; display: flex; align-items: center; justify-content: center; border: 2px solid #ccc;">
+                                                            <i class="fa fa-user" style="font-size: 50px; color: #999;"></i>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </div>
+                                                <input type="file" name="profile_picture" class="form-control" accept="image/jpeg,image/png,image/gif">
+                                                <small class="help-block">Upload JPG, PNG, or GIF (Max 2MB)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">

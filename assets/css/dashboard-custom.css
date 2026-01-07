@@ -26,7 +26,7 @@
 }
 
 .compliance-score {
-  font-size: 72px;
+  font-size: 20px;
 }
 
 .compliance-score-excellent {
@@ -42,12 +42,13 @@
 }
 
 .compliance-progress {
-  height: 30px;
+  height: 10px;
 }
 
 .compliance-status {
-  margin-top: 20px;
-  font-size: 16px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 11px;
 }
 
 .status-icon-excellent {
@@ -85,4 +86,177 @@
 
 .link-primary {
   color: #337ab7;
+}
+
+/* Make dashboard content more compact */
+.panel {
+  margin-bottom: 5px;
+}
+
+.panel-heading {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.panel-body {
+  padding: 8px;
+}
+
+.panel h4 {
+  font-size: 13px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.panel h3 {
+  font-size: 14px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.noti-box {
+  margin-bottom: 5px;
+}
+
+.noti-box .div-square {
+  padding: 8px 6px;
+}
+
+.noti-box h3 {
+  font-size: 18px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.noti-box .progress {
+  height: 10px;
+  margin-bottom: 3px;
+}
+
+/* Additional size reductions */
+body {
+  font-size: 12px;
+}
+
+.panel p {
+  margin-bottom: 4px;
+}
+
+.text-center {
+  padding: 4px 0;
+}
+
+table {
+  font-size: 11px;
+}
+
+table td,
+table th {
+  padding: 4px 6px;
+}
+
+.btn {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+/* Chart sizing - allow charts to fill their containers */
+#complianceTrendChart,
+#deptComplianceChart,
+#riskDistributionChart,
+#breachComplianceGauge,
+#dsrSlaChart,
+#trainingCompletionChart {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 280px !important;
+}
+
+/* Further reduce all spacing */
+.row {
+  margin-bottom: 3px;
+  margin-left: -5px;
+  margin-right: -5px;
+}
+
+.col-md-3,
+.col-md-4,
+.col-md-6,
+.col-md-7,
+.col-md-5,
+.col-md-12 {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.progress {
+  height: 10px;
+  margin-bottom: 3px;
+}
+
+.alert {
+  padding: 6px 10px;
+  margin-bottom: 5px;
+  font-size: 11px;
+}
+
+.list-group-item {
+  padding: 6px 10px;
+  font-size: 11px;
+}
+
+ul {
+  margin-bottom: 5px;
+}
+
+li {
+  margin-bottom: 2px;
+}
+
+/* Reduce header/navbar */
+.navbar-user-info {
+  padding: 8px 30px 3px 30px;
+  font-size: 13px;
+}
+
+/* Additional compacting */
+h1 {
+  font-size: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+h2 {
+  font-size: 18px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.page-header {
+  margin: 10px 0;
+  padding-bottom: 5px;
+}
+
+#page-wrapper {
+  padding: 5px 10px;
+  min-height: 100vh;
+}
+
+/* Date Filter Styles */
+#dateFilterForm .form-control {
+  height: 28px;
+  font-size: 11px;
+  padding: 4px 8px;
+}
+
+#dateFilterForm label {
+  font-weight: 600;
+  color: #555;
+}
+
+#dateFilterForm .btn-sm {
+  height: 28px;
+  padding: 4px 10px;
+  font-size: 11px;
+  line-height: 1.5;
 }

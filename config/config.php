@@ -11,7 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Application settings
-define('APP_NAME', 'Zimbabwe DPA Tool');
+define('APP_NAME', 'Bantu DPO');
 define('APP_VERSION', '1.0');
 define('APP_URL', 'http://localhost/data_protection/');
 define('APP_TIMEZONE', 'Africa/Harare');

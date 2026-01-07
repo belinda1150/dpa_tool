@@ -39,7 +39,7 @@ if (isset($_GET['status'])) {
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-  <link rel="stylesheet" href="assets/css/login.css">
+  <link rel="stylesheet" href="assets/css/login.css?v=<?php echo time(); ?>">
 </head>
 
 <body>

@@ -241,7 +241,8 @@ function update_user($user_id, $data) {
               first_name = ?,
               last_name = ?,
               phone = ?,
-              status = ?
+              status = ?,
+              profile_picture = ?
               WHERE user_id = ?";
 
     $stmt = db_query($query, [
@@ -251,6 +252,7 @@ function update_user($user_id, $data) {
         $data['last_name'],
         $data['phone'] ?? null,
         $data['status'] ?? 'active',
+        $data['profile_picture'] ?? null,
         $user_id
     ]);
 

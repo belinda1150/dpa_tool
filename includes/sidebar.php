@@ -9,6 +9,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <nav class="navbar-default navbar-side" role="navigation">
   <div class="sidebar-collapse">
+    <div class="sidebar-logo">
+      <img src="assets/img/zim.png" alt="Logo">
+    </div>
     <ul class="nav" id="main-menu">
 
       <!-- Dashboard -->

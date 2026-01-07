@@ -28,18 +28,42 @@ $unread_notifications = db_fetch_one($notif_stmt)['count'] ?? 0;
           <a class="navbar-brand" href="dashboard.php"><?php echo APP_NAME; ?></a>
      </div>
      <div class="navbar-user-info">
-          Welcome <?php echo htmlspecialchars($current_user['first_name'] . ' ' . $current_user['last_name']); ?>
-          <span class="badge role-badge"><?php echo htmlspecialchars($current_user['role_name']); ?></span>
-          &nbsp;
-          <a href="notifications.php" class="btn btn-info square-btn-adjust" style="position: relative;" title="Notifications">
-               <i class="fa fa-bell"></i>
-               <?php if ($unread_notifications > 0): ?>
-               <span class="badge" style="position: absolute; top: -5px; right: -5px; background-color: #d9534f; color: white; font-size: 10px; padding: 2px 5px; border-radius: 10px;">
-                    <?php echo $unread_notifications > 99 ? '99+' : $unread_notifications; ?>
-               </span>
-               <?php endif; ?>
-          </a>
-          &nbsp;
-          <a href="logout.php" class="btn btn-danger square-btn-adjust">Logout</a>
+          <div class="dropdown" style="display: inline-block;">
+               <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white; text-decoration: none; position: relative;">
+                    <?php if (!empty($current_user['profile_picture']) && file_exists($current_user['profile_picture'])): ?>
+                         <img src="<?php echo htmlspecialchars($current_user['profile_picture']); ?>"
+                              alt="Profile"
+                              style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; vertical-align: middle; margin-right: 8px;">
+                    <?php else: ?>
+                         <i class="fa fa-user-circle" style="font-size: 30px; vertical-align: middle; margin-right: 8px;"></i>
+                    <?php endif; ?>
+                    <?php echo htmlspecialchars($current_user['first_name'] . ' ' . $current_user['last_name']); ?>
+                    <?php if ($unread_notifications > 0): ?>
+                    <span class="badge" style="position: absolute; top: -5px; right: -10px; background-color: #d9534f; color: white; font-size: 10px; padding: 3px 6px; border-radius: 10px;">
+                         <?php echo $unread_notifications > 99 ? '99+' : $unread_notifications; ?>
+                    </span>
+                    <?php endif; ?>
+                    <i class="fa fa-caret-down" style="margin-left: 5px;"></i>
+               </a>
+               <ul class="dropdown-menu dropdown-menu-right" style="min-width: 250px;">
+                    <li class="dropdown-header" style="padding: 10px 20px; border-bottom: 1px solid #e5e5e5;">
+                         <strong><?php echo htmlspecialchars($current_user['first_name'] . ' ' . $current_user['last_name']); ?></strong><br>
+                         <small class="text-muted">
+                              <i class="fa fa-shield"></i> <?php echo htmlspecialchars($current_user['role_name']); ?>
+                         </small>
+                    </li>
+                    <li><a href="users_edit.php?id=<?php echo get_current_user_id(); ?>"><i class="fa fa-camera"></i> Change Profile Photo</a></li>
+                    <li><a href="notifications.php">
+                         <i class="fa fa-bell"></i> Notifications
+                         <?php if ($unread_notifications > 0): ?>
+                              <span class="badge" style="background-color: #d9534f; margin-left: 5px;">
+                                   <?php echo $unread_notifications > 99 ? '99+' : $unread_notifications; ?>
+                              </span>
+                         <?php endif; ?>
+                    </a></li>
+                    <li class="divider"></li>
+                    <li><a href="logout.php"><i class="fa fa-sign-out"></i> Logout</a></li>
+               </ul>
+          </div>
      </div>
 </nav>
