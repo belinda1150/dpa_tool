@@ -12,7 +12,7 @@
   color: white;
   padding: 15px 50px 5px 50px;
   float: right;
-  font-size: 16px;
+  /* font-size removed to match other pages (14px in custom.css) */
 }
 
 .role-badge {
@@ -95,7 +95,7 @@
 
 .panel-heading {
   padding: 4px 10px;
-  font-size: 12px;
+  /* font-size removed to match other pages */
 }
 
 .panel-body {
@@ -103,13 +103,13 @@
 }
 
 .panel h4 {
-  font-size: 13px;
+  /* font-size removed to match other pages */
   margin-top: 2px;
   margin-bottom: 2px;
 }
 
 .panel h3 {
-  font-size: 14px;
+  /* font-size removed to match other pages */
   margin-top: 2px;
   margin-bottom: 2px;
 }
@@ -123,7 +123,7 @@
 }
 
 .noti-box h3 {
-  font-size: 18px;
+  /* font-size removed to match other pages */
   margin-top: 2px;
   margin-bottom: 2px;
 }
@@ -134,9 +134,7 @@
 }
 
 /* Additional size reductions */
-body {
-  font-size: 12px;
-}
+/* body font-size removed to match other pages */
 
 .panel p {
   margin-bottom: 4px;
@@ -146,9 +144,7 @@ body {
   padding: 4px 0;
 }
 
-table {
-  font-size: 11px;
-}
+/* table font-size removed to match other pages */
 
 table td,
 table th {
@@ -157,7 +153,7 @@ table th {
 
 .btn {
   padding: 4px 8px;
-  font-size: 11px;
+  /* font-size removed to match other pages */
 }
 
 /* Chart sizing - allow charts to fill their containers */
@@ -197,12 +193,12 @@ table th {
 .alert {
   padding: 6px 10px;
   margin-bottom: 5px;
-  font-size: 11px;
+  /* font-size removed to match other pages */
 }
 
 .list-group-item {
   padding: 6px 10px;
-  font-size: 11px;
+  /* font-size removed to match other pages */
 }
 
 ul {
@@ -216,18 +212,18 @@ li {
 /* Reduce header/navbar */
 .navbar-user-info {
   padding: 8px 30px 3px 30px;
-  font-size: 13px;
+  /* font-size removed to match other pages (14px in custom.css) */
 }
 
 /* Additional compacting */
 h1 {
-  font-size: 20px;
+  /* font-size removed to match other pages */
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
 h2 {
-  font-size: 18px;
+  /* font-size removed to match other pages */
   margin-top: 5px;
   margin-bottom: 5px;
 }
@@ -245,7 +241,7 @@ h2 {
 /* Date Filter Styles */
 #dateFilterForm .form-control {
   height: 28px;
-  font-size: 11px;
+  /* font-size removed to match other pages */
   padding: 4px 8px;
 }
 
@@ -257,6 +253,6 @@ h2 {
 #dateFilterForm .btn-sm {
   height: 28px;
   padding: 4px 10px;
-  font-size: 11px;
+  /* font-size removed to match other pages */
   line-height: 1.5;
 }

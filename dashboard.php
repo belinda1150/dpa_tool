@@ -500,7 +500,7 @@ if ($table_exists) {
                                 <form method="GET" action="dashboard.php" id="dateFilterForm" style="margin-bottom: 0;">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <label style="font-size: 11px; margin-bottom: 2px;">Quick Filter:</label>
+                                            <label style="margin-bottom: 2px;">Quick Filter:</label>
                                             <select name="date_filter" id="dateFilter" class="form-control input-sm" onchange="toggleCustomDates()">
                                                 <option value="all" <?php echo $date_filter == 'all' ? 'selected' : ''; ?>>All Time</option>
                                                 <option value="today" <?php echo $date_filter == 'today' ? 'selected' : ''; ?>>Today</option>
@@ -513,22 +513,22 @@ if ($table_exists) {
                                             </select>
                                         </div>
                                         <div class="col-md-3" id="customStartDate" style="display: <?php echo $date_filter == 'custom' ? 'block' : 'none'; ?>;">
-                                            <label style="font-size: 11px; margin-bottom: 2px;">Start Date:</label>
+                                            <label style="margin-bottom: 2px;">Start Date:</label>
                                             <input type="date" name="start_date" class="form-control input-sm" value="<?php echo htmlspecialchars($start_date); ?>">
                                         </div>
                                         <div class="col-md-3" id="customEndDate" style="display: <?php echo $date_filter == 'custom' ? 'block' : 'none'; ?>;">
-                                            <label style="font-size: 11px; margin-bottom: 2px;">End Date:</label>
+                                            <label style="margin-bottom: 2px;">End Date:</label>
                                             <input type="date" name="end_date" class="form-control input-sm" value="<?php echo htmlspecialchars($end_date); ?>">
                                         </div>
                                         <div class="col-md-2">
-                                            <label style="font-size: 11px; margin-bottom: 2px;">&nbsp;</label>
+                                            <label style="margin-bottom: 2px;">&nbsp;</label>
                                             <button type="submit" class="btn btn-primary btn-sm btn-block">Apply Filter</button>
                                         </div>
                                     </div>
                                     <?php if ($date_filter != 'all'): ?>
                                     <div class="row" style="margin-top: 5px;">
                                         <div class="col-md-12">
-                                            <small style="font-size: 10px;">
+                                            <small>
                                                 <i class="fa fa-filter"></i> Showing data from <strong><?php echo date('M j, Y', strtotime($start_date)); ?></strong> to <strong><?php echo date('M j, Y', strtotime($end_date)); ?></strong>
                                                 <a href="dashboard.php" style="margin-left: 10px;"><i class="fa fa-times"></i> Clear Filter</a>
                                             </small>
