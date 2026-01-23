@@ -202,11 +202,12 @@ max-width:170px;
 	color: #004889;
 background: #FFFFFF;
 border: none;
-width: 260px;
+width: 210px;
 text-align: center;
 height: 60px;
-font-size: 30px;
+font-size: 20px;
 font-weight: 700;
+padding: 20px 10px;
 }
 .active-menu {
     background-color:#004889!important;
@@ -317,19 +318,21 @@ font-weight: 700;
 
 .sidebar-logo {
 	text-align: center;
-	padding: 20px;
+	padding: 10px;
 	background: #FFFFFF;
 	border-bottom: none;
+	margin: 0;
 }
 
 .sidebar-logo img {
-	max-width: 150px;
+	max-width: 120px;
 	height: auto;
 }
 .navbar-cls-top {
 	background:#004889;
-	border-bottom: 2px solid #FFFFFF;
-
+	border-bottom: none;
+	min-height: 60px;
+	margin-bottom: 0;
 }
 .navbar-cls-top .navbar-brand:hover {
 
@@ -362,6 +365,15 @@ border:0px solid black;
 }
 .navbar-header {
     background: #A70303;
+    width: 260px;
+    float: left;
+}
+
+/* When sidebar is collapsed, shrink header left section */
+@media (min-width: 768px) {
+    body.sidebar-collapsed .navbar-header {
+        width: 70px;
+    }
 }
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
 background-color: #B40101;
@@ -397,13 +409,11 @@ line-height: 1.428571429;
  
  @media(min-width:768px) {
      #page-wrapper{
-               margin: 0 0 0 260px;
+        margin: 0 0 0 260px;
         padding: 15px 30px;
         min-height: 1200px;
-		
     }
-	
-	
+
     .navbar-side {
         z-index: 1;
         position: absolute;
@@ -411,9 +421,130 @@ line-height: 1.428571429;
     }
 
    .navbar {
- border-radius: 0px; 
-}
-   
+        border-radius: 0px;
+    }
 }
 
+/* ============================================
+   COLLAPSIBLE SIDEBAR - Outlook Style
+   ============================================ */
 
+/* Hamburger Toggle Button */
+.sidebar-toggle-btn {
+    display: none;
+    float: left;
+    padding: 18px 15px;
+    background: #FFFFFF;
+    border: none;
+    color: #004889;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 0;
+    height: 60px;
+    width: 50px;
+}
+
+.sidebar-toggle-btn:hover {
+    background: #F0F0F0;
+}
+
+.sidebar-toggle-btn:focus {
+    outline: none;
+}
+
+@media (min-width: 768px) {
+    .sidebar-toggle-btn {
+        display: block;
+    }
+}
+
+/* Sidebar Transitions */
+@media (min-width: 768px) {
+    .navbar-side {
+        transition: width 0.3s ease;
+        overflow: hidden;
+    }
+
+    #page-wrapper {
+        transition: margin-left 0.3s ease;
+    }
+
+    /* COLLAPSED STATE */
+    body.sidebar-collapsed .navbar-side {
+        width: 70px;
+    }
+
+    body.sidebar-collapsed #page-wrapper {
+        margin-left: 70px;
+    }
+
+    /* Hide text in collapsed state */
+    body.sidebar-collapsed .sidebar-collapse .nav > li > a {
+        text-align: center;
+        padding: 15px 10px;
+    }
+
+    body.sidebar-collapsed .sidebar-collapse .nav > li > a i {
+        margin-right: 0;
+        font-size: 20px;
+        display: block;
+        width: 100%;
+    }
+
+    body.sidebar-collapsed .sidebar-collapse .nav > li > a .menu-text {
+        display: none;
+    }
+
+    /* Hide arrows in collapsed state */
+    body.sidebar-collapsed .fa.arrow {
+        display: none;
+    }
+
+    /* Hide sub-menus in collapsed state */
+    body.sidebar-collapsed .nav-second-level,
+    body.sidebar-collapsed .nav-third-level {
+        display: none !important;
+    }
+
+    /* Smaller logo in collapsed state */
+    body.sidebar-collapsed .sidebar-logo {
+        padding: 15px 10px;
+    }
+
+    body.sidebar-collapsed .sidebar-logo img {
+        max-width: 50px;
+    }
+
+    /* Tooltip on hover when collapsed */
+    body.sidebar-collapsed .sidebar-collapse .nav > li {
+        position: relative;
+    }
+
+    body.sidebar-collapsed .sidebar-collapse .nav > li:hover > a::after {
+        content: attr(data-title);
+        position: absolute;
+        left: 70px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #333;
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 13px;
+        white-space: nowrap;
+        z-index: 9999;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* Collapsed state: hide brand text and shrink header left section */
+    body.sidebar-collapsed .navbar-cls-top .navbar-brand {
+        width: 0;
+        padding: 0;
+        overflow: hidden;
+        visibility: hidden;
+    }
+
+    body.sidebar-collapsed .sidebar-toggle-btn {
+        width: 70px;
+    }
+}

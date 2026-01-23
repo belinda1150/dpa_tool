@@ -58,6 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($role_id)) {
         $errors[] = 'Role is required';
     }
+    // Validate phone number
+    if (!empty($phone) && !preg_match('/^[\+]?[\d\s\-\(\)]{7,20}$/', $phone)) {
+        $errors[] = 'Invalid phone number format. Use digits, spaces, dashes, or parentheses (7-20 characters).';
+    }
+
     if (empty($password)) {
         $errors[] = 'Password is required';
     } elseif (strlen($password) < PASSWORD_MIN_LENGTH) {
@@ -268,5 +273,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery.metisMenu.js"></script>
     <script src="assets/js/custom.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Email validation function
+            function isValidEmail(email) {
+                var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            // Phone validation function
+            function isValidPhone(phone) {
+                var phoneRegex = /^[\+]?[\d\s\-\(\)]{7,20}$/;
+                return phoneRegex.test(phone);
+            }
+
+            // Real-time email validation
+            $('input[name="email"]').on('blur', function() {
+                var email = $(this).val().trim();
+                if (email && !isValidEmail(email)) {
+                    $(this).css('border-color', '#d9534f');
+                    if (!$(this).next('.validation-error').length) {
+                        $(this).after('<small class="validation-error text-danger">Please enter a valid email address</small>');
+                    }
+                } else {
+                    $(this).css('border-color', '');
+                    $(this).next('.validation-error').remove();
+                }
+            });
+
+            // Real-time phone validation
+            $('input[name="phone"]').on('blur', function() {
+                var phone = $(this).val().trim();
+                if (phone && !isValidPhone(phone)) {
+                    $(this).css('border-color', '#d9534f');
+                    if (!$(this).next('.validation-error').length) {
+                        $(this).after('<small class="validation-error text-danger">Please enter a valid phone number (7-20 digits)</small>');
+                    }
+                } else {
+                    $(this).css('border-color', '');
+                    $(this).next('.validation-error').remove();
+                }
+            });
+
+            // Form validation on submit
+            $('form').on('submit', function(e) {
+                var errors = [];
+                var email = $('input[name="email"]').val().trim();
+                var phone = $('input[name="phone"]').val().trim();
+
+                if (email && !isValidEmail(email)) {
+                    errors.push('Email address is invalid.');
+                }
+
+                if (phone && !isValidPhone(phone)) {
+                    errors.push('Phone number format is invalid.');
+                }
+
+                if (errors.length > 0) {
+                    e.preventDefault();
+                    alert('Please correct the following errors:\n\n' + errors.join('\n'));
+                    return false;
+                }
+            });
+        });
+    </script>
 </body>
 </html>

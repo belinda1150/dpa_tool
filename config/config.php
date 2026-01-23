@@ -38,6 +38,13 @@ define('CONSENT_EXPIRY_ALERT_DAYS', 30);
 define('DPIA_THRESHOLD_SUBJECTS', 10000);
 define('RISK_ACCEPTABLE_THRESHOLD', 6);
 
+// Vendor Risk Management settings
+define('VENDOR_REVIEW_ALERT_DAYS', 30);
+define('VENDOR_DPA_EXPIRY_ALERT_DAYS', 60);
+define('VENDOR_CONTRACT_EXPIRY_ALERT_DAYS', 60);
+define('VENDOR_HIGH_RISK_THRESHOLD', 15);
+define('VENDOR_CRITICAL_RISK_THRESHOLD', 20);
+
 // Email settings (comment out if not using external email config)
 // require_once dirname(dirname(__DIR__)) . '/config/email.php';
 

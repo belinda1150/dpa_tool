@@ -25,6 +25,9 @@ $unread_notifications = db_fetch_one($notif_stmt)['count'] ?? 0;
                <span class="icon-bar"></span>
                <span class="icon-bar"></span>
           </button>
+          <button type="button" class="sidebar-toggle-btn" id="sidebarToggleBtn" title="Toggle Sidebar">
+               <i class="fa fa-bars"></i>
+          </button>
           <a class="navbar-brand" href="dashboard.php"><?php echo APP_NAME; ?></a>
      </div>
      <div class="navbar-user-info">

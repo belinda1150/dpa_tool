@@ -139,6 +139,27 @@ $query = "SELECT
 $stmt = db_query($query, array_merge([$org_id], $date_params));
 $stats['crossborder'] = db_fetch_one($stmt);
 
+// Vendor Statistics
+$query = "SELECT
+    COUNT(*) as total,
+    SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) as active,
+    SUM(CASE WHEN status = 'pending_review' THEN 1 ELSE 0 END) as pending_review,
+    SUM(CASE WHEN next_review_date < CURDATE() AND status = 'active' THEN 1 ELSE 0 END) as overdue_review,
+    SUM(CASE WHEN dpa_expiry_date <= DATE_ADD(NOW(), INTERVAL 60 DAY) AND dpa_status = 'signed' THEN 1 ELSE 0 END) as expiring_dpa
+    FROM vendors WHERE org_id = ?" . $date_where_created;
+$stmt = db_query($query, array_merge([$org_id], $date_params));
+$stats['vendors'] = db_fetch_one($stmt);
+
+// High-risk vendors count (from assessments)
+$query = "SELECT COUNT(DISTINCT v.vendor_id) as high_risk
+          FROM vendors v
+          INNER JOIN vendor_risk_assessments vra ON v.vendor_id = vra.vendor_id
+          WHERE v.org_id = ? AND vra.inherent_risk_score >= " . VENDOR_HIGH_RISK_THRESHOLD . "
+          AND vra.status IN ('completed', 'approved') AND v.status = 'active'";
+$stmt = db_query($query, [$org_id]);
+$vendor_risk = db_fetch_one($stmt);
+$stats['vendors']['high_risk'] = $vendor_risk['high_risk'] ?? 0;
+
 // Calculate Compliance Score
 $compliance_score = 0;
 $max_score = 100;
@@ -485,403 +506,350 @@ if ($table_exists) {
 
         <div id="page-wrapper">
             <div id="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2>Dashboard</h2>
-                        <h5>Compliance Overview - <?php echo date('F Y'); ?></h5>
-                    </div>
+
+                <!-- Dashboard Header -->
+                <div class="dashboard-header">
+                    <h2>Data Protection Compliance Dashboard</h2>
+                    <p class="subtitle">Compliance Overview - <?php echo date('F Y'); ?></p>
                 </div>
 
-                <!-- Date Filter -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default" style="background-color: #f9f9f9;">
-                            <div class="panel-body">
-                                <form method="GET" action="dashboard.php" id="dateFilterForm" style="margin-bottom: 0;">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label style="margin-bottom: 2px;">Quick Filter:</label>
-                                            <select name="date_filter" id="dateFilter" class="form-control input-sm" onchange="toggleCustomDates()">
-                                                <option value="all" <?php echo $date_filter == 'all' ? 'selected' : ''; ?>>All Time</option>
-                                                <option value="today" <?php echo $date_filter == 'today' ? 'selected' : ''; ?>>Today</option>
-                                                <option value="last7days" <?php echo $date_filter == 'last7days' ? 'selected' : ''; ?>>Last 7 Days</option>
-                                                <option value="last30days" <?php echo $date_filter == 'last30days' ? 'selected' : ''; ?>>Last 30 Days</option>
-                                                <option value="this_month" <?php echo $date_filter == 'this_month' ? 'selected' : ''; ?>>This Month</option>
-                                                <option value="last_month" <?php echo $date_filter == 'last_month' ? 'selected' : ''; ?>>Last Month</option>
-                                                <option value="this_year" <?php echo $date_filter == 'this_year' ? 'selected' : ''; ?>>This Year</option>
-                                                <option value="custom" <?php echo $date_filter == 'custom' ? 'selected' : ''; ?>>Custom Range</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-3" id="customStartDate" style="display: <?php echo $date_filter == 'custom' ? 'block' : 'none'; ?>;">
-                                            <label style="margin-bottom: 2px;">Start Date:</label>
-                                            <input type="date" name="start_date" class="form-control input-sm" value="<?php echo htmlspecialchars($start_date); ?>">
-                                        </div>
-                                        <div class="col-md-3" id="customEndDate" style="display: <?php echo $date_filter == 'custom' ? 'block' : 'none'; ?>;">
-                                            <label style="margin-bottom: 2px;">End Date:</label>
-                                            <input type="date" name="end_date" class="form-control input-sm" value="<?php echo htmlspecialchars($end_date); ?>">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label style="margin-bottom: 2px;">&nbsp;</label>
-                                            <button type="submit" class="btn btn-primary btn-sm btn-block">Apply Filter</button>
-                                        </div>
-                                    </div>
-                                    <?php if ($date_filter != 'all'): ?>
-                                    <div class="row" style="margin-top: 5px;">
-                                        <div class="col-md-12">
-                                            <small>
-                                                <i class="fa fa-filter"></i> Showing data from <strong><?php echo date('M j, Y', strtotime($start_date)); ?></strong> to <strong><?php echo date('M j, Y', strtotime($end_date)); ?></strong>
-                                                <a href="dashboard.php" style="margin-left: 10px;"><i class="fa fa-times"></i> Clear Filter</a>
-                                            </small>
-                                        </div>
-                                    </div>
-                                    <?php endif; ?>
-                                </form>
-                            </div>
+                <!-- Date Filter Bar -->
+                <form method="GET" action="dashboard.php" id="dateFilterForm">
+                    <div class="date-filter-bar">
+                        <label>Filter:</label>
+                        <select name="date_filter" id="dateFilter" onchange="toggleCustomDates()">
+                            <option value="all" <?php echo $date_filter == 'all' ? 'selected' : ''; ?>>All Time</option>
+                            <option value="today" <?php echo $date_filter == 'today' ? 'selected' : ''; ?>>Today</option>
+                            <option value="last7days" <?php echo $date_filter == 'last7days' ? 'selected' : ''; ?>>Last 7 Days</option>
+                            <option value="last30days" <?php echo $date_filter == 'last30days' ? 'selected' : ''; ?>>Last 30 Days</option>
+                            <option value="this_month" <?php echo $date_filter == 'this_month' ? 'selected' : ''; ?>>This Month</option>
+                            <option value="last_month" <?php echo $date_filter == 'last_month' ? 'selected' : ''; ?>>Last Month</option>
+                            <option value="this_year" <?php echo $date_filter == 'this_year' ? 'selected' : ''; ?>>This Year</option>
+                            <option value="custom" <?php echo $date_filter == 'custom' ? 'selected' : ''; ?>>Custom Range</option>
+                        </select>
+                        <div id="customStartDate" style="display: <?php echo $date_filter == 'custom' ? 'flex' : 'none'; ?>; align-items: center; gap: 10px;">
+                            <label>From:</label>
+                            <input type="date" name="start_date" value="<?php echo htmlspecialchars($start_date); ?>">
+                        </div>
+                        <div id="customEndDate" style="display: <?php echo $date_filter == 'custom' ? 'flex' : 'none'; ?>; align-items: center; gap: 10px;">
+                            <label>To:</label>
+                            <input type="date" name="end_date" value="<?php echo htmlspecialchars($end_date); ?>">
+                        </div>
+                        <button type="submit" class="btn-filter">Apply</button>
+                        <?php if ($date_filter != 'all'): ?>
+                        <div class="filter-info">
+                            <i class="fa fa-filter"></i> <?php echo date('M j, Y', strtotime($start_date)); ?> - <?php echo date('M j, Y', strtotime($end_date)); ?>
+                            <a href="dashboard.php"><i class="fa fa-times"></i> Clear</a>
+                        </div>
+                        <?php endif; ?>
+
+                        <!-- Quick Actions (inline) -->
+                        <div class="quick-actions-inline">
+                            <a href="ropa_add.php" class="quick-action-btn-sm primary" title="Add ROPA Entry">
+                                <i class="fa fa-plus"></i> ROPA
+                            </a>
+                            <a href="dpia_wizard.php" class="quick-action-btn-sm success" title="Start DPIA">
+                                <i class="fa fa-shield"></i> DPIA
+                            </a>
+                            <a href="incident_add.php" class="quick-action-btn-sm danger" title="Report Incident">
+                                <i class="fa fa-warning"></i> Incident
+                            </a>
+                            <a href="reports.php" class="quick-action-btn-sm info" title="View Reports">
+                                <i class="fa fa-bar-chart"></i> Reports
+                            </a>
                         </div>
                     </div>
-                </div>
+                </form>
 
                 <script>
                 function toggleCustomDates() {
                     var filter = document.getElementById('dateFilter').value;
                     var startDateDiv = document.getElementById('customStartDate');
                     var endDateDiv = document.getElementById('customEndDate');
-
                     if (filter === 'custom') {
-                        startDateDiv.style.display = 'block';
-                        endDateDiv.style.display = 'block';
+                        startDateDiv.style.display = 'flex';
+                        endDateDiv.style.display = 'flex';
                     } else {
                         startDateDiv.style.display = 'none';
                         endDateDiv.style.display = 'none';
-                        // Auto-submit for predefined filters
                         document.getElementById('dateFilterForm').submit();
                     }
                 }
                 </script>
 
-                <!-- Compliance Score & Trend -->
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="panel panel-default" style="height: 100%;">
-                            <div class="panel-heading panel-compliance-header">
-                                <h4><i class="fa fa-check-circle"></i> Overall Compliance Score</h4>
-                            </div>
-                            <div class="panel-body text-center" style="display: flex; flex-direction: column; justify-content: center; height: 280px;">
-                                <h1 class="compliance-score <?php echo $compliance_score >= 80 ? 'compliance-score-excellent' : ($compliance_score >= 60 ? 'compliance-score-good' : 'compliance-score-poor'); ?>">
-                                    <?php echo $compliance_score; ?>%
-                                </h1>
-                                <div class="progress compliance-progress">
-                                    <div class="progress-bar <?php echo $compliance_score >= 80 ? 'progress-bar-success' : ($compliance_score >= 60 ? 'progress-bar-warning' : 'progress-bar-danger'); ?>"
-                                         role="progressbar"
-                                         style="width: <?php echo $compliance_score; ?>%;">
-                                        <?php echo $compliance_score; ?>%
-                                    </div>
-                                </div>
-                                <p class="compliance-status">
+                <!-- Main Dashboard Layout -->
+                <div class="dashboard-container">
+                    <!-- Left Summary Column -->
+                    <div class="summary-column">
+                        <div class="summary-card">
+                            <span class="label">ROPA</span>
+                            <span class="value"><?php echo $stats['ropa']['total']; ?></span>
+                            <span class="unit">Processing Activities</span>
+                        </div>
+                        <div class="summary-card">
+                            <span class="label">DPIA</span>
+                            <span class="value"><?php echo $stats['dpia']['total']; ?></span>
+                            <span class="unit">Assessments</span>
+                        </div>
+                        <div class="summary-card">
+                            <span class="label">Open Risks</span>
+                            <span class="value"><?php echo $stats['risks']['open']; ?></span>
+                            <span class="unit"><?php echo $stats['risks']['high_risk']; ?> High Risk</span>
+                        </div>
+                        <div class="summary-card">
+                            <span class="label">Incidents</span>
+                            <span class="value"><?php echo $stats['incidents']['active']; ?></span>
+                            <span class="unit">Active Cases</span>
+                        </div>
+                        <div class="summary-card">
+                            <span class="label">Vendors</span>
+                            <span class="value"><?php echo $stats['vendors']['active'] ?? 0; ?></span>
+                            <span class="unit"><?php echo $stats['vendors']['high_risk'] ?? 0; ?> High Risk</span>
+                        </div>
+                    </div>
+
+                    <!-- Charts Column -->
+                    <div class="charts-column">
+                        <!-- First Row of Charts -->
+                        <div class="charts-row">
+                            <div class="chart-panel">
+                                <div class="chart-panel-header">Compliance Score</div>
+                                <div class="chart-panel-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                                     <?php
-                                    if ($compliance_score >= 80) {
-                                        echo '<i class="fa fa-check-circle status-icon-excellent"></i> Excellent compliance status';
-                                    } elseif ($compliance_score >= 60) {
-                                        echo '<i class="fa fa-exclamation-triangle status-icon-good"></i> Good, but needs improvement';
-                                    } else {
-                                        echo '<i class="fa fa-times-circle status-icon-poor"></i> Requires immediate attention';
-                                    }
+                                    $score_class = $compliance_score >= 80 ? 'excellent' : ($compliance_score >= 60 ? 'good' : 'poor');
                                     ?>
-                                </p>
+                                    <div class="compliance-score-large <?php echo $score_class; ?>"><?php echo $compliance_score; ?>%</div>
+                                    <div class="compliance-bar" style="width: 80%;">
+                                        <div class="fill <?php echo $score_class; ?>" style="width: <?php echo $compliance_score; ?>%;"></div>
+                                    </div>
+                                    <p class="compliance-status-text">
+                                        <?php
+                                        if ($compliance_score >= 80) {
+                                            echo '<i class="fa fa-check-circle" style="color:#28a745"></i> Excellent';
+                                        } elseif ($compliance_score >= 60) {
+                                            echo '<i class="fa fa-exclamation-triangle" style="color:#fd7e14"></i> Needs Improvement';
+                                        } else {
+                                            echo '<i class="fa fa-times-circle" style="color:#dc3545"></i> Requires Attention';
+                                        }
+                                        ?>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-line-chart"></i> Compliance Score Trend Over Time
+                            <div class="chart-panel">
+                                <div class="chart-panel-header">Compliance Trend</div>
+                                <div class="chart-panel-body">
+                                    <div id="complianceTrendChart" style="width: 100%; height: 100%;"></div>
+                                </div>
                             </div>
-                            <div class="panel-body" style="height: 280px;">
-                                <div id="complianceTrendChart" style="width: 100%; height: 100%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Key Performance Indicators -->
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-clock-o"></i> Breach Notification (72hr)
-                            </div>
-                            <div class="panel-body" style="height: 280px;">
-                                <div id="breachComplianceGauge" style="width: 100%; height: 100%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-user-circle"></i> DSR SLA Performance
-                            </div>
-                            <div class="panel-body" style="height: 280px;">
-                                <div id="dsrSlaChart" style="width: 100%; height: 100%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-graduation-cap"></i> Training Completion
-                            </div>
-                            <div class="panel-body" style="height: 280px;">
-                                <div id="trainingCompletionChart" style="width: 100%; height: 100%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Department Compliance & Risk Distribution -->
-                <div class="row">
-                    <div class="col-md-7">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-bar-chart"></i> Department Compliance Comparison
-                            </div>
-                            <div class="panel-body" style="height: 280px;">
-                                <div id="deptComplianceChart" style="width: 100%; height: 100%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-pie-chart"></i> Risk Distribution by Category
-                            </div>
-                            <div class="panel-body" style="height: 280px;">
-                                <div id="riskDistributionChart" style="width: 100%; height: 100%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Statistics Cards -->
-                <div class="row">
-                    <!-- ROPA -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box bg-color-blue set-icon">
-                                <i class="fa fa-list-alt"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo $stats['ropa']['total']; ?></p>
-                                <p class="text-muted">Processing Activities</p>
-                                <p class="text-muted stat-details">
-                                    <?php echo $stats['ropa']['validated']; ?> Validated |
-                                    <?php echo $stats['ropa']['draft']; ?> Draft
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- DPIA -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box bg-color-green set-icon">
-                                <i class="fa fa-shield"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo $stats['dpia']['total']; ?></p>
-                                <p class="text-muted">DPIAs</p>
-                                <p class="text-muted stat-details">
-                                    <?php echo $stats['dpia']['pending_approval']; ?> Pending Approval
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Risks -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box bg-color-brown set-icon">
-                                <i class="fa fa-exclamation-triangle"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo $stats['risks']['open']; ?></p>
-                                <p class="text-muted">Open Risks</p>
-                                <p class="text-muted stat-details">
-                                    <?php echo $stats['risks']['high_risk']; ?> High Risk |
-                                    <?php echo $stats['risks']['overdue']; ?> Overdue
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Incidents -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box bg-color-red set-icon">
-                                <i class="fa fa-warning"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo $stats['incidents']['active']; ?></p>
-                                <p class="text-muted">Active Incidents</p>
-                                <p class="text-muted stat-details">
-                                    <?php echo $stats['incidents']['pending_notification']; ?> Pending Notification
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <!-- DSR Requests -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box set-icon icon-box-purple">
-                                <i class="fa fa-user-circle"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo $stats['dsr']['pending']; ?></p>
-                                <p class="text-muted">Pending DSR</p>
-                                <p class="text-muted stat-details">
-                                    <?php echo $stats['dsr']['overdue']; ?> Overdue
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Consents -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box set-icon icon-box-green">
-                                <i class="fa fa-check-square-o"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo $stats['consents']['active']; ?></p>
-                                <p class="text-muted">Active Consents</p>
-                                <p class="text-muted stat-details">
-                                    <?php echo $stats['consents']['expiring_soon']; ?> Expiring Soon
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cross-Border -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box set-icon icon-box-blue">
-                                <i class="fa fa-globe"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo $stats['crossborder']['total']; ?></p>
-                                <p class="text-muted">Cross-Border Transfers</p>
-                                <p class="text-muted stat-details">
-                                    <?php echo $stats['crossborder']['pending']; ?> Pending
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Notifications -->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="panel panel-back noti-box">
-                            <span class="icon-box set-icon icon-box-red">
-                                <i class="fa fa-bell"></i>
-                            </span>
-                            <div class="text-box">
-                                <p class="main-text"><?php echo count($notifications); ?></p>
-                                <p class="text-muted">Unread Notifications</p>
-                                <p class="text-muted stat-details">
-                                    <a href="notifications.php" class="link-primary">View All</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recent Activities & Notifications -->
-                <div class="row">
-                    <!-- Recent Activities -->
-                    <div class="col-md-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-clock-o"></i> Recent Activities
-                            </div>
-                            <div class="panel-body">
-                                <div class="list-group" style="max-height: 150px; overflow-y: auto; overflow-x: hidden;">
-                                    <?php if (empty($recent_activities)): ?>
-                                        <p class="text-muted">No recent activities</p>
-                                    <?php else: ?>
-                                        <?php foreach ($recent_activities as $activity): ?>
-                                            <div class="list-group-item">
-                                                <small class="text-muted"><?php echo format_datetime($activity['created_at'], 'd M Y H:i'); ?></small><br>
-                                                <strong><?php echo htmlspecialchars($activity['first_name'] . ' ' . $activity['last_name']); ?></strong>
-                                                <?php echo $activity['action']; ?>
-                                                <span class="label label-info"><?php echo strtoupper($activity['entity_type']); ?></span>
-                                            </div>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
+                            <div class="chart-panel">
+                                <div class="chart-panel-header">Risk Distribution</div>
+                                <div class="chart-panel-body">
+                                    <div id="riskDistributionChart" style="width: 100%; height: 100%;"></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Notifications -->
-                    <div class="col-md-6" id="notificationsPanel">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-bell"></i> Notifications
+                        <!-- Second Row of Charts (KPIs) -->
+                        <div class="charts-row">
+                            <div class="chart-panel">
+                                <div class="chart-panel-header">Breach Notification (72hr)</div>
+                                <div class="chart-panel-body">
+                                    <div id="breachComplianceGauge" style="width: 100%; height: 100%;"></div>
+                                </div>
                             </div>
-                            <div class="panel-body">
-                                <div class="list-group">
-                                    <?php if (empty($notifications)): ?>
-                                        <p class="text-muted">No new notifications</p>
-                                    <?php else: ?>
-                                        <?php foreach ($notifications as $notif): ?>
-                                            <div class="list-group-item">
-                                                <span class="badge badge-<?php echo $notif['priority'] == 'critical' ? 'danger' : ($notif['priority'] == 'high' ? 'warning' : 'info'); ?>">
-                                                    <?php echo strtoupper($notif['priority']); ?>
-                                                </span>
-                                                <h5 class="list-group-item-heading"><?php echo htmlspecialchars($notif['title']); ?></h5>
-                                                <p class="list-group-item-text"><?php echo htmlspecialchars($notif['message']); ?></p>
-                                                <small class="text-muted"><?php echo format_datetime($notif['created_at'], 'd M Y H:i'); ?></small>
-                                            </div>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
+                            <div class="chart-panel">
+                                <div class="chart-panel-header">DSR SLA Performance</div>
+                                <div class="chart-panel-body">
+                                    <div id="dsrSlaChart" style="width: 100%; height: 100%;"></div>
+                                </div>
+                            </div>
+                            <div class="chart-panel">
+                                <div class="chart-panel-header">Training Completion</div>
+                                <div class="chart-panel-body">
+                                    <div id="trainingCompletionChart" style="width: 100%; height: 100%;"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Quick Links -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-rocket"></i> Quick Actions
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <a href="ropa_add.php" class="btn btn-primary btn-lg btn-block">
-                                            <i class="fa fa-plus"></i> Add ROPA Entry
-                                        </a>
+                <!-- Department Compliance Chart -->
+                <div class="charts-row" style="margin-bottom: 20px;">
+                    <div class="chart-panel" style="flex: 2;">
+                        <div class="chart-panel-header">Department Compliance Comparison</div>
+                        <div class="chart-panel-body" style="height: 280px;">
+                            <div id="deptComplianceChart" style="width: 100%; height: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Summary Table -->
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th>Total</th>
+                                <th>Completed/Validated</th>
+                                <th>Pending</th>
+                                <th>Progress</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><i class="fa fa-list-alt" style="color:#667eea; margin-right:8px;"></i> ROPA</td>
+                                <td><?php echo $stats['ropa']['total']; ?></td>
+                                <td><?php echo $stats['ropa']['validated']; ?></td>
+                                <td><?php echo $stats['ropa']['draft']; ?></td>
+                                <td class="progress-cell">
+                                    <?php $ropa_pct = $stats['ropa']['total'] > 0 ? round(($stats['ropa']['validated'] / $stats['ropa']['total']) * 100) : 0; ?>
+                                    <div class="mini-progress">
+                                        <div class="progress-bar progress-bar-blue" style="width: <?php echo $ropa_pct; ?>%;"></div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <a href="dpia_wizard.php" class="btn btn-success btn-lg btn-block">
-                                            <i class="fa fa-shield"></i> Start DPIA
-                                        </a>
+                                </td>
+                                <td><?php echo $ropa_pct; ?>%</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-shield" style="color:#11998e; margin-right:8px;"></i> DPIA</td>
+                                <td><?php echo $stats['dpia']['total']; ?></td>
+                                <td><?php echo $stats['dpia']['approved']; ?></td>
+                                <td><?php echo $stats['dpia']['pending_approval']; ?></td>
+                                <td class="progress-cell">
+                                    <?php $dpia_pct = $stats['dpia']['total'] > 0 ? round(($stats['dpia']['approved'] / $stats['dpia']['total']) * 100) : 0; ?>
+                                    <div class="mini-progress">
+                                        <div class="progress-bar progress-bar-green" style="width: <?php echo $dpia_pct; ?>%;"></div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <a href="incident_add.php" class="btn btn-danger btn-lg btn-block">
-                                            <i class="fa fa-warning"></i> Report Incident
-                                        </a>
+                                </td>
+                                <td><?php echo $dpia_pct; ?>%</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-exclamation-triangle" style="color:#f5576c; margin-right:8px;"></i> Risks</td>
+                                <td><?php echo $stats['risks']['total']; ?></td>
+                                <td><?php echo $stats['risks']['total'] - $stats['risks']['open']; ?></td>
+                                <td><?php echo $stats['risks']['open']; ?></td>
+                                <td class="progress-cell">
+                                    <?php $risk_pct = $stats['risks']['total'] > 0 ? round((($stats['risks']['total'] - $stats['risks']['open']) / $stats['risks']['total']) * 100) : 0; ?>
+                                    <div class="mini-progress">
+                                        <div class="progress-bar progress-bar-orange" style="width: <?php echo $risk_pct; ?>%;"></div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <a href="reports.php" class="btn btn-info btn-lg btn-block">
-                                            <i class="fa fa-bar-chart"></i> View Reports
-                                        </a>
+                                </td>
+                                <td><?php echo $risk_pct; ?>%</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-bolt" style="color:#eb3349; margin-right:8px;"></i> Incidents</td>
+                                <td><?php echo $stats['incidents']['total']; ?></td>
+                                <td><?php echo $stats['incidents']['total'] - $stats['incidents']['active']; ?></td>
+                                <td><?php echo $stats['incidents']['active']; ?></td>
+                                <td class="progress-cell">
+                                    <?php $inc_pct = $stats['incidents']['total'] > 0 ? round((($stats['incidents']['total'] - $stats['incidents']['active']) / $stats['incidents']['total']) * 100) : 100; ?>
+                                    <div class="mini-progress">
+                                        <div class="progress-bar progress-bar-red" style="width: <?php echo $inc_pct; ?>%;"></div>
                                     </div>
+                                </td>
+                                <td><?php echo $inc_pct; ?>%</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-user" style="color:#7f00ff; margin-right:8px;"></i> DSR Requests</td>
+                                <td><?php echo $stats['dsr']['total']; ?></td>
+                                <td><?php echo $stats['dsr']['completed']; ?></td>
+                                <td><?php echo $stats['dsr']['pending']; ?></td>
+                                <td class="progress-cell">
+                                    <?php $dsr_pct = $stats['dsr']['total'] > 0 ? round(($stats['dsr']['completed'] / $stats['dsr']['total']) * 100) : 100; ?>
+                                    <div class="mini-progress">
+                                        <div class="progress-bar progress-bar-blue" style="width: <?php echo $dsr_pct; ?>%;"></div>
+                                    </div>
+                                </td>
+                                <td><?php echo $dsr_pct; ?>%</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-check-square-o" style="color:#02aab0; margin-right:8px;"></i> Consents</td>
+                                <td><?php echo $stats['consents']['total']; ?></td>
+                                <td><?php echo $stats['consents']['active']; ?></td>
+                                <td><?php echo $stats['consents']['expired']; ?></td>
+                                <td class="progress-cell">
+                                    <?php $cons_pct = $stats['consents']['total'] > 0 ? round(($stats['consents']['active'] / $stats['consents']['total']) * 100) : 0; ?>
+                                    <div class="mini-progress">
+                                        <div class="progress-bar progress-bar-green" style="width: <?php echo $cons_pct; ?>%;"></div>
+                                    </div>
+                                </td>
+                                <td><?php echo $cons_pct; ?>%</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-globe" style="color:#3498db; margin-right:8px;"></i> Cross-Border</td>
+                                <td><?php echo $stats['crossborder']['total']; ?></td>
+                                <td><?php echo $stats['crossborder']['approved']; ?></td>
+                                <td><?php echo $stats['crossborder']['pending']; ?></td>
+                                <td class="progress-cell">
+                                    <?php $cb_pct = $stats['crossborder']['total'] > 0 ? round(($stats['crossborder']['approved'] / $stats['crossborder']['total']) * 100) : 0; ?>
+                                    <div class="mini-progress">
+                                        <div class="progress-bar progress-bar-blue" style="width: <?php echo $cb_pct; ?>%;"></div>
+                                    </div>
+                                </td>
+                                <td><?php echo $cb_pct; ?>%</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td><strong>Overall Compliance</strong></td>
+                                <td colspan="4"></td>
+                                <td><strong><?php echo $compliance_score; ?>%</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Recent Activities & Notifications Row -->
+                <div class="charts-row" style="margin-top: 20px;">
+                    <div class="activity-panel" style="flex: 1;">
+                        <div class="activity-panel-header">
+                            <i class="fa fa-clock-o"></i> Recent Activities
+                        </div>
+                        <div class="activity-list">
+                            <?php if (empty($recent_activities)): ?>
+                                <div class="activity-item">
+                                    <p class="text-muted" style="margin: 0; padding: 0;">No recent activities</p>
                                 </div>
-                            </div>
+                            <?php else: ?>
+                                <?php foreach ($recent_activities as $activity): ?>
+                                    <div class="activity-item">
+                                        <span class="activity-time"><?php echo format_datetime($activity['created_at'], 'd M Y H:i'); ?></span>
+                                        <br>
+                                        <span class="activity-user"><?php echo htmlspecialchars($activity['first_name'] . ' ' . $activity['last_name']); ?></span>
+                                        <span class="activity-action"><?php echo $activity['action']; ?></span>
+                                        <span class="activity-badge"><?php echo strtoupper($activity['entity_type']); ?></span>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <div class="activity-panel" style="flex: 1;">
+                        <div class="activity-panel-header">
+                            <i class="fa fa-bell"></i> Notifications
+                            <?php if (count($notifications) > 0): ?>
+                                <span style="background: #dc3545; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 10px;">
+                                    <?php echo count($notifications); ?>
+                                </span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="activity-list">
+                            <?php if (empty($notifications)): ?>
+                                <div class="activity-item">
+                                    <p class="text-muted" style="margin: 0; padding: 0;">No new notifications</p>
+                                </div>
+                            <?php else: ?>
+                                <?php foreach ($notifications as $notif): ?>
+                                    <div class="activity-item">
+                                        <span class="activity-badge" style="background: <?php echo $notif['priority'] == 'critical' ? '#dc3545' : ($notif['priority'] == 'high' ? '#fd7e14' : '#17a2b8'); ?>; color: #fff;">
+                                            <?php echo strtoupper($notif['priority']); ?>
+                                        </span>
+                                        <strong style="margin-left: 10px;"><?php echo htmlspecialchars($notif['title']); ?></strong>
+                                        <br>
+                                        <span class="activity-action"><?php echo htmlspecialchars($notif['message']); ?></span>
+                                        <br>
+                                        <span class="activity-time"><?php echo format_datetime($notif['created_at'], 'd M Y H:i'); ?></span>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -923,9 +891,10 @@ if ($table_exists) {
             }
         },
         grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
+            left: '12%',
+            right: '5%',
+            bottom: '25%',
+            top: '8%',
             containLabel: true
         },
         xAxis: {
@@ -933,7 +902,9 @@ if ($table_exists) {
             boundaryGap: false,
             data: trendDates,
             axisLabel: {
-                rotate: 45
+                rotate: 45,
+                fontSize: 9,
+                margin: 8
             }
         },
         yAxis: {
@@ -941,7 +912,8 @@ if ($table_exists) {
             min: 0,
             max: 100,
             axisLabel: {
-                formatter: '{value}%'
+                formatter: '{value}%',
+                fontSize: 10
             }
         },
         series: [{
@@ -965,21 +937,7 @@ if ($table_exists) {
             itemStyle: {
                 color: '#3498db'
             },
-            data: trendScores,
-            markLine: {
-                silent: true,
-                lineStyle: {
-                    color: '#27ae60',
-                    type: 'dashed'
-                },
-                data: [{
-                    yAxis: 80,
-                    label: {
-                        formatter: 'Target: 80%',
-                        position: 'end'
-                    }
-                }]
-            }
+            data: trendScores
         }]
     };
 
@@ -1065,7 +1023,7 @@ if ($table_exists) {
 
     var riskData = riskDistributionData.map(function(item) {
         return {
-            name: item.risk_category,
+            name: item.risk_category || 'Uncategorized',
             value: parseInt(item.count)
         };
     });
@@ -1097,28 +1055,29 @@ if ($table_exists) {
             type: 'pie',
             radius: ['40%', '70%'],
             center: ['35%', '50%'],
-            avoidLabelOverlap: false,
+            avoidLabelOverlap: true,
             itemStyle: {
                 borderRadius: 10,
                 borderColor: '#fff',
                 borderWidth: 2
             },
             label: {
-                show: false,
-                position: 'center'
+                show: true,
+                position: 'outside',
+                formatter: '{b}: {c}',
+                fontSize: 10
             },
             emphasis: {
                 label: {
                     show: true,
-                    fontSize: '18',
-                    fontWeight: 'bold',
-                    formatter: function(params) {
-                        return params.name + '\n' + params.value;
-                    }
+                    fontSize: '12',
+                    fontWeight: 'bold'
                 }
             },
             labelLine: {
-                show: false
+                show: true,
+                length: 10,
+                length2: 10
             },
             data: riskData
         }]
@@ -1132,6 +1091,11 @@ if ($table_exists) {
     var breachComplianceGauge = echarts.init(document.getElementById('breachComplianceGauge'));
 
     var breachComplianceOption = {
+        tooltip: {
+            formatter: function(params) {
+                return 'Within 72hrs<br/><strong style="font-size:20px;">' + params.value.toFixed(0) + '%</strong>';
+            }
+        },
         series: [{
             type: 'gauge',
             startAngle: 180,
@@ -1194,14 +1158,7 @@ if ($table_exists) {
                 color: '#666'
             },
             detail: {
-                fontSize: 28,
-                fontWeight: 'bold',
-                offsetCenter: [0, '0%'],
-                valueAnimation: true,
-                formatter: function (value) {
-                    return value.toFixed(0) + '%';
-                },
-                color: 'auto'
+                show: false
             },
             data: [{
                 value: <?php echo $breach_compliance_rate; ?>,
@@ -1221,46 +1178,41 @@ if ($table_exists) {
         tooltip: {
             trigger: 'item',
             formatter: function(params) {
-                return params.seriesName + '<br/>' + params.name + ': ' + params.value;
+                return params.name + ': ' + params.value + ' (' + params.percent + '%)';
             }
         },
         legend: {
-            bottom: 0,
-            left: 'center',
-            data: ['On Time', 'Late', 'Overdue', 'In Progress'],
+            orient: 'vertical',
+            right: 10,
+            top: 'center',
+            itemWidth: 10,
+            itemHeight: 10,
             textStyle: {
-                fontSize: 10
+                fontSize: 11
             }
         },
         series: [
             {
                 name: 'DSR Status',
                 type: 'pie',
-                radius: ['40%', '70%'],
-                center: ['50%', '45%'],
+                radius: ['45%', '75%'],
+                center: ['35%', '50%'],
                 avoidLabelOverlap: false,
                 itemStyle: {
-                    borderRadius: 8,
+                    borderRadius: 6,
                     borderColor: '#fff',
                     borderWidth: 2
                 },
                 label: {
-                    show: true,
-                    position: 'outside',
-                    formatter: '{b}\n{d}%',
-                    fontSize: 10
+                    show: false
                 },
                 emphasis: {
                     label: {
-                        show: true,
-                        fontSize: 12,
-                        fontWeight: 'bold'
+                        show: false
                     }
                 },
                 labelLine: {
-                    show: true,
-                    length: 10,
-                    length2: 10
+                    show: false
                 },
                 data: [
                     {value: <?php echo $dsr_performance['completed_on_time'] ?? 0; ?>, name: 'On Time', itemStyle: {color: '#27ae60'}},
@@ -1371,22 +1323,23 @@ if ($table_exists) {
                 fontWeight: 'bold',
                 fill: '<?php echo $training_completion_rate >= 80 ? "#27ae60" : ($training_completion_rate >= 60 ? "#f39c12" : "#e74c3c"); ?>'
             }
-        }, {
-            type: 'text',
-            left: 'center',
-            top: 'center',
-            style: {
-                text: 'Completed',
-                fontSize: 11,
-                fill: '#999',
-                y: 30
-            }
         }],
+        legend: {
+            bottom: 5,
+            left: 'center',
+            data: ['Completed', 'In Progress', 'Not Started', 'Overdue'],
+            textStyle: {
+                fontSize: 9
+            },
+            itemWidth: 10,
+            itemHeight: 10,
+            itemGap: 8
+        },
         series: [{
             name: 'Training Status',
             type: 'pie',
-            radius: ['60%', '80%'],
-            center: ['50%', '50%'],
+            radius: ['50%', '70%'],
+            center: ['50%', '40%'],
             avoidLabelOverlap: false,
             itemStyle: {
                 borderRadius: 0,
@@ -1394,18 +1347,13 @@ if ($table_exists) {
                 borderWidth: 0
             },
             label: {
-                show: true,
-                position: 'outside',
-                formatter: '{b}\n{c}',
-                fontSize: 9
+                show: false
             },
             emphasis: {
                 scale: false
             },
             labelLine: {
-                show: true,
-                length: 8,
-                length2: 8
+                show: false
             },
             data: [
                 {value: <?php echo $training_stats['completed'] ?? 0; ?>, name: 'Completed', itemStyle: {color: '#27ae60'}},

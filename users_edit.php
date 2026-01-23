@@ -62,6 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Role is required';
     }
 
+    // Validate phone number
+    if (!empty($phone) && !preg_match('/^[\+]?[\d\s\-\(\)]{7,20}$/', $phone)) {
+        $errors[] = 'Invalid phone number format. Use digits, spaces, dashes, or parentheses (7-20 characters).';
+    }
+
     // Handle profile picture upload
     $profile_picture_path = $user['profile_picture'];
     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
@@ -384,5 +389,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery.metisMenu.js"></script>
     <script src="assets/js/custom.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Phone validation function
+            function isValidPhone(phone) {
+                var phoneRegex = /^[\+]?[\d\s\-\(\)]{7,20}$/;
+                return phoneRegex.test(phone);
+            }
+
+            // Real-time phone validation
+            $('input[name="phone"]').on('blur', function() {
+                var phone = $(this).val().trim();
+                if (phone && !isValidPhone(phone)) {
+                    $(this).css('border-color', '#d9534f');
+                    if (!$(this).next('.validation-error').length) {
+                        $(this).after('<small class="validation-error text-danger">Please enter a valid phone number (7-20 digits)</small>');
+                    }
+                } else {
+                    $(this).css('border-color', '');
+                    $(this).next('.validation-error').remove();
+                }
+            });
+
+            // Form validation on submit
+            $('form').on('submit', function(e) {
+                var phone = $('input[name="phone"]').val().trim();
+
+                if (phone && !isValidPhone(phone)) {
+                    e.preventDefault();
+                    alert('Phone number format is invalid. Use digits, spaces, dashes, or parentheses (7-20 characters).');
+                    return false;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
