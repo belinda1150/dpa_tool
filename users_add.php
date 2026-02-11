@@ -100,8 +100,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Add New User</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -121,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <?php if (!empty($errors)): ?>
                 <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <strong>Please fix the following errors:</strong>
                     <ul>
                         <?php foreach ($errors as $error): ?>
@@ -133,11 +136,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="row">
                     <div class="col-md-8">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 <i class="fa fa-user-plus"></i> User Information
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <form method="post" action="users_add.php">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -186,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                         </option>
                                                     <?php endforeach; ?>
                                                 </select>
-                                                <small class="help-block">Assign user role and permissions</small>
+                                                <small class="form-text">Assign user role and permissions</small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -211,7 +214,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <label>Password <span class="text-danger">*</span></label>
                                                 <input type="password" name="password" class="form-control"
                                                        minlength="<?php echo PASSWORD_MIN_LENGTH; ?>" required>
-                                                <small class="help-block">Minimum <?php echo PASSWORD_MIN_LENGTH; ?> characters</small>
+                                                <small class="form-text">Minimum <?php echo PASSWORD_MIN_LENGTH; ?> characters</small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -229,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <button type="submit" class="btn btn-primary">
                                             <i class="fa fa-save"></i> Create User
                                         </button>
-                                        <a href="users.php" class="btn btn-default">
+                                        <a href="users.php" class="btn btn-secondary">
                                             <i class="fa fa-times"></i> Cancel
                                         </a>
                                     </div>
@@ -239,11 +242,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
 
                     <div class="col-md-4">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
+                        <div class="card border-info">
+                            <div class="card-header">
                                 <i class="fa fa-info-circle"></i> Role Descriptions
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <dl>
                                     <dt>Admin</dt>
                                     <dd>Full system access and configuration</dd>
@@ -269,10 +272,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
     <script>
         $(document).ready(function() {
             // Email validation function

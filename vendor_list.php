@@ -79,36 +79,36 @@ $flash = get_flash_message();
 // Helper function for risk level badge
 function get_risk_badge($level, $score = null) {
     $badges = [
-        'critical' => '<span class="label label-danger">Critical</span>',
-        'high' => '<span class="label label-warning">High</span>',
-        'medium' => '<span class="label label-info">Medium</span>',
-        'low' => '<span class="label label-success">Low</span>'
+        'critical' => '<span class="badge bg-danger">Critical</span>',
+        'high' => '<span class="badge bg-warning text-dark">High</span>',
+        'medium' => '<span class="badge bg-info text-dark">Medium</span>',
+        'low' => '<span class="badge bg-success">Low</span>'
     ];
-    return $badges[$level] ?? '<span class="label label-default">Not Assessed</span>';
+    return $badges[$level] ?? '<span class="badge bg-secondary">Not Assessed</span>';
 }
 
 // Helper function for status badge
 function get_status_badge($status) {
     $badges = [
-        'pending_review' => '<span class="label label-warning">Pending Review</span>',
-        'approved' => '<span class="label label-info">Approved</span>',
-        'active' => '<span class="label label-success">Active</span>',
-        'suspended' => '<span class="label label-danger">Suspended</span>',
-        'terminated' => '<span class="label label-default">Terminated</span>'
+        'pending_review' => '<span class="badge bg-warning text-dark">Pending Review</span>',
+        'approved' => '<span class="badge bg-info text-dark">Approved</span>',
+        'active' => '<span class="badge bg-success">Active</span>',
+        'suspended' => '<span class="badge bg-danger">Suspended</span>',
+        'terminated' => '<span class="badge bg-secondary">Terminated</span>'
     ];
-    return $badges[$status] ?? '<span class="label label-default">' . ucfirst($status) . '</span>';
+    return $badges[$status] ?? '<span class="badge bg-secondary">' . ucfirst($status) . '</span>';
 }
 
 // Helper function for DPA status badge
 function get_dpa_badge($status) {
     $badges = [
-        'none' => '<span class="label label-default">None</span>',
-        'pending' => '<span class="label label-warning">Pending</span>',
-        'under_review' => '<span class="label label-info">Under Review</span>',
-        'signed' => '<span class="label label-success">Signed</span>',
-        'expired' => '<span class="label label-danger">Expired</span>'
+        'none' => '<span class="badge bg-secondary">None</span>',
+        'pending' => '<span class="badge bg-warning text-dark">Pending</span>',
+        'under_review' => '<span class="badge bg-info text-dark">Under Review</span>',
+        'signed' => '<span class="badge bg-success">Signed</span>',
+        'expired' => '<span class="badge bg-danger">Expired</span>'
     ];
-    return $badges[$status] ?? '<span class="label label-default">' . ucfirst($status) . '</span>';
+    return $badges[$status] ?? '<span class="badge bg-secondary">' . ucfirst($status) . '</span>';
 }
 ?>
 <!DOCTYPE html>
@@ -117,9 +117,12 @@ function get_dpa_badge($status) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Vendor Management</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/js/dataTables/dataTables.bootstrap.css?v=2" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
+    <link href="assets/js/dataTables/dataTables.bootstrap5.css?v=2" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <style>
         .stat-card {
@@ -168,7 +171,7 @@ function get_dpa_badge($status) {
 
                 <?php if ($flash): ?>
                 <div class="alert alert-<?php echo $flash['type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <?php echo htmlspecialchars($flash['message']); ?>
                 </div>
                 <?php endif; ?>
@@ -216,13 +219,13 @@ function get_dpa_badge($status) {
                 <!-- Vendor Register -->
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <i class="fa fa-building"></i> Vendor Register
                                     </div>
-                                    <div class="col-md-6 text-right">
+                                    <div class="col-md-6 text-end">
                                         <a href="vendor_add.php" class="btn btn-primary btn-sm">
                                             <i class="fa fa-plus"></i> Add New Vendor
                                         </a>
@@ -232,7 +235,7 @@ function get_dpa_badge($status) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="vendorTable">
                                         <thead>
@@ -315,14 +318,14 @@ function get_dpa_badge($status) {
                                                     <?php endif; ?>
                                                 </td>
                                                 <td>
-                                                    <a href="vendor_view.php?id=<?php echo $vendor['vendor_id']; ?>" class="btn btn-info btn-xs" title="View">
+                                                    <a href="vendor_view.php?id=<?php echo $vendor['vendor_id']; ?>" class="btn btn-info btn-sm" title="View">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
-                                                    <a href="vendor_edit.php?id=<?php echo $vendor['vendor_id']; ?>" class="btn btn-warning btn-xs" title="Edit">
+                                                    <a href="vendor_edit.php?id=<?php echo $vendor['vendor_id']; ?>" class="btn btn-warning btn-sm" title="Edit">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
                                                     <?php if ($vendor['status'] !== 'terminated'): ?>
-                                                    <a href="vendor_assessment_add.php?vendor_id=<?php echo $vendor['vendor_id']; ?>" class="btn btn-primary btn-xs" title="New Assessment">
+                                                    <a href="vendor_assessment_add.php?vendor_id=<?php echo $vendor['vendor_id']; ?>" class="btn btn-primary btn-sm" title="New Assessment">
                                                         <i class="fa fa-clipboard"></i>
                                                     </a>
                                                     <?php endif; ?>
@@ -342,12 +345,13 @@ function get_dpa_badge($status) {
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/dataTables/jquery.dataTables.js"></script>
-    <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
+    <script src="assets/js/dataTables/dataTables.bootstrap5.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
     <script>
         $(document).ready(function() {
             <?php if (!empty($vendors)): ?>

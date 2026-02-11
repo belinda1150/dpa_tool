@@ -264,7 +264,7 @@ if ($format === 'csv') {
         .badge-warning { background-color: #f39c12; }
         .badge-success { background-color: #27ae60; }
         .badge-info { background-color: #3498db; }
-        .badge-default { background-color: #95a5a6; }
+        .bg-secondary { background-color: #95a5a6; }
 
         .footer {
             margin-top: 40px;
@@ -314,7 +314,7 @@ if ($format === 'csv') {
             color: white;
         }
 
-        .btn-default {
+        .btn-secondary {
             background-color: #95a5a6;
             color: white;
         }
@@ -330,7 +330,7 @@ if ($format === 'csv') {
     <button class="btn btn-success" onclick="window.location.href='dpia_export.php?id=<?php echo $dpia_id; ?>&format=csv';">
         Download CSV
     </button>
-    <button class="btn btn-default" onclick="window.location.href='dpia_view.php?id=<?php echo $dpia_id; ?>';">
+    <button class="btn btn-secondary" onclick="window.location.href='dpia_view.php?id=<?php echo $dpia_id; ?>';">
         Back to DPIA
     </button>
 </div>
@@ -384,7 +384,7 @@ if ($format === 'csv') {
                     'rejected' => 'danger',
                     'rework' => 'warning'
                 ];
-                $status_class = $status_labels[$dpia['status']] ?? 'default';
+                $status_class = $status_labels[$dpia['status']] ?? 'secondary';
                 ?>
                 <span class="badge badge-<?php echo $status_class; ?>"><?php echo strtoupper($dpia['status']); ?></span>
             </td>
@@ -497,7 +497,7 @@ if ($format === 'csv') {
                     </tr>
                     <tr>
                         <th>Category:</th>
-                        <td><span class="badge badge-default"><?php echo htmlspecialchars($risk['risk_category']); ?></span></td>
+                        <td><span class="badge bg-secondary"><?php echo htmlspecialchars($risk['risk_category']); ?></span></td>
                     </tr>
                     <tr>
                         <th>Inherent Risk (Before Mitigation):</th>

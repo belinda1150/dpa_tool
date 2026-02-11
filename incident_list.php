@@ -72,8 +72,11 @@ foreach ($incidents as $incident) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Incidents</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -96,7 +99,7 @@ foreach ($incidents as $incident) {
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['flash_message'])): ?>
         <div class="alert alert-<?php echo htmlspecialchars($_SESSION['flash_type']); ?> alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <?php
                 echo htmlspecialchars($_SESSION['flash_message']);
                 unset($_SESSION['flash_message'], $_SESSION['flash_type']);
@@ -109,7 +112,7 @@ foreach ($incidents as $incident) {
         <div class="alert alert-danger">
             <i class="fa fa-warning"></i>
             <strong>URGENT:</strong> <?php echo $notification_overdue; ?> data breach<?php echo $notification_overdue > 1 ? 'es' : ''; ?> exceeded 72-hour POTRAZ notification deadline!
-            <a href="#" onclick="$('#incidentsTable').DataTable().search('Breach').draw(); return false;" class="btn btn-danger btn-sm pull-right">
+            <a href="#" onclick="$('#incidentsTable').DataTable().search('Breach').draw(); return false;" class="btn btn-danger btn-sm float-end">
                 <i class="fa fa-filter"></i> View Overdue Breaches
             </a>
         </div>
@@ -118,8 +121,8 @@ foreach ($incidents as $incident) {
     <!-- Statistics Cards -->
     <div class="row">
         <div class="col-md-3 col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-body">
                     <div class="text-center">
                         <h2 class="text-primary" style="margin: 0; font-size: 36px;"><?php echo $total_incidents; ?></h2>
                         <p class="text-muted">Total Incidents</p>
@@ -128,8 +131,8 @@ foreach ($incidents as $incident) {
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="panel <?php echo $data_breaches > 0 ? 'panel-danger' : 'panel-default'; ?>">
-                <div class="panel-body">
+            <div class="card <?php echo $data_breaches > 0 ? 'border-danger' : ''; ?>">
+                <div class="card-body">
                     <div class="text-center">
                         <h2 style="margin: 0; font-size: 36px;"><?php echo $data_breaches; ?></h2>
                         <p>Data Breaches</p>
@@ -138,8 +141,8 @@ foreach ($incidents as $incident) {
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="panel <?php echo $notification_overdue > 0 ? 'panel-danger' : 'panel-success'; ?>">
-                <div class="panel-body">
+            <div class="card <?php echo $notification_overdue > 0 ? 'border-danger' : 'border-success'; ?>">
+                <div class="card-body">
                     <div class="text-center">
                         <h2 style="margin: 0; font-size: 36px;"><?php echo $notification_overdue; ?></h2>
                         <p>Notification Overdue</p>
@@ -148,8 +151,8 @@ foreach ($incidents as $incident) {
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="panel panel-warning">
-                <div class="panel-body">
+            <div class="card border-warning">
+                <div class="card-body">
                     <div class="text-center">
                         <h2 style="margin: 0; font-size: 36px;"><?php echo $open_incidents; ?></h2>
                         <p>Open Incidents</p>
@@ -177,13 +180,13 @@ foreach ($incidents as $incident) {
     <?php if (!empty($urgent_breaches)): ?>
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-danger">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
+                <div class="card border-danger">
+                    <div class="card-header">
+                        <h3 class="card-title">
                             <i class="fa fa-clock-o"></i> Urgent: Breaches Requiring POTRAZ Notification (72-Hour Deadline)
                         </h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead>
@@ -222,7 +225,7 @@ foreach ($incidents as $incident) {
                                             </td>
                                             <td>
                                                 <div class="progress" style="margin-bottom: 0;">
-                                                    <div class="progress-bar progress-bar-<?php echo $urgency_class; ?>"
+                                                    <div class="progress-bar bg-<?php echo $urgency_class; ?>"
                                                          style="width: <?php echo $progress_pct; ?>%">
                                                         <?php echo round($progress_pct); ?>%
                                                     </div>
@@ -248,16 +251,16 @@ foreach ($incidents as $incident) {
     <!-- Incidents List -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
                         <i class="fa fa-list"></i> All Incidents
-                        <a href="incident_add.php" class="btn btn-danger btn-sm pull-right">
+                        <a href="incident_add.php" class="btn btn-danger btn-sm float-end">
                             <i class="fa fa-plus"></i> Report New Incident
                         </a>
                     </h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if (empty($incidents)): ?>
                         <div class="alert alert-info">
                             <i class="fa fa-info-circle"></i>
@@ -288,7 +291,7 @@ foreach ($incidents as $incident) {
                                             'serious' => 'warning',
                                             'critical' => 'danger'
                                         ];
-                                        $sev_class = $severity_class[$incident['severity']] ?? 'default';
+                                        $sev_class = $severity_class[$incident['severity']] ?? 'secondary';
 
                                         // Status badges
                                         $status_class = [
@@ -298,11 +301,11 @@ foreach ($incidents as $incident) {
                                             'resolved' => 'primary',
                                             'closed' => 'success'
                                         ];
-                                        $st_class = $status_class[$incident['status']] ?? 'default';
+                                        $st_class = $status_class[$incident['status']] ?? 'secondary';
 
                                         // POTRAZ notification status
                                         $potraz_status = 'N/A';
-                                        $potraz_class = 'default';
+                                        $potraz_class = 'secondary';
 
                                         if ($incident['notifiable'] == 1) {
                                             if (!empty($incident['notified_at'])) {
@@ -334,13 +337,13 @@ foreach ($incidents as $incident) {
                                                 <br><small class="text-muted"><?php echo htmlspecialchars(substr($incident['description'] ?? '', 0, 80)); ?><?php if (strlen($incident['description'] ?? '') > 80) echo '...'; ?></small>
                                             </td>
                                             <td>
-                                                <span class="label label-<?php echo $sev_class; ?>">
+                                                <span class="badge bg-<?php echo $sev_class; ?>">
                                                     <?php echo ucfirst($incident['severity']); ?>
                                                 </span>
                                             </td>
                                             <td class="text-center">
                                                 <?php if ($incident['notifiable'] == 1): ?>
-                                                    <span class="label label-danger">YES</span>
+                                                    <span class="badge bg-danger">YES</span>
                                                 <?php else: ?>
                                                     <span class="text-muted">No</span>
                                                 <?php endif; ?>
@@ -360,17 +363,17 @@ foreach ($incidents as $incident) {
                                                 ?>
                                             </td>
                                             <td>
-                                                <span class="label label-<?php echo $potraz_class; ?>">
+                                                <span class="badge bg-<?php echo $potraz_class; ?>">
                                                     <?php echo $potraz_status; ?>
                                                 </span>
                                             </td>
                                             <td>
-                                                <span class="label label-<?php echo $st_class; ?>">
+                                                <span class="badge bg-<?php echo $st_class; ?>">
                                                     <?php echo ucfirst($incident['status']); ?>
                                                 </span>
                                             </td>
                                             <td>
-                                                <div class="btn-group btn-group-xs">
+                                                <div class="btn-group btn-group-sm">
                                                     <a href="incident_view.php?id=<?php echo $incident['incident_id']; ?>"
                                                        class="btn btn-info" title="View Incident">
                                                         <i class="fa fa-eye"></i>
@@ -389,7 +392,7 @@ foreach ($incidents as $incident) {
                     <?php endif; ?>
                 </div>
                 <?php if (!empty($incidents)): ?>
-                <div class="panel-footer">
+                <div class="card-footer">
                     <div class="row">
                         <div class="col-sm-6">
                             <a href="incident_add.php" class="btn btn-danger">
@@ -399,7 +402,7 @@ foreach ($incidents as $incident) {
                                 <i class="fa fa-download"></i> Export Incidents
                             </a>
                         </div>
-                        <div class="col-sm-6 text-right">
+                        <div class="col-sm-6 text-end">
                             <p class="text-muted" style="margin-top: 8px;">
                                 Showing <?php echo $total_incidents; ?> incident<?php echo $total_incidents != 1 ? 's' : ''; ?>
                             </p>
@@ -417,12 +420,13 @@ foreach ($incidents as $incident) {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+<script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/dataTables/jquery.dataTables.js"></script>
-<script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
+<script src="assets/js/dataTables/dataTables.bootstrap5.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 <script>
 $(document).ready(function() {
     // Initialize DataTables

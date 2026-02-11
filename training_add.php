@@ -137,8 +137,11 @@ if (!$is_edit) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - <?php echo $is_edit ? 'Edit' : 'Add'; ?> Training</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -163,11 +166,11 @@ if (!$is_edit) {
     <!-- Form -->
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="card border-primary">
+                <div class="card-header">
                     <i class="fa fa-graduation-cap"></i> Training Course Details
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <form method="POST" enctype="multipart/form-data">
 
                         <!-- Training Title -->
@@ -175,7 +178,7 @@ if (!$is_edit) {
                             <label for="training_title">Training Title <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="training_title" name="training_title"
                                    value="<?php echo htmlspecialchars($training['training_title']); ?>" required>
-                            <span class="help-block">e.g., "Data Protection Awareness", "Phishing Prevention"</span>
+                            <span class="form-text">e.g., "Data Protection Awareness", "Phishing Prevention"</span>
                         </div>
 
                         <!-- Training Type -->
@@ -195,7 +198,7 @@ if (!$is_edit) {
                         <div class="form-group">
                             <label for="description">Description</label>
                             <textarea class="form-control" id="description" name="description" rows="4"><?php echo htmlspecialchars($training['description']); ?></textarea>
-                            <span class="help-block">Describe the learning objectives and content covered</span>
+                            <span class="form-text">Describe the learning objectives and content covered</span>
                         </div>
 
                         <!-- Training Content Upload -->
@@ -208,7 +211,7 @@ if (!$is_edit) {
                                 </div>
                             <?php endif; ?>
                             <input type="file" class="form-control" id="training_content" name="training_content" accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.zip">
-                            <span class="help-block">Supported formats: PDF, DOC, DOCX, PPT, PPTX, MP4, ZIP (Max 50MB)</span>
+                            <span class="form-text">Supported formats: PDF, DOC, DOCX, PPT, PPTX, MP4, ZIP (Max 50MB)</span>
                         </div>
 
                         <div class="row">
@@ -218,7 +221,7 @@ if (!$is_edit) {
                                     <label for="duration_minutes">Duration (Minutes)</label>
                                     <input type="number" class="form-control" id="duration_minutes" name="duration_minutes"
                                            value="<?php echo htmlspecialchars($training['duration_minutes']); ?>" min="1">
-                                    <span class="help-block">Estimated completion time</span>
+                                    <span class="form-text">Estimated completion time</span>
                                 </div>
                             </div>
 
@@ -228,7 +231,7 @@ if (!$is_edit) {
                                     <label for="passing_score">Passing Score (%)</label>
                                     <input type="number" class="form-control" id="passing_score" name="passing_score"
                                            value="<?php echo htmlspecialchars($training['passing_score']); ?>" min="0" max="100">
-                                    <span class="help-block">Required score to pass (if quiz)</span>
+                                    <span class="form-text">Required score to pass (if quiz)</span>
                                 </div>
                             </div>
 
@@ -238,7 +241,7 @@ if (!$is_edit) {
                                     <label for="due_days">Due Within (Days) <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" id="due_days" name="due_days"
                                            value="<?php echo htmlspecialchars($training['due_days']); ?>" min="1" required>
-                                    <span class="help-block">Days to complete after assignment</span>
+                                    <span class="form-text">Days to complete after assignment</span>
                                 </div>
                             </div>
                         </div>
@@ -251,7 +254,7 @@ if (!$is_edit) {
                                 <option value="active" <?php echo $training['status'] === 'active' ? 'selected' : ''; ?>>Active (available for assignment)</option>
                                 <option value="archived" <?php echo $training['status'] === 'archived' ? 'selected' : ''; ?>>Archived</option>
                             </select>
-                            <span class="help-block">Only active training can be assigned to staff</span>
+                            <span class="form-text">Only active training can be assigned to staff</span>
                         </div>
 
                         <!-- Action Buttons -->
@@ -259,7 +262,7 @@ if (!$is_edit) {
                             <button type="submit" class="btn btn-success btn-lg">
                                 <i class="fa fa-save"></i> <?php echo $is_edit ? 'Update' : 'Create'; ?> Training Course
                             </button>
-                            <a href="training_list.php" class="btn btn-default btn-lg">
+                            <a href="training_list.php" class="btn btn-secondary btn-lg">
                                 <i class="fa fa-times"></i> Cancel
                             </a>
                         </div>
@@ -269,11 +272,11 @@ if (!$is_edit) {
             </div>
 
             <!-- Help Panel -->
-            <div class="panel panel-info">
-                <div class="panel-heading">
+            <div class="card border-info">
+                <div class="card-header">
                     <i class="fa fa-info-circle"></i> Training Management Best Practices
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <ul>
                         <li><strong>Annual Training:</strong> Data protection training should be completed by all staff annually</li>
                         <li><strong>Role-Based Training:</strong> Consider creating different training for different roles (e.g., DPO, IT, HR)</li>
@@ -294,9 +297,10 @@ if (!$is_edit) {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

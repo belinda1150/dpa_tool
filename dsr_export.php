@@ -24,13 +24,11 @@ if ($dsr_id <= 0) {
 $query = "SELECT d.*,
           u.first_name as handler_first, u.last_name as handler_last,
           creator.first_name as creator_first, creator.last_name as creator_last,
-          pa.activity_name,
           DATEDIFF(NOW(), d.received_at) as days_elapsed,
           DATEDIFF(d.completed_at, d.received_at) as days_to_complete
           FROM dsr_requests d
           LEFT JOIN users u ON d.assigned_to = u.user_id
           LEFT JOIN users creator ON d.created_by = creator.user_id
-          LEFT JOIN processing_activities pa ON d.ropa_id = pa.ropa_id
           WHERE d.dsr_id = ? AND d.org_id = ?";
 
 $dsr = db_fetch_one(db_query($query, [$dsr_id, $org_id]));
@@ -61,35 +59,34 @@ if ($format === 'csv') {
     // Request Information
     fputcsv($output, ['REQUEST INFORMATION']);
     fputcsv($output, ['Request ID', 'DSR-' . str_pad($dsr_id, 5, '0', STR_PAD_LEFT)]);
+    fputcsv($output, ['Request Ref', $dsr['request_ref']]);
     fputcsv($output, ['Request Type', $dsr['request_type']]);
     fputcsv($output, ['Request Date', date('d M Y', strtotime($dsr['received_at']))]);
-    fputcsv($output, ['Request Method', $dsr['request_method']]);
-    fputcsv($output, ['Priority', ucfirst($dsr['priority'])]);
     fputcsv($output, ['Status', ucfirst(str_replace('_', ' ', $dsr['status']))]);
     fputcsv($output, []);
 
     // Data Subject
     fputcsv($output, ['DATA SUBJECT INFORMATION']);
     fputcsv($output, ['Name', $dsr['subject_name']]);
+    fputcsv($output, ['Reference', $dsr['subject_ref'] ?? 'N/A']);
     fputcsv($output, ['Email', $dsr['subject_email']]);
     fputcsv($output, ['Phone', $dsr['subject_phone'] ?? 'N/A']);
-    fputcsv($output, ['ID Number', $dsr['subject_id_number'] ?? 'N/A']);
-    fputcsv($output, ['Identity Verified', $dsr['identity_verified'] ? 'Yes' : 'No']);
-    if ($dsr['identity_verified']) {
-        fputcsv($output, ['Verification Date', date('d M Y, H:i', strtotime($dsr['verification_date']))]);
-        fputcsv($output, ['Verification Method', $dsr['verification_method']]);
+    $is_verified = !empty($dsr['verified_at']);
+    fputcsv($output, ['Identity Verified', $is_verified ? 'Yes' : 'No']);
+    if ($is_verified) {
+        fputcsv($output, ['Verification Date', date('d M Y, H:i', strtotime($dsr['verified_at']))]);
+        fputcsv($output, ['Verification Method', $dsr['verification_method'] ?? 'N/A']);
     }
     fputcsv($output, []);
 
     // Request Details
     fputcsv($output, ['REQUEST DESCRIPTION']);
-    fputcsv($output, [$dsr['request_description']]);
+    fputcsv($output, [$dsr['request_details']]);
     fputcsv($output, []);
 
     // Assignment
     fputcsv($output, ['ASSIGNMENT']);
     fputcsv($output, ['Assigned To', $dsr['handler_first'] ? $dsr['handler_first'] . ' ' . $dsr['handler_last'] : 'Unassigned']);
-    fputcsv($output, ['Linked ROPA', $dsr['activity_name'] ?? 'N/A']);
     fputcsv($output, []);
 
     // SLA Tracking
@@ -105,9 +102,9 @@ if ($format === 'csv') {
     fputcsv($output, []);
 
     // Response (if completed)
-    if ($dsr['status'] == 'completed' && $dsr['response_notes']) {
+    if ($dsr['status'] == 'completed' && $dsr['response_summary']) {
         fputcsv($output, ['RESPONSE TO DATA SUBJECT']);
-        fputcsv($output, [$dsr['response_notes']]);
+        fputcsv($output, [$dsr['response_summary']]);
         fputcsv($output, []);
     }
 
@@ -279,7 +276,7 @@ if ($format === 'csv') {
             <td>
                 <?php
                 $status_class = [
-                    'pending' => 'warning',
+                    'received' => 'warning',
                     'in_progress' => 'info',
                     'completed' => 'success',
                     'rejected' => 'danger'
@@ -289,16 +286,12 @@ if ($format === 'csv') {
             </td>
         </tr>
         <tr>
-            <th>Priority:</th>
-            <td><?php echo ucfirst($dsr['priority']); ?></td>
+            <th>Request Ref:</th>
+            <td><?php echo htmlspecialchars($dsr['request_ref']); ?></td>
         </tr>
         <tr>
             <th>Request Date:</th>
             <td><strong><?php echo date('d F Y', strtotime($dsr['received_at'])); ?></strong></td>
-        </tr>
-        <tr>
-            <th>Request Method:</th>
-            <td><?php echo htmlspecialchars($dsr['request_method']); ?></td>
         </tr>
         <tr>
             <th>Assigned To:</th>
@@ -311,10 +304,6 @@ if ($format === 'csv') {
                 }
                 ?>
             </td>
-        </tr>
-        <tr>
-            <th>Linked ROPA Entry:</th>
-            <td><?php echo htmlspecialchars($dsr['activity_name'] ?? 'Not Linked'); ?></td>
         </tr>
     </table>
 </div>
@@ -336,19 +325,16 @@ if ($format === 'csv') {
             <td><?php echo htmlspecialchars($dsr['subject_phone'] ?? 'Not Provided'); ?></td>
         </tr>
         <tr>
-            <th>ID Number / Passport:</th>
-            <td><?php echo htmlspecialchars($dsr['subject_id_number'] ?? 'Not Provided'); ?></td>
+            <th>Subject Reference:</th>
+            <td><?php echo htmlspecialchars($dsr['subject_ref'] ?? 'Not Provided'); ?></td>
         </tr>
         <tr>
             <th>Identity Verification:</th>
             <td>
-                <?php if ($dsr['identity_verified']): ?>
+                <?php if (!empty($dsr['verified_at'])): ?>
                     <span class="badge badge-success">VERIFIED</span><br>
-                    Date: <?php echo date('d F Y, H:i', strtotime($dsr['verification_date'])); ?><br>
-                    Method: <?php echo htmlspecialchars($dsr['verification_method']); ?>
-                    <?php if ($dsr['verification_notes']): ?>
-                        <br>Notes: <?php echo htmlspecialchars($dsr['verification_notes']); ?>
-                    <?php endif; ?>
+                    Date: <?php echo date('d F Y, H:i', strtotime($dsr['verified_at'])); ?><br>
+                    Method: <?php echo htmlspecialchars($dsr['verification_method'] ?? 'N/A'); ?>
                 <?php else: ?>
                     <span class="badge badge-warning">NOT VERIFIED</span>
                 <?php endif; ?>
@@ -361,15 +347,8 @@ if ($format === 'csv') {
 <div class="section">
     <div class="section-title">REQUEST DESCRIPTION</div>
     <div class="description-box">
-<?php echo htmlspecialchars($dsr['request_description']); ?>
+<?php echo htmlspecialchars($dsr['request_details'] ?? ''); ?>
     </div>
-
-    <?php if ($dsr['internal_notes']): ?>
-    <p style="margin-top: 20px;"><strong>Internal Processing Notes:</strong></p>
-    <div class="description-box" style="background-color: #fffbf0; border-color: #f0e68c;">
-<?php echo htmlspecialchars($dsr['internal_notes']); ?>
-    </div>
-    <?php endif; ?>
 </div>
 
 <!-- SLA Tracking -->
@@ -379,7 +358,7 @@ if ($format === 'csv') {
         <?php if ($dsr['status'] == 'completed' || $dsr['status'] == 'rejected'): ?>
         <tr>
             <th>Completion Date:</th>
-            <td><?php echo date('d F Y, H:i', strtotime($dsr['completion_date'])); ?></td>
+            <td><?php echo $dsr['completed_at'] ? date('d F Y, H:i', strtotime($dsr['completed_at'])) : 'N/A'; ?></td>
         </tr>
         <tr>
             <th>Days to Complete:</th>
@@ -434,9 +413,9 @@ if ($format === 'csv') {
         <?php echo $dsr['status'] == 'completed' ? 'RESPONSE TO DATA SUBJECT' : 'REJECTION DETAILS'; ?>
     </div>
 
-    <?php if ($dsr['status'] == 'completed' && $dsr['response_notes']): ?>
+    <?php if ($dsr['status'] == 'completed' && $dsr['response_summary']): ?>
     <div class="description-box">
-<?php echo nl2br(htmlspecialchars($dsr['response_notes'])); ?>
+<?php echo nl2br(htmlspecialchars($dsr['response_summary'])); ?>
     </div>
     <?php endif; ?>
 

@@ -84,7 +84,7 @@ $status_colors = [
     'published' => 'success',
     'archived' => 'default'
 ];
-$status_color = $status_colors[$policy['status']] ?? 'default';
+$status_color = $status_colors[$policy['status']] ?? 'secondary';
 
 $ack_percentage = $stats['total_users'] > 0
     ? round(($stats['ack_count'] / $stats['total_users']) * 100)
@@ -97,8 +97,11 @@ $ack_percentage = $stats['total_users'] > 0
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - View Policy</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -123,7 +126,7 @@ $ack_percentage = $stats['total_users'] > 0
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['flash_message'])): ?>
         <div class="alert alert-<?php echo $_SESSION['flash_type']; ?> alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <?php
                 echo htmlspecialchars($_SESSION['flash_message']);
                 unset($_SESSION['flash_message'], $_SESSION['flash_type']);
@@ -134,14 +137,14 @@ $ack_percentage = $stats['total_users'] > 0
     <!-- Action Buttons -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-body">
                     <?php if (is_admin() || is_dpo()): ?>
                     <a href="policy_add.php?id=<?php echo $policy_id; ?>" class="btn btn-primary">
                         <i class="fa fa-edit"></i> Edit Policy
                     </a>
                     <?php endif; ?>
-                    <a href="policy_list.php" class="btn btn-default">
+                    <a href="policy_list.php" class="btn btn-secondary">
                         <i class="fa fa-arrow-left"></i> Back to List
                     </a>
                     <?php if ($policy['document_path'] && file_exists($policy['document_path'])): ?>
@@ -159,11 +162,11 @@ $ack_percentage = $stats['total_users'] > 0
         <div class="col-md-6">
 
             <!-- Policy Information -->
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="card border-primary">
+                <div class="card-header">
                     <i class="fa fa-info-circle"></i> Policy Information
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th width="40%">Policy Title:</th>
@@ -187,12 +190,12 @@ $ack_percentage = $stats['total_users'] > 0
                         </tr>
                         <tr>
                             <th>Version:</th>
-                            <td><span class="label label-default"><?php echo htmlspecialchars($policy['version']); ?></span></td>
+                            <td><span class="badge bg-secondary"><?php echo htmlspecialchars($policy['version']); ?></span></td>
                         </tr>
                         <tr>
                             <th>Status:</th>
                             <td>
-                                <span class="label label-<?php echo $status_color; ?>" style="font-size: 14px; padding: 8px 12px;">
+                                <span class="badge bg-<?php echo $status_color; ?>" style="font-size: 14px; padding: 8px 12px;">
                                     <?php echo strtoupper($policy['status']); ?>
                                 </span>
                             </td>
@@ -219,7 +222,7 @@ $ack_percentage = $stats['total_users'] > 0
                                 ?>
                                 <?php echo date('d F Y', $review_date); ?>
                                 <?php if ($is_overdue && $policy['status'] === 'published'): ?>
-                                    <span class="label label-danger">OVERDUE</span>
+                                    <span class="badge bg-danger">OVERDUE</span>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -229,11 +232,11 @@ $ack_percentage = $stats['total_users'] > 0
             </div>
 
             <!-- Metadata -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                <div class="card-header">
                     <i class="fa fa-clock-o"></i> Record Metadata
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th width="40%">Created By:</th>
@@ -260,21 +263,21 @@ $ack_percentage = $stats['total_users'] > 0
         <div class="col-md-6">
 
             <!-- Acknowledgement Status -->
-            <div class="panel panel-<?php echo $has_acknowledged ? 'success' : 'warning'; ?>">
-                <div class="panel-heading">
+            <div class="card border-<?php echo $has_acknowledged ? 'success' : 'warning'; ?>">
+                <div class="card-header">
                     <i class="fa fa-check-square-o"></i> Your Acknowledgement Status
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if ($has_acknowledged): ?>
                         <div class="alert alert-success">
-                            <i class="fa fa-check-circle fa-3x pull-left" style="margin-right: 15px;"></i>
+                            <i class="fa fa-check-circle fa-3x float-start" style="margin-right: 15px;"></i>
                             <h4>You have acknowledged this policy</h4>
                             <p>Thank you for reviewing and acknowledging this policy.</p>
                         </div>
                     <?php else: ?>
                         <?php if ($policy['status'] === 'published'): ?>
                         <div class="alert alert-warning">
-                            <i class="fa fa-exclamation-triangle fa-3x pull-left" style="margin-right: 15px;"></i>
+                            <i class="fa fa-exclamation-triangle fa-3x float-start" style="margin-right: 15px;"></i>
                             <h4>Acknowledgement Required</h4>
                             <p>Please read the policy document and acknowledge that you have understood it.</p>
                         </div>
@@ -294,14 +297,14 @@ $ack_percentage = $stats['total_users'] > 0
             </div>
 
             <!-- Acknowledgement Statistics -->
-            <div class="panel panel-info">
-                <div class="panel-heading">
+            <div class="card border-info">
+                <div class="card-header">
                     <i class="fa fa-bar-chart"></i> Acknowledgement Statistics
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <h4>Overall Acknowledgement Rate</h4>
                     <div class="progress" style="height: 30px;">
-                        <div class="progress-bar progress-bar-<?php echo $ack_percentage >= 80 ? 'success' : ($ack_percentage >= 50 ? 'warning' : 'danger'); ?>"
+                        <div class="progress-bar bg-<?php echo $ack_percentage >= 80 ? 'success' : ($ack_percentage >= 50 ? 'warning' : 'danger'); ?>"
                              role="progressbar"
                              style="width: <?php echo $ack_percentage; ?>%; font-size: 16px; line-height: 30px;">
                             <?php echo $ack_percentage; ?>%
@@ -346,9 +349,10 @@ $ack_percentage = $stats['total_users'] > 0
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

@@ -165,8 +165,11 @@ $storage_locations = db_fetch_all($stmt);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Edit ROPA Entry</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <style>
         .section-title {
@@ -203,7 +206,7 @@ $storage_locations = db_fetch_all($stmt);
 
                 <?php if (isset($error_message)): ?>
                 <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <?php echo htmlspecialchars($error_message); ?>
                 </div>
                 <?php endif; ?>
@@ -211,11 +214,11 @@ $storage_locations = db_fetch_all($stmt);
                 <form method="POST" action="ropa_edit.php?id=<?php echo $ropa_id; ?>">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
+                            <div class="card">
+                                <div class="card-header">
                                     <i class="fa fa-edit"></i> Processing Activity Details
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
 
                                     <!-- Section 1: Basic Information -->
                                     <div class="section-title">1. Basic Information</div>
@@ -313,7 +316,7 @@ $storage_locations = db_fetch_all($stmt);
                                                                        <?php echo in_array($cat['data_category_id'], $existing_data_cats) ? 'checked' : ''; ?>>
                                                                 <?php echo htmlspecialchars($cat['category_name']); ?>
                                                                 <?php if ($cat['is_special_category']): ?>
-                                                                    <span class="label label-danger">Special</span>
+                                                                    <span class="badge bg-danger">Special</span>
                                                                 <?php endif; ?>
                                                             </label>
                                                         </div>
@@ -455,7 +458,7 @@ $storage_locations = db_fetch_all($stmt);
                                         <button type="submit" class="btn btn-primary btn-lg">
                                             <i class="fa fa-save"></i> Update Processing Activity
                                         </button>
-                                        <a href="ropa_view.php?id=<?php echo $ropa_id; ?>" class="btn btn-default btn-lg">
+                                        <a href="ropa_view.php?id=<?php echo $ropa_id; ?>" class="btn btn-secondary btn-lg">
                                             <i class="fa fa-times"></i> Cancel
                                         </a>
                                     </div>
@@ -470,9 +473,10 @@ $storage_locations = db_fetch_all($stmt);
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

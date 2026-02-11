@@ -118,8 +118,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Process DSR Request</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -143,15 +146,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="row">
         <div class="col-md-8">
             <!-- Request Summary -->
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-info-circle"></i> Request Summary</h3>
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-info-circle"></i> Request Summary</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <p><strong>Request Type:</strong></p>
-                            <p><span class="label label-info" style="font-size: 14px;"><?php echo htmlspecialchars($dsr['request_type']); ?></span></p>
+                            <p><span class="badge bg-info text-dark" style="font-size: 14px;"><?php echo htmlspecialchars($dsr['request_type']); ?></span></p>
                         </div>
                         <div class="col-md-6">
                             <p><strong>Data Subject:</strong></p>
@@ -170,14 +173,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Step 1: Verify Identity -->
             <?php if (!$dsr['identity_verified']): ?>
-            <div class="panel panel-warning">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
+            <div class="card border-warning">
+                <div class="card-header">
+                    <h3 class="card-title">
                         <i class="fa fa-shield"></i> Step 1: Verify Identity
-                        <span class="label label-warning pull-right">Required</span>
+                        <span class="badge bg-warning text-dark float-end">Required</span>
                     </h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="alert alert-warning">
                         <strong><i class="fa fa-exclamation-triangle"></i> Important:</strong>
                         You must verify the identity of the data subject before processing their request.
@@ -214,13 +217,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
             <?php else: ?>
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
+            <div class="card border-success">
+                <div class="card-header">
+                    <h3 class="card-title">
                         <i class="fa fa-check-circle"></i> Step 1: Identity Verified
                     </h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <p><strong>Verified on:</strong> <?php echo date('d M Y, H:i', strtotime($dsr['verification_date'])); ?></p>
                     <p><strong>Method:</strong> <?php echo htmlspecialchars($dsr['verification_method']); ?></p>
                     <?php if ($dsr['verification_notes']): ?>
@@ -232,11 +235,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Step 2: Internal Notes -->
             <?php if ($dsr['identity_verified']): ?>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-sticky-note"></i> Step 2: Internal Notes (Optional)</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-sticky-note"></i> Step 2: Internal Notes (Optional)</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <form method="POST" action="dsr_process.php?id=<?php echo $dsr_id; ?>">
                         <input type="hidden" name="action" value="update_notes">
 
@@ -255,16 +258,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <!-- Step 3: Complete or Reject -->
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-check-square"></i> Step 3: Complete or Reject Request</h3>
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-check-square"></i> Step 3: Complete or Reject Request</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <ul class="nav nav-tabs" style="margin-bottom: 20px;">
-                        <li class="active"><a href="#complete" data-toggle="tab">
+                        <li class="active"><a href="#complete" data-bs-toggle="tab">
                             <i class="fa fa-check-circle"></i> Complete Request
                         </a></li>
-                        <li><a href="#reject" data-toggle="tab">
+                        <li><a href="#reject" data-bs-toggle="tab">
                             <i class="fa fa-times-circle"></i> Reject Request
                         </a></li>
                     </ul>
@@ -334,11 +337,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="col-md-4">
             <!-- SLA Warning -->
-            <div class="panel panel-<?php echo $dsr['days_elapsed'] > 30 ? 'danger' : ($dsr['days_elapsed'] >= 25 ? 'warning' : 'info'); ?>">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-clock-o"></i> SLA Status</h3>
+            <div class="card border-<?php echo $dsr['days_elapsed'] > 30 ? 'danger' : ($dsr['days_elapsed'] >= 25 ? 'warning' : 'info'); ?>">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-clock-o"></i> SLA Status</h3>
                 </div>
-                <div class="panel-body text-center">
+                <div class="card-body text-center">
                     <h2 style="margin: 10px 0;"><?php echo $dsr['days_elapsed']; ?> / 30 Days</h2>
                     <p class="text-muted">Days Elapsed</p>
 
@@ -347,7 +350,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $progress = min(100, ($dsr['days_elapsed'] / 30) * 100);
                         $progress_class = $dsr['days_elapsed'] > 30 ? 'danger' : ($dsr['days_elapsed'] >= 25 ? 'warning' : 'info');
                         ?>
-                        <div class="progress-bar progress-bar-<?php echo $progress_class; ?>" style="width: <?php echo $progress; ?>%">
+                        <div class="progress-bar bg-<?php echo $progress_class; ?>" style="width: <?php echo $progress; ?>%">
                             <?php echo round($progress); ?>%
                         </div>
                     </div>
@@ -372,11 +375,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <!-- Processing Checklist -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-check-square-o"></i> Processing Checklist</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-check-square-o"></i> Processing Checklist</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <ul class="list-unstyled" style="margin: 0;">
                         <li style="margin-bottom: 10px;">
                             <?php if ($dsr['identity_verified']): ?>
@@ -411,11 +414,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <!-- Quick Links -->
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-book"></i> Quick Reference</h3>
+            <div class="card border-info">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-book"></i> Quick Reference</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <p style="font-size: 12px; margin-bottom: 10px;">
                         <strong><?php echo htmlspecialchars($dsr['request_type']); ?></strong>
                     </p>
@@ -437,20 +440,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
 
-            <a href="dsr_view.php?id=<?php echo $dsr_id; ?>" class="btn btn-default btn-block">
+            <a href="dsr_view.php?id=<?php echo $dsr_id; ?>" class="btn btn-secondary btn-block">
                 <i class="fa fa-eye"></i> View Request Details
             </a>
 
-            <a href="dsr_list.php" class="btn btn-default btn-block">
+            <a href="dsr_list.php" class="btn btn-secondary btn-block">
                 <i class="fa fa-arrow-left"></i> Back to List
             </a>
         </div>
     </div>
 </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

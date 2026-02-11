@@ -74,8 +74,11 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - View Incident</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -98,7 +101,7 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
 
     <?php if (isset($_SESSION['flash_message'])): ?>
         <div class="alert alert-<?php echo htmlspecialchars($_SESSION['flash_type']); ?> alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <?php echo htmlspecialchars($_SESSION['flash_message']); unset($_SESSION['flash_message'], $_SESSION['flash_type']); ?>
         </div>
     <?php endif; ?>
@@ -118,7 +121,7 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
                 POTRAZ must be notified within <?php echo floor($hours_remaining); ?> hours
                 (<?php echo floor($hours_remaining / 24); ?> days, <?php echo $hours_remaining % 24; ?> hrs remaining)
             <?php endif; ?>
-            <a href="#notifyModal" data-toggle="modal" class="btn btn-danger btn-sm pull-right">
+            <a href="#notifyModal" data-bs-toggle="modal" class="btn btn-danger btn-sm float-end">
                 <i class="fa fa-send"></i> Notify POTRAZ Now
             </a>
         </div>
@@ -127,24 +130,24 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
     <!-- Incident Summary -->
     <div class="row">
         <div class="col-md-8">
-            <div class="panel panel-<?php echo $incident['notifiable'] ? 'danger' : 'primary'; ?>">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
+            <div class="card border-<?php echo $incident['notifiable'] ? 'danger' : 'primary'; ?>">
+                <div class="card-header">
+                    <h3 class="card-title">
                         <?php echo htmlspecialchars($incident['incident_title']); ?>
                         <?php if ($incident['notifiable']): ?>
-                            <span class="label label-danger pull-right">DATA BREACH</span>
+                            <span class="badge bg-danger float-end">DATA BREACH</span>
                         <?php endif; ?>
                     </h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-bordered">
                         <tr><th width="30%">Incident ID:</th><td>INC-<?php echo str_pad($incident_id, 5, '0', STR_PAD_LEFT); ?></td></tr>
-                        <tr><th>Type:</th><td><span class="label label-default"><?php echo htmlspecialchars($incident['incident_type']); ?></span></td></tr>
+                        <tr><th>Type:</th><td><span class="badge bg-secondary"><?php echo htmlspecialchars($incident['incident_type']); ?></span></td></tr>
                         <tr><th>Severity:</th>
                             <td>
                                 <?php
-                                $sev_class = ['low'=>'success','medium'=>'info','high'=>'warning','critical'=>'danger'][$incident['severity']] ?? 'default';
-                                echo "<span class='label label-$sev_class'>".strtoupper($incident['severity'])."</span>";
+                                $sev_class = ['low'=>'success','medium'=>'info','high'=>'warning','critical'=>'danger'][$incident['severity']] ?? 'secondary';
+                                echo "<span class='badge bg-$sev_class'>".strtoupper($incident['severity'])."</span>";
                                 ?>
                             </td>
                         </tr>
@@ -155,8 +158,8 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
                         <tr><th>Status:</th>
                             <td>
                                 <?php
-                                $st_class = ['open'=>'danger','investigating'=>'warning','contained'=>'info','resolved'=>'primary','closed'=>'success'][$incident['status']] ?? 'default';
-                                echo "<span class='label label-$st_class'>".strtoupper($incident['status'])."</span>";
+                                $st_class = ['open'=>'danger','investigating'=>'warning','contained'=>'info','resolved'=>'primary','closed'=>'success'][$incident['status']] ?? 'secondary';
+                                echo "<span class='badge bg-$st_class'>".strtoupper($incident['status'])."</span>";
                                 ?>
                             </td>
                         </tr>
@@ -167,24 +170,24 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
 
         <div class="col-md-4">
             <?php if ($incident['notifiable']): ?>
-                <div class="panel panel-danger">
-                    <div class="panel-heading"><h4 style="margin:0;">POTRAZ Notification Status</h4></div>
-                    <div class="panel-body text-center">
+                <div class="card border-danger">
+                    <div class="card-header"><h4 style="margin:0;">POTRAZ Notification Status</h4></div>
+                    <div class="card-body text-center">
                         <?php if ($incident['notified_at']): ?>
                             <i class="fa fa-check-circle" style="font-size:48px;color:#27ae60;"></i>
                             <h4>Notified</h4>
                             <p><?php echo date('d M Y, H:i', strtotime($incident['notified_at'])); ?></p>
                             <p><strong>Ref:</strong> <?php echo htmlspecialchars($incident['potraz_ref']); ?></p>
                             <?php if ($incident['hours_to_notification'] <= BREACH_NOTIFICATION_HOURS): ?>
-                                <span class="label label-success">Within 72 hours</span>
+                                <span class="badge bg-success">Within 72 hours</span>
                             <?php else: ?>
-                                <span class="label label-warning">Late (<?php echo $incident['hours_to_notification']; ?>h)</span>
+                                <span class="badge bg-warning text-dark">Late (<?php echo $incident['hours_to_notification']; ?>h)</span>
                             <?php endif; ?>
                         <?php else: ?>
                             <i class="fa fa-clock-o" style="font-size:48px;color:#e74c3c;"></i>
                             <h4>Not Notified</h4>
                             <p><?php echo floor($incident['hours_since']); ?> hours elapsed</p>
-                            <a href="#notifyModal" data-toggle="modal" class="btn btn-danger btn-block">
+                            <a href="#notifyModal" data-bs-toggle="modal" class="btn btn-danger btn-block">
                                 <i class="fa fa-send"></i> Notify POTRAZ
                             </a>
                         <?php endif; ?>
@@ -197,9 +200,9 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
     <!-- Description & Details -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h4 class="panel-title"><i class="fa fa-file-text"></i> Incident Description</h4></div>
-                <div class="panel-body"><p><?php echo nl2br(htmlspecialchars($incident['description'])); ?></p></div>
+            <div class="card">
+                <div class="card-header"><h4 class="card-title"><i class="fa fa-file-text"></i> Incident Description</h4></div>
+                <div class="card-body"><p><?php echo nl2br(htmlspecialchars($incident['description'])); ?></p></div>
             </div>
         </div>
     </div>
@@ -207,9 +210,9 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
     <?php if ($incident['notifiable']): ?>
     <div class="row">
         <div class="col-md-6">
-            <div class="panel panel-warning">
-                <div class="panel-heading"><h4 class="panel-title"><i class="fa fa-database"></i> Data Breach Details</h4></div>
-                <div class="panel-body">
+            <div class="card border-warning">
+                <div class="card-header"><h4 class="card-title"><i class="fa fa-database"></i> Data Breach Details</h4></div>
+                <div class="card-body">
                     <table class="table table-bordered">
                         <tr><th>Affected Data Subjects:</th><td><?php echo $incident['affected_data_subjects'] ?? 'Unknown'; ?></td></tr>
                         <tr><th>Data Types Affected:</th><td><?php echo nl2br(htmlspecialchars($incident['data_types_affected'])); ?></td></tr>
@@ -218,18 +221,18 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
             </div>
         </div>
         <div class="col-md-6">
-            <div class="panel panel-info">
-                <div class="panel-heading"><h4 class="panel-title"><i class="fa fa-flash"></i> Immediate Actions Taken</h4></div>
-                <div class="panel-body"><p><?php echo nl2br(htmlspecialchars($incident['immediate_actions'] ?: 'None recorded')); ?></p></div>
+            <div class="card border-info">
+                <div class="card-header"><h4 class="card-title"><i class="fa fa-flash"></i> Immediate Actions Taken</h4></div>
+                <div class="card-body"><p><?php echo nl2br(htmlspecialchars($incident['immediate_actions'] ?: 'None recorded')); ?></p></div>
             </div>
         </div>
     </div>
     <?php else: ?>
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-info">
-                <div class="panel-heading"><h4 class="panel-title"><i class="fa fa-flash"></i> Immediate Actions Taken</h4></div>
-                <div class="panel-body"><p><?php echo nl2br(htmlspecialchars($incident['immediate_actions'] ?: 'None recorded')); ?></p></div>
+            <div class="card border-info">
+                <div class="card-header"><h4 class="card-title"><i class="fa fa-flash"></i> Immediate Actions Taken</h4></div>
+                <div class="card-body"><p><?php echo nl2br(htmlspecialchars($incident['immediate_actions'] ?: 'None recorded')); ?></p></div>
             </div>
         </div>
     </div>
@@ -239,9 +242,9 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
     <?php if (!empty($audit_logs)): ?>
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h4 class="panel-title"><i class="fa fa-history"></i> Activity History</h4></div>
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-header"><h4 class="card-title"><i class="fa fa-history"></i> Activity History</h4></div>
+                <div class="card-body">
                     <table class="table table-striped">
                         <thead><tr><th>Date/Time</th><th>User</th><th>Action</th><th>Details</th></tr></thead>
                         <tbody>
@@ -249,7 +252,7 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
                             <tr>
                                 <td><?php echo date('d M Y, H:i', strtotime($log['created_at'])); ?></td>
                                 <td><?php echo htmlspecialchars($log['first_name'].' '.$log['last_name']); ?></td>
-                                <td><span class="label label-<?php echo ['create'=>'success','update'=>'info','delete'=>'danger'][$log['action']] ?? 'default'; ?>"><?php echo ucfirst($log['action']); ?></span></td>
+                                <td><span class="badge bg-<?php echo ['create'=>'success','update'=>'info','delete'=>'danger'][$log['action']] ?? 'secondary'; ?>"><?php echo ucfirst($log['action']); ?></span></td>
                                 <td><?php echo htmlspecialchars($log['details'] ?: '-'); ?></td>
                             </tr>
                             <?php endforeach; ?>
@@ -264,11 +267,11 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
     <!-- Actions -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-body">
                     <a href="incident_edit.php?id=<?php echo $incident_id; ?>" class="btn btn-warning"><i class="fa fa-edit"></i> Update Incident</a>
-                    <a href="incident_list.php" class="btn btn-default"><i class="fa fa-list"></i> Back to List</a>
-                    <a href="incident_export.php?id=<?php echo $incident_id; ?>" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Export Report</a>
+                    <a href="incident_list.php" class="btn btn-secondary"><i class="fa fa-list"></i> Back to List</a>
+                    <a href="incident_export.php?id=<?php echo $incident_id; ?>" class="btn btn-primary float-end"><i class="fa fa-download"></i> Export Report</a>
                 </div>
             </div>
         </div>
@@ -282,7 +285,7 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
             <form method="POST" action="incident_view.php?id=<?php echo $incident_id; ?>">
                 <input type="hidden" name="action" value="notify_potraz">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     <h4 class="modal-title">Record POTRAZ Notification</h4>
                 </div>
                 <div class="modal-body">
@@ -303,7 +306,7 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-danger"><i class="fa fa-send"></i> Record Notification</button>
                 </div>
             </form>
@@ -311,9 +314,10 @@ $audit_logs = db_fetch_all(db_query($audit_query, [$incident_id]));
     </div>
 </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

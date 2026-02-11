@@ -90,8 +90,11 @@ $flash = get_flash_message();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - System Settings</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -111,21 +114,21 @@ $flash = get_flash_message();
 
                 <?php if ($flash): ?>
                 <div class="alert alert-<?php echo $flash['type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <?php echo htmlspecialchars($flash['message']); ?>
                 </div>
                 <?php endif; ?>
 
                 <?php if ($success): ?>
                 <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <i class="fa fa-check-circle"></i> Settings updated successfully
                 </div>
                 <?php endif; ?>
 
                 <?php if (!empty($errors)): ?>
                 <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <strong>Please fix the following errors:</strong>
                     <ul>
                         <?php foreach ($errors as $error): ?>
@@ -139,11 +142,11 @@ $flash = get_flash_message();
                     <div class="col-md-8">
                         <form method="post" action="settings.php">
                             <!-- Compliance Settings -->
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
+                            <div class="card">
+                                <div class="card-header">
                                     <i class="fa fa-cog"></i> Compliance Settings
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -151,7 +154,7 @@ $flash = get_flash_message();
                                                 <input type="number" name="dsr_sla_days" class="form-control"
                                                        value="<?php echo htmlspecialchars($_POST['dsr_sla_days'] ?? $settings_array['dsr_sla_days'] ?? DSR_SLA_DAYS); ?>"
                                                        min="1" max="365" required>
-                                                <small class="help-block">Days to respond to Data Subject Rights requests (CDPA default: 30 days)</small>
+                                                <small class="form-text">Days to respond to Data Subject Rights requests (CDPA default: 30 days)</small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -160,7 +163,7 @@ $flash = get_flash_message();
                                                 <input type="number" name="breach_notification_hours" class="form-control"
                                                        value="<?php echo htmlspecialchars($_POST['breach_notification_hours'] ?? $settings_array['breach_notification_hours'] ?? BREACH_NOTIFICATION_HOURS); ?>"
                                                        min="1" max="720" required>
-                                                <small class="help-block">Hours to notify POTRAZ of data breach (CDPA: 72 hours)</small>
+                                                <small class="form-text">Hours to notify POTRAZ of data breach (CDPA: 72 hours)</small>
                                             </div>
                                         </div>
                                     </div>
@@ -172,7 +175,7 @@ $flash = get_flash_message();
                                                 <input type="number" name="consent_expiry_alert_days" class="form-control"
                                                        value="<?php echo htmlspecialchars($_POST['consent_expiry_alert_days'] ?? $settings_array['consent_expiry_alert_days'] ?? CONSENT_EXPIRY_ALERT_DAYS); ?>"
                                                        min="1" max="365" required>
-                                                <small class="help-block">Days before consent expiry to send alert</small>
+                                                <small class="form-text">Days before consent expiry to send alert</small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -181,7 +184,7 @@ $flash = get_flash_message();
                                                 <input type="number" name="dpia_threshold_subjects" class="form-control"
                                                        value="<?php echo htmlspecialchars($_POST['dpia_threshold_subjects'] ?? $settings_array['dpia_threshold_subjects'] ?? DPIA_THRESHOLD_SUBJECTS); ?>"
                                                        min="1" required>
-                                                <small class="help-block">Minimum data subjects to trigger DPIA requirement</small>
+                                                <small class="form-text">Minimum data subjects to trigger DPIA requirement</small>
                                             </div>
                                         </div>
                                     </div>
@@ -189,11 +192,11 @@ $flash = get_flash_message();
                             </div>
 
                             <!-- Risk Management Settings -->
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
+                            <div class="card">
+                                <div class="card-header">
                                     <i class="fa fa-exclamation-triangle"></i> Risk Management Settings
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -201,7 +204,7 @@ $flash = get_flash_message();
                                                 <input type="number" name="risk_acceptable_threshold" class="form-control"
                                                        value="<?php echo htmlspecialchars($_POST['risk_acceptable_threshold'] ?? $settings_array['risk_acceptable_threshold'] ?? RISK_ACCEPTABLE_THRESHOLD); ?>"
                                                        min="1" max="25" required>
-                                                <small class="help-block">Maximum acceptable residual risk score (1-25 scale)</small>
+                                                <small class="form-text">Maximum acceptable residual risk score (1-25 scale)</small>
                                             </div>
                                         </div>
                                     </div>
@@ -209,11 +212,11 @@ $flash = get_flash_message();
                             </div>
 
                             <!-- Security Settings -->
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
+                            <div class="card">
+                                <div class="card-header">
                                     <i class="fa fa-lock"></i> Security Settings
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -221,7 +224,7 @@ $flash = get_flash_message();
                                                 <input type="number" name="session_timeout_minutes" class="form-control"
                                                        value="<?php echo htmlspecialchars($_POST['session_timeout_minutes'] ?? $settings_array['session_timeout_minutes'] ?? (SESSION_TIMEOUT / 60)); ?>"
                                                        min="5" max="1440" required>
-                                                <small class="help-block">User session timeout in minutes (5-1440)</small>
+                                                <small class="form-text">User session timeout in minutes (5-1440)</small>
                                             </div>
                                         </div>
                                     </div>
@@ -232,7 +235,7 @@ $flash = get_flash_message();
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-save"></i> Save Settings
                                 </button>
-                                <a href="dashboard.php" class="btn btn-default">
+                                <a href="dashboard.php" class="btn btn-secondary">
                                     <i class="fa fa-times"></i> Cancel
                                 </a>
                             </div>
@@ -240,11 +243,11 @@ $flash = get_flash_message();
                     </div>
 
                     <div class="col-md-4">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
+                        <div class="card border-info">
+                            <div class="card-header">
                                 <i class="fa fa-info-circle"></i> About System Settings
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <p><strong>System Settings</strong> configure compliance parameters and security controls for your organization.</p>
 
                                 <h5>CDPA Compliance References:</h5>
@@ -261,11 +264,11 @@ $flash = get_flash_message();
                             </div>
                         </div>
 
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">
+                        <div class="card border-warning">
+                            <div class="card-header">
                                 <i class="fa fa-exclamation-triangle"></i> Important
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <p><strong>Note:</strong> Changes to these settings affect compliance calculations and alerts across the entire system.</p>
                                 <p>Ensure all values comply with Zimbabwe's Cyber and Data Protection Act (CDPA) requirements.</p>
                             </div>
@@ -277,9 +280,10 @@ $flash = get_flash_message();
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

@@ -19,9 +19,24 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <a href="dashboard.php" data-title="Dashboard"><i class="fa fa-dashboard fa-2x"></i><span class="menu-text"> Dashboard</span></a>
       </li>
 
+      <!-- Compliance Calendar -->
+      <li class="<?php echo ($current_page == 'compliance_calendar.php') ? 'active' : ''; ?>">
+        <a href="compliance_calendar.php" data-title="Calendar"><i class="fa fa-calendar fa-2x"></i><span class="menu-text"> Calendar</span></a>
+      </li>
+
+      <!-- CDPA Compliance Checklist -->
+      <li class="<?php echo ($current_page == 'compliance_checklist.php') ? 'active' : ''; ?>">
+        <a href="compliance_checklist.php" data-title="CDPA Checklist"><i class="fa fa-clipboard-check fa-2x"></i><span class="menu-text"> CDPA Checklist</span></a>
+      </li>
+
       <!-- ROPA Module -->
       <li class="<?php echo (in_array($current_page, ['ropa_list.php', 'ropa_add.php', 'ropa_view.php', 'ropa_edit.php'])) ? 'active' : ''; ?>">
         <a href="ropa_list.php" data-title="ROPA"><i class="fa fa-list-alt fa-2x"></i><span class="menu-text"> ROPA</span></a>
+      </li>
+
+      <!-- Data Map -->
+      <li class="<?php echo ($current_page == 'data_map.php') ? 'active' : ''; ?>">
+        <a href="data_map.php" data-title="Data Map"><i class="fa fa-sitemap fa-2x"></i><span class="menu-text"> Data Map</span></a>
       </li>
 
       <!-- DPIA Module -->
@@ -78,23 +93,29 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </ul>
       </li>
 
+      <!-- Retention Policies -->
+      <li class="<?php echo ($current_page == 'retention_manage.php') ? 'active' : ''; ?>">
+        <a href="retention_manage.php" data-title="Retention Policies"><i class="fa fa-clock-o fa-2x"></i><span class="menu-text"> Retention Policies</span></a>
+      </li>
+
       <!-- Governance & Documents -->
       <li class="<?php echo (in_array($current_page, ['documents_list.php', 'documents_upload.php'])) ? 'active' : ''; ?>">
         <a href="documents_list.php" data-title="Document Repository"><i class="fa fa-folder-open fa-2x"></i><span class="menu-text"> Documents</span></a>
       </li>
 
       <!-- Reports -->
-      <li class="<?php echo ($current_page == 'reports.php') ? 'active' : ''; ?>">
+      <li class="<?php echo (in_array($current_page, ['reports.php', 'reports_list.php', 'report_compliance_export.php', 'privacy_notice_generate.php', 'report_lawful_basis.php'])) ? 'active' : ''; ?>">
         <a href="reports.php" data-title="Reports"><i class="fa fa-file-text-o fa-2x"></i><span class="menu-text"> Reports</span></a>
       </li>
 
       <?php if (is_admin()): ?>
       <!-- Settings (Admin Only) -->
-      <li class="<?php echo (in_array($current_page, ['settings.php', 'users.php', 'departments.php'])) ? 'active' : ''; ?>">
+      <li class="<?php echo (in_array($current_page, ['settings.php', 'users.php', 'departments.php', 'audit_log.php'])) ? 'active' : ''; ?>">
         <a href="#" data-title="Settings"><i class="fa fa-cog fa-2x"></i><span class="menu-text"> Settings</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level">
           <li><a href="users.php">Users</a></li>
           <li><a href="departments.php">Departments</a></li>
+          <li><a href="audit_log.php">Audit Log</a></li>
           <li><a href="settings.php">System Settings</a></li>
         </ul>
       </li>

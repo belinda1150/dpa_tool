@@ -35,9 +35,12 @@ $flash = get_flash_message();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - DPIA Register</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/js/dataTables/dataTables.bootstrap.css?v=2" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
+    <link href="assets/js/dataTables/dataTables.bootstrap5.css?v=2" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -57,37 +60,20 @@ $flash = get_flash_message();
 
                 <?php if ($flash): ?>
                 <div class="alert alert-<?php echo $flash['type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <?php echo htmlspecialchars($flash['message']); ?>
                 </div>
                 <?php endif; ?>
 
-                <!-- Info Panel -->
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="alert alert-info">
-                            <i class="fa fa-info-circle"></i> <strong>When is a DPIA Required?</strong>
-                            A DPIA is mandatory when processing:
-                            <ul>
-                                <li>Special categories of personal data (health, biometrics, etc.)</li>
-                                <li>Personal data of minors (under 18 years)</li>
-                                <li>Large-scale processing (<?php echo number_format(DPIA_THRESHOLD_SUBJECTS); ?>+ data subjects)</li>
-                                <li>Cross-border transfers of personal data</li>
-                                <li>Systematic monitoring or profiling</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <i class="fa fa-shield"></i> DPIA Register
                                     </div>
-                                    <div class="col-md-6 text-right">
+                                    <div class="col-md-6 text-end">
                                         <a href="dpia_wizard.php" class="btn btn-primary btn-sm">
                                             <i class="fa fa-plus"></i> Start New DPIA
                                         </a>
@@ -97,7 +83,7 @@ $flash = get_flash_message();
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="dpiaTable">
                                         <thead>
@@ -135,18 +121,18 @@ $flash = get_flash_message();
                                                             $status_class = 'danger';
                                                             break;
                                                         default:
-                                                            $status_class = 'default';
+                                                            $status_class = 'secondary';
                                                     }
                                                     ?>
-                                                    <span class="label label-<?php echo $status_class; ?>">
+                                                    <span class="badge bg-<?php echo $status_class; ?>">
                                                         <?php echo ucfirst($entry['status']); ?>
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <?php if ($entry['screening_result'] == 'needed'): ?>
-                                                        <span class="label label-warning">DPIA Needed</span>
+                                                        <span class="badge bg-warning text-dark">DPIA Needed</span>
                                                     <?php else: ?>
-                                                        <span class="label label-default">Not Needed</span>
+                                                        <span class="badge bg-secondary">Not Needed</span>
                                                     <?php endif; ?>
                                                 </td>
                                                 <td class="text-center">
@@ -158,7 +144,7 @@ $flash = get_flash_message();
                                                 </td>
                                                 <td>
                                                     <?php
-                                                    $risk_class = 'default';
+                                                    $risk_class = 'secondary';
                                                     if ($entry['risk_level'] == 'High') {
                                                         $risk_class = 'danger';
                                                     } elseif ($entry['risk_level'] == 'Medium') {
@@ -167,27 +153,27 @@ $flash = get_flash_message();
                                                         $risk_class = 'success';
                                                     }
                                                     ?>
-                                                    <span class="label label-<?php echo $risk_class; ?>">
+                                                    <span class="badge bg-<?php echo $risk_class; ?>">
                                                         <?php echo $entry['risk_level']; ?>
                                                     </span>
                                                 </td>
                                                 <td><?php echo htmlspecialchars($entry['first_name'] . ' ' . $entry['last_name']); ?></td>
                                                 <td><?php echo format_date($entry['created_at'], 'd M Y'); ?></td>
                                                 <td>
-                                                    <a href="dpia_view.php?id=<?php echo $entry['dpia_id']; ?>" class="btn btn-info btn-xs" title="View">
+                                                    <a href="dpia_view.php?id=<?php echo $entry['dpia_id']; ?>" class="btn btn-info btn-sm" title="View">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
                                                     <?php if ($entry['status'] == 'draft' || $entry['status'] == 'rework'): ?>
-                                                    <a href="dpia_wizard.php?id=<?php echo $entry['dpia_id']; ?>" class="btn btn-warning btn-xs" title="Continue">
+                                                    <a href="dpia_wizard.php?id=<?php echo $entry['dpia_id']; ?>" class="btn btn-warning btn-sm" title="Continue">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
                                                     <?php endif; ?>
                                                     <?php if (is_dpo() && $entry['status'] == 'submitted'): ?>
-                                                    <a href="dpia_approve.php?id=<?php echo $entry['dpia_id']; ?>" class="btn btn-success btn-xs" title="Approve">
+                                                    <a href="dpia_approve.php?id=<?php echo $entry['dpia_id']; ?>" class="btn btn-success btn-sm" title="Approve">
                                                         <i class="fa fa-check"></i>
                                                     </a>
                                                     <?php endif; ?>
-                                                    <a href="dpia_export.php?id=<?php echo $entry['dpia_id']; ?>" class="btn btn-default btn-xs" title="Export PDF">
+                                                    <a href="dpia_export.php?id=<?php echo $entry['dpia_id']; ?>" class="btn btn-secondary btn-sm" title="Export PDF">
                                                         <i class="fa fa-download"></i>
                                                     </a>
                                                 </td>
@@ -205,12 +191,13 @@ $flash = get_flash_message();
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/dataTables/jquery.dataTables.js"></script>
-    <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
+    <script src="assets/js/dataTables/dataTables.bootstrap5.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
     <script>
         $(document).ready(function() {
             $('#dpiaTable').dataTable({

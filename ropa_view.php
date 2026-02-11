@@ -86,8 +86,11 @@ $incidents = db_fetch_all($stmt);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - View ROPA</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <style>
         .section-title {
@@ -132,51 +135,51 @@ $incidents = db_fetch_all($stmt);
                 <div class="row">
                     <div class="col-md-12">
                         <!-- Action Buttons -->
-                        <div class="btn-group pull-right" style="margin-bottom: 15px;">
+                        <div class="btn-group float-end" style="margin-bottom: 15px;">
                             <a href="ropa_edit.php?id=<?php echo $ropa_id; ?>" class="btn btn-warning">
                                 <i class="fa fa-edit"></i> Edit
                             </a>
                             <a href="ropa_export.php?id=<?php echo $ropa_id; ?>" class="btn btn-success">
                                 <i class="fa fa-download"></i> Export PDF
                             </a>
-                            <a href="ropa_list.php" class="btn btn-default">
+                            <a href="ropa_list.php" class="btn btn-secondary">
                                 <i class="fa fa-arrow-left"></i> Back to List
                             </a>
                         </div>
                         <div class="clearfix"></div>
 
                         <!-- Status and Flags -->
-                        <div class="panel panel-default">
-                            <div class="panel-body">
+                        <div class="card">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
                                         <strong>Status:</strong>
                                         <?php
                                         $status_class = $ropa['status'] == 'validated' ? 'success' : ($ropa['status'] == 'draft' ? 'warning' : 'default');
                                         ?>
-                                        <span class="label label-<?php echo $status_class; ?>">
+                                        <span class="badge bg-<?php echo $status_class; ?>">
                                             <?php echo ucfirst($ropa['status']); ?>
                                         </span>
                                     </div>
                                     <div class="col-md-9">
                                         <strong>Risk Flags:</strong>
                                         <?php if ($ropa['has_special_categories']): ?>
-                                            <span class="label label-danger">
+                                            <span class="badge bg-danger">
                                                 <i class="fa fa-exclamation-circle"></i> Special Categories
                                             </span>
                                         <?php endif; ?>
                                         <?php if ($ropa['has_minors']): ?>
-                                            <span class="label label-warning">
+                                            <span class="badge bg-warning text-dark">
                                                 <i class="fa fa-child"></i> Involves Minors
                                             </span>
                                         <?php endif; ?>
                                         <?php if ($ropa['has_cross_border']): ?>
-                                            <span class="label label-info">
+                                            <span class="badge bg-info text-dark">
                                                 <i class="fa fa-globe"></i> Cross-Border Transfer
                                             </span>
                                         <?php endif; ?>
                                         <?php if ($ropa['estimated_data_subjects'] >= DPIA_THRESHOLD_SUBJECTS): ?>
-                                            <span class="label label-primary">
+                                            <span class="badge bg-primary">
                                                 <i class="fa fa-users"></i> Large Scale (<?php echo number_format($ropa['estimated_data_subjects']); ?> subjects)
                                             </span>
                                         <?php endif; ?>
@@ -186,11 +189,11 @@ $incidents = db_fetch_all($stmt);
                         </div>
 
                         <!-- Basic Information -->
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
+                        <div class="card border-primary">
+                            <div class="card-header">
                                 <i class="fa fa-info-circle"></i> Basic Information
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="info-row">
                                     <div class="info-label">Activity Name:</div>
                                     <div><?php echo htmlspecialchars($ropa['activity_name']); ?></div>
@@ -243,11 +246,11 @@ $incidents = db_fetch_all($stmt);
                         </div>
 
                         <!-- Data Subjects and Categories -->
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
+                        <div class="card border-info">
+                            <div class="card-header">
                                 <i class="fa fa-users"></i> Data Subjects and Categories
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="info-label">Categories of Data Subjects:</div>
@@ -287,11 +290,11 @@ $incidents = db_fetch_all($stmt);
                         </div>
 
                         <!-- Recipients and Storage -->
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">
+                        <div class="card border-warning">
+                            <div class="card-header">
                                 <i class="fa fa-share-alt"></i> Recipients and Storage
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="info-label">Recipients / Third Parties:</div>
@@ -340,11 +343,11 @@ $incidents = db_fetch_all($stmt);
                         </div>
 
                         <!-- Retention and Security -->
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
+                        <div class="card border-success">
+                            <div class="card-header">
                                 <i class="fa fa-shield"></i> Retention and Security
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="info-row">
                                     <div class="info-label">Retention Policy:</div>
                                     <div>
@@ -410,11 +413,11 @@ $incidents = db_fetch_all($stmt);
 
                         <!-- Linked DPIAs -->
                         <?php if (!empty($dpias)): ?>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 <i class="fa fa-shield"></i> Linked DPIAs (<?php echo count($dpias); ?>)
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
@@ -430,14 +433,14 @@ $incidents = db_fetch_all($stmt);
                                         <tr>
                                             <td><?php echo htmlspecialchars($dpia['dpia_title']); ?></td>
                                             <td>
-                                                <span class="label label-<?php echo $dpia['status'] == 'approved' ? 'success' : 'warning'; ?>">
+                                                <span class="badge bg-<?php echo $dpia['status'] == 'approved' ? 'success' : 'warning'; ?>">
                                                     <?php echo ucfirst($dpia['status']); ?>
                                                 </span>
                                             </td>
                                             <td><?php echo $dpia['residual_risk_score']; ?></td>
                                             <td><?php echo format_date($dpia['created_at'], 'd M Y'); ?></td>
                                             <td>
-                                                <a href="dpia_view.php?id=<?php echo $dpia['dpia_id']; ?>" class="btn btn-info btn-xs">
+                                                <a href="dpia_view.php?id=<?php echo $dpia['dpia_id']; ?>" class="btn btn-info btn-sm">
                                                     <i class="fa fa-eye"></i> View
                                                 </a>
                                             </td>
@@ -458,11 +461,11 @@ $incidents = db_fetch_all($stmt);
 
                         <!-- Linked Incidents -->
                         <?php if (!empty($incidents)): ?>
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
+                        <div class="card border-danger">
+                            <div class="card-header">
                                 <i class="fa fa-warning"></i> Related Incidents
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
@@ -480,14 +483,14 @@ $incidents = db_fetch_all($stmt);
                                             <td><?php echo htmlspecialchars($incident['incident_ref']); ?></td>
                                             <td><?php echo htmlspecialchars($incident['incident_title']); ?></td>
                                             <td>
-                                                <span class="label label-<?php echo $incident['severity'] == 'critical' ? 'danger' : ($incident['severity'] == 'serious' ? 'warning' : 'info'); ?>">
+                                                <span class="badge bg-<?php echo $incident['severity'] == 'critical' ? 'danger' : ($incident['severity'] == 'serious' ? 'warning' : 'info'); ?>">
                                                     <?php echo ucfirst($incident['severity']); ?>
                                                 </span>
                                             </td>
                                             <td><?php echo ucfirst($incident['status']); ?></td>
                                             <td><?php echo format_date($incident['detected_at'], 'd M Y'); ?></td>
                                             <td>
-                                                <a href="incident_view.php?id=<?php echo $incident['incident_id']; ?>" class="btn btn-info btn-xs">
+                                                <a href="incident_view.php?id=<?php echo $incident['incident_id']; ?>" class="btn btn-info btn-sm">
                                                     <i class="fa fa-eye"></i> View
                                                 </a>
                                             </td>
@@ -500,11 +503,11 @@ $incidents = db_fetch_all($stmt);
                         <?php endif; ?>
 
                         <!-- Metadata -->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 <i class="fa fa-clock-o"></i> Record Information
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="info-label">Created By:</div>
@@ -530,9 +533,10 @@ $incidents = db_fetch_all($stmt);
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

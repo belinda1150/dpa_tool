@@ -67,8 +67,11 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Lawful Basis Compliance Report</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <style>
@@ -107,12 +110,12 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
     <!-- Action Buttons -->
     <div class="row no-print">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-body">
                     <button onclick="window.print();" class="btn btn-primary">
                         <i class="fa fa-print"></i> Print Report
                     </button>
-                    <a href="reports.php" class="btn btn-default">
+                    <a href="reports.php" class="btn btn-secondary">
                         <i class="fa fa-arrow-left"></i> Back to Reports
                     </a>
                 </div>
@@ -123,11 +126,11 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
     <!-- Compliance Score -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-<?php echo $compliance_rate >= 90 ? 'success' : ($compliance_rate >= 70 ? 'warning' : 'danger'); ?>">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-bar-chart"></i> Overall Compliance Score</h3>
+            <div class="card border-<?php echo $compliance_rate >= 90 ? 'success' : ($compliance_rate >= 70 ? 'warning' : 'danger'); ?>">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-bar-chart"></i> Overall Compliance Score</h3>
                 </div>
-                <div class="panel-body text-center">
+                <div class="card-body text-center">
                     <div class="compliance-score <?php
                         if ($compliance_rate >= 95) echo 'score-excellent';
                         elseif ($compliance_rate >= 80) echo 'score-good';
@@ -158,13 +161,13 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
     <!-- Statistics Cards -->
     <div class="row">
         <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
+            <div class="card border-info">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-list fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $total_activities; ?></div>
                             <div>Total Activities</div>
                         </div>
@@ -174,13 +177,13 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-success">
-                <div class="panel-heading">
+            <div class="card border-success">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-check fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $with_basis; ?></div>
                             <div>With Lawful Basis</div>
                         </div>
@@ -190,13 +193,13 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
+            <div class="card border-danger">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-exclamation-triangle fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $without_basis; ?></div>
                             <div>Missing Basis</div>
                         </div>
@@ -206,13 +209,13 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-warning">
-                <div class="panel-heading">
+            <div class="card border-warning">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-check-square fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $consent_stats['active_consents'] ?? 0; ?></div>
                             <div>Active Consents</div>
                         </div>
@@ -225,19 +228,19 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
     <!-- Lawful Basis Breakdown -->
     <div class="row">
         <div class="col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-pie-chart"></i> Lawful Basis Distribution</h3>
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-pie-chart"></i> Lawful Basis Distribution</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if (!empty($by_basis)): ?>
                         <?php foreach ($by_basis as $basis_name => $count): ?>
                             <?php $percentage = round(($count / $total_activities) * 100); ?>
                             <div style="margin-bottom: 15px;">
                                 <strong><?php echo htmlspecialchars($basis_name); ?></strong>
-                                <span class="pull-right"><?php echo $count; ?> activit<?php echo $count > 1 ? 'ies' : 'y'; ?> (<?php echo $percentage; ?>%)</span>
+                                <span class="float-end"><?php echo $count; ?> activit<?php echo $count > 1 ? 'ies' : 'y'; ?> (<?php echo $percentage; ?>%)</span>
                                 <div class="progress" style="margin-top: 5px; margin-bottom: 0;">
-                                    <div class="progress-bar progress-bar-info" role="progressbar" style="width: <?php echo $percentage; ?>%"></div>
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: <?php echo $percentage; ?>%"></div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -249,11 +252,11 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
         </div>
 
         <div class="col-md-6">
-            <div class="panel panel-warning">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-check-square-o"></i> Consent Register Summary</h3>
+            <div class="card border-warning">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-check-square-o"></i> Consent Register Summary</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th>Total Consents Recorded:</th>
@@ -261,15 +264,15 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
                         </tr>
                         <tr>
                             <th>Active Consents:</th>
-                            <td><span class="label label-success"><?php echo $consent_stats['active_consents'] ?? 0; ?></span></td>
+                            <td><span class="badge bg-success"><?php echo $consent_stats['active_consents'] ?? 0; ?></span></td>
                         </tr>
                         <tr>
                             <th>Expired Consents:</th>
-                            <td><span class="label label-danger"><?php echo $consent_stats['expired_consents'] ?? 0; ?></span></td>
+                            <td><span class="badge bg-danger"><?php echo $consent_stats['expired_consents'] ?? 0; ?></span></td>
                         </tr>
                         <tr>
                             <th>Withdrawn Consents:</th>
-                            <td><span class="label label-warning"><?php echo $consent_stats['withdrawn_consents'] ?? 0; ?></span></td>
+                            <td><span class="badge bg-warning text-dark"><?php echo $consent_stats['withdrawn_consents'] ?? 0; ?></span></td>
                         </tr>
                     </table>
                     <a href="consent_list.php" class="btn btn-primary btn-block no-print">
@@ -284,11 +287,11 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
     <?php if ($without_basis > 0): ?>
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-exclamation-triangle"></i> Processing Activities WITHOUT Lawful Basis (URGENT)</h3>
+            <div class="card border-danger">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-exclamation-triangle"></i> Processing Activities WITHOUT Lawful Basis (URGENT)</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="alert alert-danger">
                         <strong><i class="fa fa-warning"></i> CDPA s.22 Violation:</strong>
                         Processing personal data without a lawful basis is illegal under Zimbabwe's Cyber and Data Protection Act.
@@ -314,7 +317,7 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
                                     <td><?php echo htmlspecialchars(substr($activity['description'] ?? '', 0, 80)) . '...'; ?></td>
                                     <td><?php echo htmlspecialchars($activity['created_by_name']); ?></td>
                                     <td class="no-print">
-                                        <a href="ropa_edit.php?id=<?php echo $activity['ropa_id']; ?>" class="btn btn-warning btn-xs">
+                                        <a href="ropa_edit.php?id=<?php echo $activity['ropa_id']; ?>" class="btn btn-warning btn-sm">
                                             <i class="fa fa-edit"></i> Add Lawful Basis
                                         </a>
                                     </td>
@@ -332,11 +335,11 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
     <!-- All Activities by Lawful Basis -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-table"></i> All Processing Activities by Lawful Basis</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-table"></i> All Processing Activities by Lawful Basis</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-striped table-bordered table-hover" id="activitiesTable">
                         <thead>
                             <tr>
@@ -355,9 +358,9 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
                                 <td><?php echo htmlspecialchars($activity['dept_name'] ?? 'N/A'); ?></td>
                                 <td>
                                     <?php if ($activity['lawful_basis_id']): ?>
-                                        <span class="label label-success"><?php echo htmlspecialchars($activity['basis_name']); ?></span>
+                                        <span class="badge bg-success"><?php echo htmlspecialchars($activity['basis_name']); ?></span>
                                     <?php else: ?>
-                                        <span class="label label-danger">NOT SET</span>
+                                        <span class="badge bg-danger">NOT SET</span>
                                     <?php endif; ?>
                                 </td>
                                 <td>
@@ -368,17 +371,17 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <span class="label label-<?php
+                                    <span class="badge bg-<?php
                                         echo $activity['status'] === 'validated' ? 'success' : 'warning';
                                     ?>">
                                         <?php echo ucfirst($activity['status']); ?>
                                     </span>
                                 </td>
                                 <td class="no-print">
-                                    <a href="ropa_view.php?id=<?php echo $activity['ropa_id']; ?>" class="btn btn-info btn-xs">
+                                    <a href="ropa_view.php?id=<?php echo $activity['ropa_id']; ?>" class="btn btn-info btn-sm">
                                         <i class="fa fa-eye"></i> View
                                     </a>
-                                    <a href="ropa_edit.php?id=<?php echo $activity['ropa_id']; ?>" class="btn btn-primary btn-xs">
+                                    <a href="ropa_edit.php?id=<?php echo $activity['ropa_id']; ?>" class="btn btn-primary btn-sm">
                                         <i class="fa fa-edit"></i> Edit
                                     </a>
                                 </td>
@@ -394,11 +397,11 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
     <!-- CDPA Reference Guide -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-book"></i> CDPA s.22: Lawful Basis for Processing</h3>
+            <div class="card border-info">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-book"></i> CDPA s.22: Lawful Basis for Processing</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <p><strong>Zimbabwe Cyber and Data Protection Act - Section 22</strong></p>
                     <p>Processing of personal data is lawful only if based on one of the following:</p>
 
@@ -441,10 +444,11 @@ $consent_stats = db_fetch_one(db_query($consent_query, [$org_id]));
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 <script src="assets/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function() {

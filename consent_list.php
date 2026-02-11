@@ -49,10 +49,13 @@ foreach ($consents as $consent) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Consent Management</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
-    <link href="assets/js/dataTables/dataTables.bootstrap.css?v=2" rel="stylesheet" />
+    <link href="assets/js/dataTables/dataTables.bootstrap5.css?v=2" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
 <body>
@@ -74,8 +77,8 @@ foreach ($consents as $consent) {
     <!-- Statistics Cards -->
     <div class="row">
         <div class="col-md-3">
-            <div class="panel panel-primary">
-                <div class="panel-body text-center">
+            <div class="card border-primary">
+                <div class="card-body text-center">
                     <h2 style="margin: 10px 0;"><?php echo $total; ?></h2>
                     <p class="text-muted" style="margin: 0;">
                         <i class="fa fa-list"></i> Total Consents
@@ -85,8 +88,8 @@ foreach ($consents as $consent) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-success">
-                <div class="panel-body text-center">
+            <div class="card border-success">
+                <div class="card-body text-center">
                     <h2 style="margin: 10px 0;"><?php echo $active; ?></h2>
                     <p class="text-muted" style="margin: 0;">
                         <i class="fa fa-check-circle"></i> Active
@@ -96,8 +99,8 @@ foreach ($consents as $consent) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-warning">
-                <div class="panel-body text-center">
+            <div class="card border-warning">
+                <div class="card-body text-center">
                     <h2 style="margin: 10px 0;"><?php echo $withdrawn; ?></h2>
                     <p class="text-muted" style="margin: 0;">
                         <i class="fa fa-times-circle"></i> Withdrawn
@@ -107,8 +110,8 @@ foreach ($consents as $consent) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-danger">
-                <div class="panel-body text-center">
+            <div class="card border-danger">
+                <div class="card-body text-center">
                     <h2 style="margin: 10px 0;"><?php echo $expired; ?></h2>
                     <p class="text-muted" style="margin: 0;">
                         <i class="fa fa-calendar-times-o"></i> Expired
@@ -125,7 +128,7 @@ foreach ($consents as $consent) {
             <div class="alert alert-warning">
                 <strong><i class="fa fa-clock-o"></i> Expiring Soon:</strong>
                 <?php echo $expiring_soon; ?> consent(s) will expire within 30 days. Consider renewal or obtaining new consent.
-                <a href="#" onclick="$('#consentsTable').DataTable().column(5).search('expiring').draw(); return false;" class="btn btn-warning btn-xs pull-right">
+                <a href="#" onclick="$('#consentsTable').DataTable().column(5).search('expiring').draw(); return false;" class="btn btn-warning btn-sm float-end">
                     <i class="fa fa-filter"></i> Show Expiring
                 </a>
             </div>
@@ -136,12 +139,12 @@ foreach ($consents as $consent) {
     <!-- Add New Consent Button -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
                         <i class="fa fa-list"></i> All Consents
                     </h3>
-                    <div class="pull-right" style="margin-top: -22px;">
+                    <div class="float-end" style="margin-top: -22px;">
                         <a href="consent_add.php" class="btn btn-primary btn-sm">
                             <i class="fa fa-plus"></i> Record New Consent
                         </a>
@@ -150,7 +153,7 @@ foreach ($consents as $consent) {
                         </a>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if (empty($consents)): ?>
                         <div class="alert alert-info">
                             <i class="fa fa-info-circle"></i>
@@ -193,19 +196,19 @@ foreach ($consents as $consent) {
                                             'active' => 'success',
                                             'withdrawn' => 'warning',
                                             'expired' => 'danger'
-                                        ][$consent['status']] ?? 'default';
-                                        echo "<span class='label label-$status_class'>" . ucfirst($consent['status']) . "</span>";
+                                        ][$consent['status']] ?? 'secondary';
+                                        echo "<span class='badge bg-$status_class'>" . ucfirst($consent['status']) . "</span>";
                                         ?>
                                     </td>
                                     <td>
                                         <?php
                                         if ($consent['status'] == 'active' && $consent['expiry_date']) {
                                             if ($consent['days_to_expiry'] <= 0) {
-                                                echo "<span class='label label-danger'><i class='fa fa-exclamation-triangle'></i> Expired</span>";
+                                                echo "<span class='badge bg-danger'><i class='fa fa-exclamation-triangle'></i> Expired</span>";
                                             } elseif ($consent['days_to_expiry'] <= 30) {
-                                                echo "<span class='label label-warning'><i class='fa fa-clock-o'></i> {$consent['days_to_expiry']} days</span>";
+                                                echo "<span class='badge bg-warning text-dark'><i class='fa fa-clock-o'></i> {$consent['days_to_expiry']} days</span>";
                                             } else {
-                                                echo "<span class='label label-success'><i class='fa fa-check'></i> Valid</span>";
+                                                echo "<span class='badge bg-success'><i class='fa fa-check'></i> Valid</span>";
                                             }
                                         } elseif ($consent['status'] == 'withdrawn') {
                                             echo "<span class='text-muted'>N/A</span>";
@@ -218,7 +221,7 @@ foreach ($consents as $consent) {
                                         <small><?php echo htmlspecialchars($consent['consent_method']); ?></small>
                                     </td>
                                     <td>
-                                        <div class="btn-group btn-group-xs">
+                                        <div class="btn-group btn-group-sm">
                                             <a href="consent_view.php?id=<?php echo $consent['consent_id']; ?>" class="btn btn-info" title="View Details">
                                                 <i class="fa fa-eye"></i>
                                             </a>
@@ -240,11 +243,11 @@ foreach ($consents as $consent) {
     <!-- Information Panel -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-info-circle"></i> About Consent Management</h3>
+            <div class="card border-info">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-info-circle"></i> About Consent Management</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <p><strong>What is Consent?</strong></p>
@@ -287,12 +290,13 @@ foreach ($consents as $consent) {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+<script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/dataTables/jquery.dataTables.js"></script>
-<script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
+<script src="assets/js/dataTables/dataTables.bootstrap5.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 <script>
 $(document).ready(function() {
     $('#consentsTable').DataTable({

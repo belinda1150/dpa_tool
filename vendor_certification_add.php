@@ -92,8 +92,11 @@ $cert_types = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Add Certification</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -119,11 +122,11 @@ $cert_types = [
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-certificate"></i> Certification Details</h3>
+                        <div class="card border-primary">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-certificate"></i> Certification Details</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <form method="POST">
                                     <div class="form-group">
                                         <label>Certification Type <span class="text-danger">*</span></label>
@@ -180,7 +183,7 @@ $cert_types = [
                                     </div>
 
                                     <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save Certification</button>
-                                    <a href="vendor_view.php?id=<?php echo $vendor_id; ?>" class="btn btn-default">Cancel</a>
+                                    <a href="vendor_view.php?id=<?php echo $vendor_id; ?>" class="btn btn-secondary">Cancel</a>
                                 </form>
                             </div>
                         </div>
@@ -190,9 +193,10 @@ $cert_types = [
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

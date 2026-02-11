@@ -56,8 +56,11 @@ $flash = get_flash_message();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Notifications</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <style>
         .notification-item {
@@ -118,7 +121,7 @@ $flash = get_flash_message();
 
                 <?php if ($flash): ?>
                 <div class="alert alert-<?php echo $flash['type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <?php echo htmlspecialchars($flash['message']); ?>
                 </div>
                 <?php endif; ?>
@@ -126,8 +129,8 @@ $flash = get_flash_message();
                 <!-- Statistics & Filters -->
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
+                        <div class="card">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <h4 style="margin-top: 5px;">
@@ -135,7 +138,7 @@ $flash = get_flash_message();
                                             Unread Notifications
                                         </h4>
                                     </div>
-                                    <div class="col-md-6 text-right">
+                                    <div class="col-md-6 text-end">
                                         <div class="btn-group">
                                             <a href="notifications.php?filter=unread" class="btn btn-<?php echo $filter === 'unread' ? 'primary' : 'default'; ?>">
                                                 <i class="fa fa-envelope"></i> Unread (<?php echo $unread_count; ?>)
@@ -162,8 +165,8 @@ $flash = get_flash_message();
                 <!-- Notifications List -->
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 <i class="fa fa-list"></i>
                                 <?php
                                 if ($filter === 'unread') echo 'Unread Notifications';
@@ -171,7 +174,7 @@ $flash = get_flash_message();
                                 else echo 'All Notifications';
                                 ?>
                             </div>
-                            <div class="panel-body" style="padding: 0;">
+                            <div class="card-body" style="padding: 0;">
                                 <?php if (empty($notifications)): ?>
                                 <div class="alert alert-info" style="margin: 15px;">
                                     <i class="fa fa-info-circle"></i>
@@ -220,12 +223,12 @@ $flash = get_flash_message();
                                             <div class="notification-title">
                                                 <?php echo htmlspecialchars($notif['title']); ?>
                                                 <?php if (!$notif['is_read']): ?>
-                                                <span class="label label-primary">New</span>
+                                                <span class="badge bg-primary">New</span>
                                                 <?php endif; ?>
                                                 <?php if ($notif['priority'] === 'critical'): ?>
-                                                <span class="label label-danger">Critical</span>
+                                                <span class="badge bg-danger">Critical</span>
                                                 <?php elseif ($notif['priority'] === 'high'): ?>
-                                                <span class="label label-warning">High Priority</span>
+                                                <span class="badge bg-warning text-dark">High Priority</span>
                                                 <?php endif; ?>
                                             </div>
                                             <div class="notification-message">
@@ -250,16 +253,16 @@ $flash = get_flash_message();
                                             </div>
                                             <div class="notification-actions">
                                                 <?php if ($notif['link_url']): ?>
-                                                <a href="<?php echo htmlspecialchars($notif['link_url']); ?>" class="btn btn-primary btn-xs">
+                                                <a href="<?php echo htmlspecialchars($notif['link_url']); ?>" class="btn btn-primary btn-sm">
                                                     <i class="fa fa-external-link"></i> View Details
                                                 </a>
                                                 <?php endif; ?>
                                                 <?php if (!$notif['is_read']): ?>
-                                                <a href="notifications_mark_read.php?id=<?php echo $notif['notification_id']; ?>" class="btn btn-success btn-xs">
+                                                <a href="notifications_mark_read.php?id=<?php echo $notif['notification_id']; ?>" class="btn btn-success btn-sm">
                                                     <i class="fa fa-check"></i> Mark as Read
                                                 </a>
                                                 <?php endif; ?>
-                                                <a href="notifications_delete.php?id=<?php echo $notif['notification_id']; ?>" class="btn btn-danger btn-xs"
+                                                <a href="notifications_delete.php?id=<?php echo $notif['notification_id']; ?>" class="btn btn-danger btn-sm"
                                                    onclick="return confirm('Delete this notification?');">
                                                     <i class="fa fa-trash"></i> Delete
                                                 </a>
@@ -278,9 +281,10 @@ $flash = get_flash_message();
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

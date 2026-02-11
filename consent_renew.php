@@ -101,8 +101,11 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Renew Consent</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -141,11 +144,11 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
         <div class="row">
             <div class="col-md-8">
                 <!-- Renewal Details -->
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-refresh"></i> New Consent Details</h3>
+                <div class="card border-primary">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-refresh"></i> New Consent Details</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="alert alert-warning">
                             <strong><i class="fa fa-exclamation-triangle"></i> Important:</strong>
                             Renewal requires obtaining fresh consent from the data subject. You must have evidence
@@ -205,11 +208,11 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
                 </div>
 
                 <!-- Original Consent Summary (Read-Only) -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-file-text"></i> Original Consent Summary (Unchanged)</h3>
+                <div class="card border-info">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-file-text"></i> Original Consent Summary (Unchanged)</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <p><strong>Data Subject:</strong><br>
@@ -250,23 +253,23 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
 
             <div class="col-md-4">
                 <!-- Action Buttons -->
-                <div class="panel panel-default">
-                    <div class="panel-body">
+                <div class="card">
+                    <div class="card-body">
                         <button type="submit" class="btn btn-success btn-block btn-lg">
                             <i class="fa fa-refresh"></i> Create Renewed Consent
                         </button>
-                        <a href="consent_view.php?id=<?php echo $original_consent_id; ?>" class="btn btn-default btn-block">
+                        <a href="consent_view.php?id=<?php echo $original_consent_id; ?>" class="btn btn-secondary btn-block">
                             <i class="fa fa-times"></i> Cancel
                         </a>
                     </div>
                 </div>
 
                 <!-- Renewal Requirements -->
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-check-square"></i> Renewal Requirements</h3>
+                <div class="card border-warning">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-check-square"></i> Renewal Requirements</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <p style="font-size: 12px;"><strong>Before renewing:</strong></p>
                         <ul style="font-size: 11px;">
                             <li>Contact data subject with renewal request</li>
@@ -288,18 +291,18 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
                 </div>
 
                 <!-- Original Consent Details -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-clock-o"></i> Original Consent</h3>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-clock-o"></i> Original Consent</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <p style="font-size: 12px; margin: 0;">
                             <strong>Original Date:</strong><br>
                             <?php echo date('d F Y', strtotime($original_consent['consent_date'])); ?><br><br>
                             <?php if ($original_consent['expiry_date']): ?>
                             <strong>Expiry Date:</strong><br>
                             <?php echo date('d F Y', strtotime($original_consent['expiry_date'])); ?><br>
-                            <span class="label label-<?php echo strtotime($original_consent['expiry_date']) < time() ? 'danger' : 'warning'; ?>">
+                            <span class="badge bg-<?php echo strtotime($original_consent['expiry_date']) < time() ? 'danger' : 'warning'; ?>">
                                 <?php echo strtotime($original_consent['expiry_date']) < time() ? 'Expired' : 'Expiring Soon'; ?>
                             </span><br><br>
                             <?php endif; ?>
@@ -310,11 +313,11 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
                 </div>
 
                 <!-- Best Practices -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-lightbulb-o"></i> Best Practices</h3>
+                <div class="card border-info">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-lightbulb-o"></i> Best Practices</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <p style="font-size: 11px; margin: 0;">
                             <strong>Renewal Timing:</strong><br>
                             Contact data subjects 30 days before expiry. If no response within 14 days,
@@ -338,9 +341,10 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

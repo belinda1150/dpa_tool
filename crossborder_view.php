@@ -48,7 +48,7 @@ $status_colors = [
     'approved' => 'success',
     'blocked' => 'danger'
 ];
-$status_color = $status_colors[$transfer['status']] ?? 'default';
+$status_color = $status_colors[$transfer['status']] ?? 'secondary';
 
 ?>
 <!DOCTYPE html>
@@ -57,8 +57,11 @@ $status_color = $status_colors[$transfer['status']] ?? 'default';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - View Cross-Border Transfer</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -83,15 +86,15 @@ $status_color = $status_colors[$transfer['status']] ?? 'default';
     <!-- Action Buttons -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-body">
                     <a href="crossborder_edit.php?id=<?php echo $cb_id; ?>" class="btn btn-primary">
                         <i class="fa fa-edit"></i> Edit Transfer
                     </a>
-                    <a href="crossborder_list.php" class="btn btn-default">
+                    <a href="crossborder_list.php" class="btn btn-secondary">
                         <i class="fa fa-arrow-left"></i> Back to List
                     </a>
-                    <a href="crossborder_export.php?id=<?php echo $cb_id; ?>" class="btn btn-success pull-right">
+                    <a href="crossborder_export.php?id=<?php echo $cb_id; ?>" class="btn btn-success float-end">
                         <i class="fa fa-download"></i> Generate POTRAZ Notification Template
                     </a>
                 </div>
@@ -104,18 +107,18 @@ $status_color = $status_colors[$transfer['status']] ?? 'default';
         <div class="col-md-6">
 
             <!-- Transfer Information -->
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="card border-primary">
+                <div class="card-header">
                     <i class="fa fa-info-circle"></i> Transfer Information
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th width="40%">Destination Country:</th>
                             <td>
                                 <strong><?php echo htmlspecialchars($transfer['destination_country']); ?></strong>
                                 <?php if ($transfer['is_high_risk']): ?>
-                                    <span class="label label-danger">
+                                    <span class="badge bg-danger">
                                         <i class="fa fa-exclamation-triangle"></i> HIGH RISK
                                     </span>
                                 <?php endif; ?>
@@ -138,7 +141,7 @@ $status_color = $status_colors[$transfer['status']] ?? 'default';
                         <tr>
                             <th>Transfer Frequency:</th>
                             <td>
-                                <span class="label label-default">
+                                <span class="badge bg-secondary">
                                     <?php echo ucfirst($transfer['transfer_frequency']); ?>
                                 </span>
                             </td>
@@ -158,11 +161,11 @@ $status_color = $status_colors[$transfer['status']] ?? 'default';
             </div>
 
             <!-- Metadata -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                <div class="card-header">
                     <i class="fa fa-clock-o"></i> Record Metadata
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th width="40%">Created By:</th>
@@ -189,11 +192,11 @@ $status_color = $status_colors[$transfer['status']] ?? 'default';
         <div class="col-md-6">
 
             <!-- Safeguards & Compliance -->
-            <div class="panel panel-info">
-                <div class="panel-heading">
+            <div class="card border-info">
+                <div class="card-header">
                     <i class="fa fa-shield"></i> Safeguards & Compliance Status
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th width="40%">Legal Safeguard:</th>
@@ -211,7 +214,7 @@ $status_color = $status_colors[$transfer['status']] ?? 'default';
                         <tr>
                             <th>Status:</th>
                             <td>
-                                <span class="label label-<?php echo $status_color; ?>" style="font-size: 14px; padding: 8px 12px;">
+                                <span class="badge bg-<?php echo $status_color; ?>" style="font-size: 14px; padding: 8px 12px;">
                                     <?php echo strtoupper($transfer['status']); ?>
                                 </span>
                             </td>
@@ -249,11 +252,11 @@ $status_color = $status_colors[$transfer['status']] ?? 'default';
             </div>
 
             <!-- Compliance Checklist -->
-            <div class="panel panel-<?php echo $transfer['is_high_risk'] ? 'danger' : 'success'; ?>">
-                <div class="panel-heading">
+            <div class="card border-<?php echo $transfer['is_high_risk'] ? 'danger' : 'success'; ?>">
+                <div class="card-header">
                     <i class="fa fa-check-square-o"></i> Compliance Checklist
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <ul class="list-unstyled">
                         <li>
                             <i class="fa fa-<?php echo $transfer['safeguard_id'] ? 'check text-success' : 'times text-danger'; ?>"></i>
@@ -291,9 +294,10 @@ $status_color = $status_colors[$transfer['status']] ?? 'default';
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

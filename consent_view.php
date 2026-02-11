@@ -73,8 +73,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - View Consent</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -98,11 +101,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
     <div class="row">
         <div class="col-md-8">
             <!-- Consent Summary -->
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-info-circle"></i> Consent Summary</h3>
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-info-circle"></i> Consent Summary</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th width="25%">Consent ID:</th>
@@ -122,8 +125,8 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
                                     'active' => 'success',
                                     'withdrawn' => 'warning',
                                     'expired' => 'danger'
-                                ][$consent['status']] ?? 'default';
-                                echo "<span class='label label-$status_class' style='font-size: 14px;'>" . ucfirst($consent['status']) . "</span>";
+                                ][$consent['status']] ?? 'secondary';
+                                echo "<span class='badge bg-$status_class' style='font-size: 14px;'>" . ucfirst($consent['status']) . "</span>";
                                 ?>
                             </td>
                         </tr>
@@ -146,11 +149,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
                                 <?php echo date('d F Y', strtotime($consent['expiry_date'])); ?>
                                 <?php if ($consent['status'] == 'active'): ?>
                                     <?php if ($consent['days_to_expiry'] <= 0): ?>
-                                        <span class="label label-danger"><i class="fa fa-exclamation-triangle"></i> Expired</span>
+                                        <span class="badge bg-danger"><i class="fa fa-exclamation-triangle"></i> Expired</span>
                                     <?php elseif ($consent['days_to_expiry'] <= 30): ?>
-                                        <span class="label label-warning"><i class="fa fa-clock-o"></i> Expires in <?php echo $consent['days_to_expiry']; ?> days</span>
+                                        <span class="badge bg-warning text-dark"><i class="fa fa-clock-o"></i> Expires in <?php echo $consent['days_to_expiry']; ?> days</span>
                                     <?php else: ?>
-                                        <span class="label label-success"><i class="fa fa-check"></i> Valid</span>
+                                        <span class="badge bg-success"><i class="fa fa-check"></i> Valid</span>
                                     <?php endif; ?>
                                 <?php endif; ?>
                             </td>
@@ -173,11 +176,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
             </div>
 
             <!-- Data Subject Information -->
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-user"></i> Data Subject Information</h3>
+            <div class="card border-info">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-user"></i> Data Subject Information</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th width="25%">Name:</th>
@@ -200,11 +203,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
             </div>
 
             <!-- Purpose Details -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-file-text"></i> Purpose & Scope</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-file-text"></i> Purpose & Scope</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if ($consent['purpose_description']): ?>
                     <p><strong>Purpose Description:</strong></p>
                     <div style="background-color: #f9f9f9; padding: 15px; border: 1px solid #ddd; border-radius: 4px; white-space: pre-wrap; margin-bottom: 20px;">
@@ -235,11 +238,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
 
             <!-- Consent Evidence -->
             <?php if ($consent['consent_evidence']): ?>
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-check-circle"></i> Consent Evidence</h3>
+            <div class="card border-success">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-check-circle"></i> Consent Evidence</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div style="background-color: #f9f9f9; padding: 15px; border: 1px solid #ddd; border-radius: 4px; white-space: pre-wrap;">
 <?php echo htmlspecialchars($consent['consent_evidence']); ?>
                     </div>
@@ -249,11 +252,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
 
             <!-- Withdrawal Details (if withdrawn) -->
             <?php if ($consent['status'] == 'withdrawn'): ?>
-            <div class="panel panel-warning">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-times-circle"></i> Withdrawal Details</h3>
+            <div class="card border-warning">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-times-circle"></i> Withdrawal Details</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th width="25%">Withdrawal Date:</th>
@@ -295,18 +298,18 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
 
             <!-- Activity History -->
             <?php if (!empty($history)): ?>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-history"></i> Activity History</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-history"></i> Activity History</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="timeline">
                         <?php foreach ($history as $log): ?>
                         <div style="margin-bottom: 15px; padding-left: 30px; border-left: 2px solid #3498db; position: relative;">
                             <div style="position: absolute; left: -8px; top: 0; width: 14px; height: 14px; border-radius: 50%; background: #3498db;"></div>
                             <div>
                                 <strong><?php echo htmlspecialchars($log['action']); ?></strong>
-                                <small class="text-muted pull-right">
+                                <small class="text-muted float-end">
                                     <?php echo date('d M Y, H:i', strtotime($log['created_at'])); ?>
                                 </small>
                             </div>
@@ -323,11 +326,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
 
         <div class="col-md-4">
             <!-- Status Panel -->
-            <div class="panel panel-<?php echo $consent['status'] == 'active' ? 'success' : 'warning'; ?>">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-info-circle"></i> Consent Status</h3>
+            <div class="card border-<?php echo $consent['status'] == 'active' ? 'success' : 'warning'; ?>">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-info-circle"></i> Consent Status</h3>
                 </div>
-                <div class="panel-body text-center">
+                <div class="card-body text-center">
                     <?php if ($consent['status'] == 'active'): ?>
                         <h2 style="margin: 10px 0; color: #27ae60;">
                             <i class="fa fa-check-circle"></i> ACTIVE
@@ -349,17 +352,17 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
 
             <!-- Actions -->
             <?php if ($consent['status'] == 'active'): ?>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-cogs"></i> Actions</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-cogs"></i> Actions</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if ($consent['expiry_date'] && $consent['days_to_expiry'] <= 60): ?>
                     <a href="consent_renew.php?id=<?php echo $consent_id; ?>" class="btn btn-success btn-block">
                         <i class="fa fa-refresh"></i> Renew Consent
                     </a>
                     <?php endif; ?>
-                    <button type="button" class="btn btn-warning btn-block" data-toggle="modal" data-target="#withdrawModal">
+                    <button type="button" class="btn btn-warning btn-block" data-bs-toggle="modal" data-bs-target="#withdrawModal">
                         <i class="fa fa-times-circle"></i> Withdraw Consent
                     </button>
                     <a href="consent_export.php?id=<?php echo $consent_id; ?>&format=pdf" class="btn btn-primary btn-block">
@@ -368,11 +371,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
                 </div>
             </div>
             <?php elseif ($consent['status'] == 'expired'): ?>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-cogs"></i> Actions</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-cogs"></i> Actions</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <a href="consent_renew.php?id=<?php echo $consent_id; ?>" class="btn btn-success btn-block">
                         <i class="fa fa-refresh"></i> Renew Consent
                     </a>
@@ -382,15 +385,15 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
                 </div>
             </div>
             <?php else: ?>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-download"></i> Export</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-download"></i> Export</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <a href="consent_export.php?id=<?php echo $consent_id; ?>&format=pdf" class="btn btn-primary btn-block">
                         <i class="fa fa-file-pdf-o"></i> Export PDF
                     </a>
-                    <a href="consent_export.php?id=<?php echo $consent_id; ?>&format=csv" class="btn btn-default btn-block">
+                    <a href="consent_export.php?id=<?php echo $consent_id; ?>&format=csv" class="btn btn-secondary btn-block">
                         <i class="fa fa-file-excel-o"></i> Export CSV
                     </a>
                 </div>
@@ -398,11 +401,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
             <?php endif; ?>
 
             <!-- Metadata -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-info"></i> Metadata</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-info"></i> Metadata</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <p class="text-muted" style="margin: 0; font-size: 12px;">
                         <strong>Recorded By:</strong><br>
                         <?php echo htmlspecialchars($consent['creator_first'] . ' ' . $consent['creator_last']); ?><br>
@@ -416,7 +419,7 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
                 </div>
             </div>
 
-            <a href="consent_list.php" class="btn btn-default btn-block">
+            <a href="consent_list.php" class="btn btn-secondary btn-block">
                 <i class="fa fa-arrow-left"></i> Back to List
             </a>
         </div>
@@ -430,7 +433,7 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
             <form method="POST" action="consent_view.php?id=<?php echo $consent_id; ?>">
                 <input type="hidden" name="action" value="withdraw">
                 <div class="modal-header" style="background-color: #f39c12; color: white;">
-                    <button type="button" class="close" data-dismiss="modal" style="color: white;">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     <h4 class="modal-title"><i class="fa fa-times-circle"></i> Withdraw Consent</h4>
                 </div>
                 <div class="modal-body">
@@ -467,7 +470,7 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="fa fa-times"></i> Cancel
                     </button>
                     <button type="submit" class="btn btn-warning">
@@ -479,9 +482,10 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $consent_id]));
     </div>
 </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

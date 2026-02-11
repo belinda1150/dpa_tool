@@ -65,8 +65,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - DSR Request Details</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -90,11 +93,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
     <div class="row">
         <div class="col-md-8">
             <!-- Request Summary -->
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-info-circle"></i> Request Summary</h3>
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-info-circle"></i> Request Summary</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th width="25%">Request ID:</th>
@@ -103,7 +106,7 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
                         <tr>
                             <th>Request Type:</th>
                             <td>
-                                <span class="label label-info" style="font-size: 13px;">
+                                <span class="badge bg-info text-dark" style="font-size: 13px;">
                                     <?php echo htmlspecialchars($dsr['request_type']); ?>
                                 </span>
                             </td>
@@ -117,8 +120,8 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
                                     'in_progress' => 'info',
                                     'completed' => 'success',
                                     'rejected' => 'danger'
-                                ][$dsr['status']] ?? 'default';
-                                echo "<span class='label label-$status_class' style='font-size: 13px;'>" . ucfirst(str_replace('_', ' ', $dsr['status'])) . "</span>";
+                                ][$dsr['status']] ?? 'secondary';
+                                echo "<span class='badge bg-$status_class' style='font-size: 13px;'>" . ucfirst(str_replace('_', ' ', $dsr['status'])) . "</span>";
                                 ?>
                             </td>
                         </tr>
@@ -131,8 +134,8 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
                                     'medium' => 'info',
                                     'high' => 'warning',
                                     'urgent' => 'danger'
-                                ][$dsr['priority']] ?? 'default';
-                                echo "<span class='label label-$priority_class' style='font-size: 13px;'>" . ucfirst($dsr['priority']) . "</span>";
+                                ][$dsr['priority']] ?? 'secondary';
+                                echo "<span class='badge bg-$priority_class' style='font-size: 13px;'>" . ucfirst($dsr['priority']) . "</span>";
                                 ?>
                             </td>
                         </tr>
@@ -168,11 +171,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
             </div>
 
             <!-- Data Subject Information -->
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-user"></i> Data Subject Information</h3>
+            <div class="card border-info">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-user"></i> Data Subject Information</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th width="25%">Name:</th>
@@ -194,7 +197,7 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
                             <th>Identity Verified:</th>
                             <td>
                                 <?php if ($dsr['identity_verified']): ?>
-                                    <span class="label label-success"><i class="fa fa-check"></i> Verified</span>
+                                    <span class="badge bg-success"><i class="fa fa-check"></i> Verified</span>
                                     <br><small class="text-muted">
                                         <?php echo date('d M Y, H:i', strtotime($dsr['verification_date'])); ?>
                                         <?php if ($dsr['verification_method']): ?>
@@ -202,7 +205,7 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
                                         <?php endif; ?>
                                     </small>
                                 <?php else: ?>
-                                    <span class="label label-warning"><i class="fa fa-warning"></i> Not Verified</span>
+                                    <span class="badge bg-warning text-dark"><i class="fa fa-warning"></i> Not Verified</span>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -211,11 +214,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
             </div>
 
             <!-- Request Details -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-file-text"></i> Request Details</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-file-text"></i> Request Details</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <p><strong>Description:</strong></p>
                     <div style="background-color: #f9f9f9; padding: 15px; border: 1px solid #ddd; border-radius: 4px; white-space: pre-wrap;">
 <?php echo htmlspecialchars($dsr['request_description']); ?>
@@ -232,14 +235,14 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
 
             <!-- Response Details (if completed) -->
             <?php if ($dsr['status'] == 'completed' || $dsr['status'] == 'rejected'): ?>
-            <div class="panel panel-<?php echo $dsr['status'] == 'completed' ? 'success' : 'danger'; ?>">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
+            <div class="card border-<?php echo $dsr['status'] == 'completed' ? 'success' : 'danger'; ?>">
+                <div class="card-header">
+                    <h3 class="card-title">
                         <i class="fa fa-<?php echo $dsr['status'] == 'completed' ? 'check-circle' : 'times-circle'; ?>"></i>
                         Response Details
                     </h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th width="25%">Completion Date:</th>
@@ -250,9 +253,9 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
                             <td>
                                 <strong><?php echo $dsr['days_to_complete']; ?> days</strong>
                                 <?php if ($dsr['days_to_complete'] <= 30): ?>
-                                    <span class="label label-success"><i class="fa fa-check"></i> Within SLA</span>
+                                    <span class="badge bg-success"><i class="fa fa-check"></i> Within SLA</span>
                                 <?php else: ?>
-                                    <span class="label label-danger"><i class="fa fa-times"></i> Exceeded SLA</span>
+                                    <span class="badge bg-danger"><i class="fa fa-times"></i> Exceeded SLA</span>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -277,18 +280,18 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
 
             <!-- Activity History -->
             <?php if (!empty($history)): ?>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-history"></i> Activity History</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-history"></i> Activity History</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="timeline">
                         <?php foreach ($history as $log): ?>
                         <div style="margin-bottom: 15px; padding-left: 30px; border-left: 2px solid #3498db; position: relative;">
                             <div style="position: absolute; left: -8px; top: 0; width: 14px; height: 14px; border-radius: 50%; background: #3498db;"></div>
                             <div>
                                 <strong><?php echo htmlspecialchars($log['action']); ?></strong>
-                                <small class="text-muted pull-right">
+                                <small class="text-muted float-end">
                                     <?php echo date('d M Y, H:i', strtotime($log['created_at'])); ?>
                                 </small>
                             </div>
@@ -305,11 +308,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
 
         <div class="col-md-4">
             <!-- SLA Tracking -->
-            <div class="panel panel-<?php echo $sla_status == 'overdue' ? 'danger' : ($sla_status == 'due_soon' ? 'warning' : 'success'); ?>">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-clock-o"></i> SLA Tracking</h3>
+            <div class="card border-<?php echo $sla_status == 'overdue' ? 'danger' : ($sla_status == 'due_soon' ? 'warning' : 'success'); ?>">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-clock-o"></i> SLA Tracking</h3>
                 </div>
-                <div class="panel-body text-center">
+                <div class="card-body text-center">
                     <?php if ($dsr['status'] == 'completed' || $dsr['status'] == 'rejected'): ?>
                         <h2 style="margin: 10px 0;"><?php echo $dsr['days_to_complete']; ?> Days</h2>
                         <p class="text-muted">Time to Complete</p>
@@ -333,7 +336,7 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
                             $progress = min(100, ($dsr['days_elapsed'] / 30) * 100);
                             $progress_class = $sla_status == 'overdue' ? 'danger' : ($sla_status == 'due_soon' ? 'warning' : 'info');
                             ?>
-                            <div class="progress-bar progress-bar-<?php echo $progress_class; ?>" style="width: <?php echo $progress; ?>%">
+                            <div class="progress-bar bg-<?php echo $progress_class; ?>" style="width: <?php echo $progress; ?>%">
                                 <?php echo round($progress); ?>%
                             </div>
                         </div>
@@ -360,11 +363,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
 
             <!-- Actions -->
             <?php if ($dsr['status'] != 'completed' && $dsr['status'] != 'rejected'): ?>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-cogs"></i> Actions</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-cogs"></i> Actions</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <a href="dsr_process.php?id=<?php echo $dsr_id; ?>" class="btn btn-success btn-block">
                         <i class="fa fa-check"></i> Process Request
                     </a>
@@ -374,15 +377,15 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
                 </div>
             </div>
             <?php else: ?>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-download"></i> Export</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-download"></i> Export</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <a href="dsr_export.php?id=<?php echo $dsr_id; ?>&format=pdf" class="btn btn-primary btn-block">
                         <i class="fa fa-file-pdf-o"></i> Export PDF
                     </a>
-                    <a href="dsr_export.php?id=<?php echo $dsr_id; ?>&format=csv" class="btn btn-default btn-block">
+                    <a href="dsr_export.php?id=<?php echo $dsr_id; ?>&format=csv" class="btn btn-secondary btn-block">
                         <i class="fa fa-file-excel-o"></i> Export CSV
                     </a>
                 </div>
@@ -390,11 +393,11 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
             <?php endif; ?>
 
             <!-- Metadata -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-info"></i> Metadata</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-info"></i> Metadata</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <p class="text-muted" style="margin: 0; font-size: 12px;">
                         <strong>Created By:</strong><br>
                         <?php echo htmlspecialchars($dsr['creator_first'] . ' ' . $dsr['creator_last']); ?><br>
@@ -408,16 +411,17 @@ $history = db_fetch_all(db_query($history_query, [$org_id, $dsr_id]));
                 </div>
             </div>
 
-            <a href="dsr_list.php" class="btn btn-default btn-block">
+            <a href="dsr_list.php" class="btn btn-secondary btn-block">
                 <i class="fa fa-arrow-left"></i> Back to List
             </a>
         </div>
     </div>
 </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

@@ -108,8 +108,11 @@ $users = db_fetch_all(db_query($users_query, [$org_id]));
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - New DSR Request</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -131,7 +134,7 @@ $users = db_fetch_all(db_query($users_query, [$org_id]));
 
     <?php if (!empty($errors)): ?>
         <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <strong>Validation Errors:</strong>
             <ul>
                 <?php foreach ($errors as $error): ?>
@@ -145,11 +148,11 @@ $users = db_fetch_all(db_query($users_query, [$org_id]));
         <div class="row">
             <div class="col-md-8">
                 <!-- Request Type -->
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-gavel"></i> Request Type</h3>
+                <div class="card border-primary">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-gavel"></i> Request Type</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label>Type of Request <span class="text-danger">*</span></label>
                             <select name="request_type" id="requestType" class="form-control" required>
@@ -173,11 +176,11 @@ $users = db_fetch_all(db_query($users_query, [$org_id]));
                 </div>
 
                 <!-- Data Subject Information -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-user"></i> Data Subject Information</h3>
+                <div class="card border-info">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-user"></i> Data Subject Information</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label>Full Name <span class="text-danger">*</span></label>
                             <input type="text" name="subject_name" class="form-control" required
@@ -211,11 +214,11 @@ $users = db_fetch_all(db_query($users_query, [$org_id]));
                 </div>
 
                 <!-- Request Details -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-file-text"></i> Request Details</h3>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-file-text"></i> Request Details</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -254,11 +257,11 @@ $users = db_fetch_all(db_query($users_query, [$org_id]));
 
             <div class="col-md-4">
                 <!-- Assignment & Priority -->
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-tasks"></i> Assignment & Priority</h3>
+                <div class="card border-warning">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-tasks"></i> Assignment & Priority</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label>Assign To</label>
                             <select name="assigned_to" class="form-control">
@@ -290,23 +293,23 @@ $users = db_fetch_all(db_query($users_query, [$org_id]));
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="panel panel-default">
-                    <div class="panel-body">
+                <div class="card">
+                    <div class="card-body">
                         <button type="submit" class="btn btn-primary btn-block btn-lg">
                             <i class="fa fa-save"></i> Register DSR Request
                         </button>
-                        <a href="dsr_list.php" class="btn btn-default btn-block">
+                        <a href="dsr_list.php" class="btn btn-secondary btn-block">
                             <i class="fa fa-times"></i> Cancel
                         </a>
                     </div>
                 </div>
 
                 <!-- Quick Reference -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-info-circle"></i> Quick Reference</h3>
+                <div class="card border-info">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-info-circle"></i> Quick Reference</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <p><strong>Response Timeline:</strong></p>
                         <ul style="font-size: 12px; margin-bottom: 0;">
                             <li><strong>Day 1:</strong> Acknowledge receipt</li>
@@ -370,9 +373,10 @@ $(document).ready(function() {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

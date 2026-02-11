@@ -38,12 +38,12 @@ if (!$assessment) {
 
 function get_risk_badge($level) {
     $badges = [
-        'critical' => '<span class="label label-danger">Critical</span>',
-        'high' => '<span class="label label-warning">High</span>',
-        'medium' => '<span class="label label-info">Medium</span>',
-        'low' => '<span class="label label-success">Low</span>'
+        'critical' => '<span class="badge bg-danger">Critical</span>',
+        'high' => '<span class="badge bg-warning text-dark">High</span>',
+        'medium' => '<span class="badge bg-info text-dark">Medium</span>',
+        'low' => '<span class="badge bg-success">Low</span>'
     ];
-    return $badges[$level] ?? '<span class="label label-default">' . ucfirst($level) . '</span>';
+    return $badges[$level] ?? '<span class="badge bg-secondary">' . ucfirst($level) . '</span>';
 }
 
 function get_score_class($score) {
@@ -67,8 +67,11 @@ $risk_categories = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - View Assessment</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -88,8 +91,8 @@ $risk_categories = [
                             - <?php echo htmlspecialchars($assessment['assessment_ref']); ?>
                         </h5>
                     </div>
-                    <div class="col-md-4 text-right">
-                        <a href="vendor_view.php?id=<?php echo $assessment['vendor_id']; ?>" class="btn btn-default">
+                    <div class="col-md-4 text-end">
+                        <a href="vendor_view.php?id=<?php echo $assessment['vendor_id']; ?>" class="btn btn-secondary">
                             <i class="fa fa-arrow-left"></i> Back to Vendor
                         </a>
                     </div>
@@ -99,11 +102,11 @@ $risk_categories = [
                 <div class="row">
                     <div class="col-md-8">
                         <!-- Assessment Details -->
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-info-circle"></i> Assessment Details</h3>
+                        <div class="card border-primary">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-info-circle"></i> Assessment Details</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <p><strong>Assessment Type:</strong> <?php echo ucwords(str_replace('_', ' ', $assessment['assessment_type'])); ?></p>
@@ -114,10 +117,10 @@ $risk_categories = [
                                         <p><strong>Status:</strong>
                                             <?php
                                             $status_badges = [
-                                                'draft' => '<span class="label label-default">Draft</span>',
-                                                'in_progress' => '<span class="label label-info">In Progress</span>',
-                                                'completed' => '<span class="label label-primary">Completed</span>',
-                                                'approved' => '<span class="label label-success">Approved</span>'
+                                                'draft' => '<span class="badge bg-secondary">Draft</span>',
+                                                'in_progress' => '<span class="badge bg-info text-dark">In Progress</span>',
+                                                'completed' => '<span class="badge bg-primary">Completed</span>',
+                                                'approved' => '<span class="badge bg-success">Approved</span>'
                                             ];
                                             echo $status_badges[$assessment['status']] ?? $assessment['status'];
                                             ?>
@@ -132,11 +135,11 @@ $risk_categories = [
                         </div>
 
                         <!-- Risk Scores -->
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-line-chart"></i> Risk Scores by Category</h3>
+                        <div class="card border-warning">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-line-chart"></i> Risk Scores by Category</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -158,7 +161,7 @@ $risk_categories = [
                                             <td class="text-center"><?php echo $likelihood; ?></td>
                                             <td class="text-center"><?php echo $impact; ?></td>
                                             <td class="text-center">
-                                                <span class="label label-<?php echo $scoreClass; ?>"><?php echo $score; ?></span>
+                                                <span class="badge bg-<?php echo $scoreClass; ?>"><?php echo $score; ?></span>
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>
@@ -167,7 +170,7 @@ $risk_categories = [
                                         <tr class="active">
                                             <td colspan="3"><strong>Overall Inherent Risk</strong></td>
                                             <td class="text-center">
-                                                <span class="label label-<?php echo get_score_class($assessment['inherent_risk_score']); ?>" style="font-size: 14px;">
+                                                <span class="badge bg-<?php echo get_score_class($assessment['inherent_risk_score']); ?>" style="font-size: 14px;">
                                                     <?php echo number_format($assessment['inherent_risk_score'], 1); ?>
                                                 </span>
                                                 <?php echo get_risk_badge($assessment['inherent_risk_level']); ?>
@@ -179,11 +182,11 @@ $risk_categories = [
                         </div>
 
                         <!-- Treatment Plan -->
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-shield"></i> Treatment Plan</h3>
+                        <div class="card border-success">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-shield"></i> Treatment Plan</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <p><strong>Strategy:</strong> <?php echo ucfirst($assessment['treatment_strategy']); ?></p>
                                 <?php if ($assessment['treatment_owner_id']): ?>
                                 <p><strong>Owner:</strong> <?php echo htmlspecialchars($assessment['owner_first'] . ' ' . $assessment['owner_last']); ?></p>
@@ -201,11 +204,11 @@ $risk_categories = [
 
                         <!-- Findings -->
                         <?php if ($assessment['key_findings'] || $assessment['recommendations']): ?>
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-file-text"></i> Findings & Recommendations</h3>
+                        <div class="card border-info">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-file-text"></i> Findings & Recommendations</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <?php if ($assessment['key_findings']): ?>
                                 <h5><strong>Key Findings:</strong></h5>
                                 <p><?php echo nl2br(htmlspecialchars($assessment['key_findings'])); ?></p>
@@ -222,13 +225,13 @@ $risk_categories = [
 
                     <div class="col-md-4">
                         <!-- Overall Score Card -->
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-warning"></i> Overall Risk</h3>
+                        <div class="card border-danger">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-warning"></i> Overall Risk</h3>
                             </div>
-                            <div class="panel-body text-center">
+                            <div class="card-body text-center">
                                 <h1>
-                                    <span class="label label-<?php echo get_score_class($assessment['inherent_risk_score']); ?>" style="font-size: 48px;">
+                                    <span class="badge bg-<?php echo get_score_class($assessment['inherent_risk_score']); ?>" style="font-size: 48px;">
                                         <?php echo number_format($assessment['inherent_risk_score'], 1); ?>
                                     </span>
                                 </h1>
@@ -237,11 +240,11 @@ $risk_categories = [
                         </div>
 
                         <!-- Metadata -->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-clock-o"></i> Metadata</h3>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-clock-o"></i> Metadata</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <p><strong>Created:</strong><br><?php echo format_datetime($assessment['created_at'], 'd M Y H:i'); ?></p>
                                 <p><strong>Last Updated:</strong><br><?php echo format_datetime($assessment['updated_at'], 'd M Y H:i'); ?></p>
                             </div>
@@ -252,9 +255,10 @@ $risk_categories = [
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

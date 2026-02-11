@@ -111,9 +111,12 @@ $flash = get_flash_message();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Storage Locations</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/js/dataTables/dataTables.bootstrap.css?v=2" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
+    <link href="assets/js/dataTables/dataTables.bootstrap5.css?v=2" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -133,14 +136,14 @@ $flash = get_flash_message();
 
                 <?php if ($flash): ?>
                 <div class="alert alert-<?php echo $flash['type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <?php echo htmlspecialchars($flash['message']); ?>
                 </div>
                 <?php endif; ?>
 
                 <?php if (!empty($errors)): ?>
                 <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <strong>Please fix the following errors:</strong>
                     <ul>
                         <?php foreach ($errors as $error): ?>
@@ -152,7 +155,7 @@ $flash = get_flash_message();
 
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#addLocationModal">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLocationModal">
                             <i class="fa fa-plus"></i> Add Storage Location
                         </button>
                     </div>
@@ -161,11 +164,11 @@ $flash = get_flash_message();
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 Storage Locations
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="locationsTable">
                                         <thead>
@@ -185,7 +188,7 @@ $flash = get_flash_message();
                                                 <td>
                                                     <?php
                                                     $type = $location['location_type'];
-                                                    $label_class = ($type === 'cloud') ? 'label-primary' : (($type === 'hybrid') ? 'label-info' : 'label-default');
+                                                    $label_class = ($type === 'cloud') ? 'label-primary' : (($type === 'hybrid') ? 'label-info' : 'badge bg-secondary');
                                                     ?>
                                                     <span class="label <?php echo $label_class; ?>"><?php echo htmlspecialchars(ucfirst($type)); ?></span>
                                                 </td>
@@ -193,10 +196,10 @@ $flash = get_flash_message();
                                                 <td><?php echo htmlspecialchars($location['country'] ?? '-'); ?></td>
                                                 <td><?php echo htmlspecialchars($location['region'] ?? '-'); ?></td>
                                                 <td>
-                                                    <button class="btn btn-primary btn-xs" onclick="editLocation(<?php echo htmlspecialchars(json_encode($location)); ?>)">
+                                                    <button class="btn btn-primary btn-sm" onclick="editLocation(<?php echo htmlspecialchars(json_encode($location)); ?>)">
                                                         <i class="fa fa-edit"></i> Edit
                                                     </button>
-                                                    <button class="btn btn-danger btn-xs" onclick="deleteLocation(<?php echo $location['location_id']; ?>, '<?php echo htmlspecialchars(addslashes($location['location_name'])); ?>')">
+                                                    <button class="btn btn-danger btn-sm" onclick="deleteLocation(<?php echo $location['location_id']; ?>, '<?php echo htmlspecialchars(addslashes($location['location_name'])); ?>')">
                                                         <i class="fa fa-trash"></i> Delete
                                                     </button>
                                                 </td>
@@ -221,7 +224,7 @@ $flash = get_flash_message();
                 <form method="post" action="storage_locations.php">
                     <input type="hidden" name="action" value="add">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         <h4 class="modal-title">Add Storage Location</h4>
                     </div>
                     <div class="modal-body">
@@ -261,7 +264,7 @@ $flash = get_flash_message();
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-save"></i> Add Location
                         </button>
@@ -279,7 +282,7 @@ $flash = get_flash_message();
                     <input type="hidden" name="action" value="edit">
                     <input type="hidden" name="location_id" id="edit_location_id">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         <h4 class="modal-title">Edit Storage Location</h4>
                     </div>
                     <div class="modal-body">
@@ -314,7 +317,7 @@ $flash = get_flash_message();
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-save"></i> Update Location
                         </button>
@@ -332,7 +335,7 @@ $flash = get_flash_message();
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="location_id" id="delete_location_id">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         <h4 class="modal-title">Confirm Deletion</h4>
                     </div>
                     <div class="modal-body">
@@ -340,7 +343,7 @@ $flash = get_flash_message();
                         <p class="text-danger"><i class="fa fa-warning"></i> This action cannot be undone.</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-danger">
                             <i class="fa fa-trash"></i> Delete
                         </button>
@@ -350,12 +353,13 @@ $flash = get_flash_message();
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/dataTables/jquery.dataTables.js"></script>
-    <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
+    <script src="assets/js/dataTables/dataTables.bootstrap5.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 
     <script>
     $(document).ready(function() {

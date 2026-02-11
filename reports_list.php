@@ -130,8 +130,11 @@ $compliance_score = max(0, min(100, $compliance_score));
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Reports & Compliance</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <style>
@@ -176,13 +179,13 @@ $compliance_score = max(0, min(100, $compliance_score));
     <!-- Compliance Score Card -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h3 class="card-title">
                         <i class="fa fa-shield"></i> Overall Compliance Score
                     </h3>
                 </div>
-                <div class="panel-body text-center">
+                <div class="card-body text-center">
                     <h1 style="font-size: 72px; margin: 20px 0;">
                         <?php
                         $score_color = $compliance_score >= 80 ? '#27ae60' : ($compliance_score >= 60 ? '#f39c12' : '#c0392b');
@@ -190,7 +193,7 @@ $compliance_score = max(0, min(100, $compliance_score));
                         ?>
                     </h1>
                     <div class="progress" style="height: 30px;">
-                        <div class="progress-bar progress-bar-<?php echo $compliance_score >= 80 ? 'success' : ($compliance_score >= 60 ? 'warning' : 'danger'); ?>"
+                        <div class="progress-bar bg-<?php echo $compliance_score >= 80 ? 'success' : ($compliance_score >= 60 ? 'warning' : 'danger'); ?>"
                              style="width: <?php echo $compliance_score; ?>%">
                             <?php echo round($compliance_score); ?>% Compliant
                         </div>
@@ -214,11 +217,11 @@ $compliance_score = max(0, min(100, $compliance_score));
     <!-- Statistics Grid -->
     <div class="row">
         <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-list-alt"></i> ROPA Entries</h3>
+            <div class="card border-info">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-list-alt"></i> ROPA Entries</h3>
                 </div>
-                <div class="panel-body text-center">
+                <div class="card-body text-center">
                     <h2><?php echo $stats['ropa']['total']; ?></h2>
                     <p class="text-muted">
                         <?php echo $stats['ropa']['active']; ?> Active |
@@ -229,11 +232,11 @@ $compliance_score = max(0, min(100, $compliance_score));
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-shield"></i> DPIAs</h3>
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-shield"></i> DPIAs</h3>
                 </div>
-                <div class="panel-body text-center">
+                <div class="card-body text-center">
                     <h2><?php echo $stats['dpia']['total']; ?></h2>
                     <p class="text-muted">
                         <?php echo $stats['dpia']['approved']; ?> Approved |
@@ -244,11 +247,11 @@ $compliance_score = max(0, min(100, $compliance_score));
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-warning">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-exclamation-triangle"></i> Active Risks</h3>
+            <div class="card border-warning">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-exclamation-triangle"></i> Active Risks</h3>
                 </div>
-                <div class="panel-body text-center">
+                <div class="card-body text-center">
                     <h2><?php echo $stats['risks']['total']; ?></h2>
                     <p class="text-muted">
                         <?php echo $stats['risks']['critical_high']; ?> Critical/High |
@@ -259,11 +262,11 @@ $compliance_score = max(0, min(100, $compliance_score));
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-bolt"></i> Incidents (YTD)</h3>
+            <div class="card border-danger">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-bolt"></i> Incidents (YTD)</h3>
                 </div>
-                <div class="panel-body text-center">
+                <div class="card-body text-center">
                     <h2><?php echo $stats['incidents']['total']; ?></h2>
                     <p class="text-muted">
                         <?php echo $stats['incidents']['breaches']; ?> Breaches |
@@ -276,11 +279,11 @@ $compliance_score = max(0, min(100, $compliance_score));
 
     <div class="row">
         <div class="col-md-4">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-users"></i> DSR Requests (YTD)</h3>
+            <div class="card border-success">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-users"></i> DSR Requests (YTD)</h3>
                 </div>
-                <div class="panel-body text-center">
+                <div class="card-body text-center">
                     <h2><?php echo $stats['dsr']['total']; ?></h2>
                     <p class="text-muted">
                         <?php echo $stats['dsr']['completed']; ?> Completed |
@@ -291,11 +294,11 @@ $compliance_score = max(0, min(100, $compliance_score));
         </div>
 
         <div class="col-md-4">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-check-square"></i> Consents</h3>
+            <div class="card border-info">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-check-square"></i> Consents</h3>
                 </div>
-                <div class="panel-body text-center">
+                <div class="card-body text-center">
                     <h2><?php echo $stats['consent']['total']; ?></h2>
                     <p class="text-muted">
                         <?php echo $stats['consent']['active']; ?> Active |
@@ -306,11 +309,11 @@ $compliance_score = max(0, min(100, $compliance_score));
         </div>
 
         <div class="col-md-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-globe"></i> Cross-Border</h3>
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-globe"></i> Cross-Border</h3>
                 </div>
-                <div class="panel-body text-center">
+                <div class="card-body text-center">
                     <h2><?php echo $stats['transfers']['total']; ?></h2>
                     <p class="text-muted">
                         <?php echo $stats['transfers']['countries']; ?> Countries
@@ -323,11 +326,11 @@ $compliance_score = max(0, min(100, $compliance_score));
     <!-- Available Reports -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-file-pdf-o"></i> Available Reports</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-file-pdf-o"></i> Available Reports</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="list-group">
                         <!-- Annual Compliance Report -->
                         <div class="list-group-item">
@@ -350,6 +353,51 @@ $compliance_score = max(0, min(100, $compliance_score));
                             </div>
                         </div>
 
+                        <!-- CDPA Compliance Report Export -->
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <h4 class="list-group-item-heading">
+                                        <i class="fa fa-clipboard-check text-success"></i> CDPA Compliance Report
+                                    </h4>
+                                    <p class="list-group-item-text">
+                                        Full compliance status report including CDPA checklist scores, module statistics,
+                                        and DPO declaration. Suitable for POTRAZ submissions and board reporting.
+                                        <br><strong>Recommended Frequency:</strong> Quarterly or before POTRAZ submissions
+                                    </p>
+                                </div>
+                                <div class="col-md-3" style="display: flex; align-items: center; justify-content: flex-end; gap: 5px;">
+                                    <a href="report_compliance_export.php" class="btn btn-success">
+                                        <i class="fa fa-file-pdf-o"></i> Generate PDF
+                                    </a>
+                                    <a href="report_compliance_export.php?format=csv" class="btn btn-secondary">
+                                        <i class="fa fa-file-excel-o"></i> Export CSV
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Privacy Notice Generator -->
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <h4 class="list-group-item-heading">
+                                        <i class="fa fa-eye text-info"></i> Privacy Notice Generator
+                                    </h4>
+                                    <p class="list-group-item-text">
+                                        Auto-generates a privacy notice from your ROPA entries, processing purposes,
+                                        lawful bases, retention policies, and cross-border transfers. Ready to publish.
+                                        <br><strong>Recommended Frequency:</strong> Update whenever ROPA changes
+                                    </p>
+                                </div>
+                                <div class="col-md-3" style="display: flex; align-items: center; justify-content: flex-end;">
+                                    <a href="privacy_notice_generate.php" class="btn btn-info">
+                                        <i class="fa fa-file-text-o"></i> Generate Notice
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Data Breach Notifications Report -->
                         <div class="list-group-item">
                             <div class="row">
@@ -367,7 +415,7 @@ $compliance_score = max(0, min(100, $compliance_score));
                                     <a href="report_breach_notifications.php?format=pdf" class="btn btn-danger">
                                         <i class="fa fa-file-pdf-o"></i> Generate PDF
                                     </a>
-                                    <a href="report_breach_notifications.php?format=csv" class="btn btn-default">
+                                    <a href="report_breach_notifications.php?format=csv" class="btn btn-secondary">
                                         <i class="fa fa-file-excel-o"></i> Export CSV
                                     </a>
                                 </div>
@@ -412,7 +460,7 @@ $compliance_score = max(0, min(100, $compliance_score));
                                     <a href="ropa_export.php?format=pdf" class="btn btn-info">
                                         <i class="fa fa-file-pdf-o"></i> Generate PDF
                                     </a>
-                                    <a href="ropa_export.php?format=csv" class="btn btn-default">
+                                    <a href="ropa_export.php?format=csv" class="btn btn-secondary">
                                         <i class="fa fa-file-excel-o"></i> Export CSV
                                     </a>
                                 </div>
@@ -436,7 +484,7 @@ $compliance_score = max(0, min(100, $compliance_score));
                                     <a href="risk_export.php?format=pdf" class="btn btn-warning">
                                         <i class="fa fa-file-pdf-o"></i> Generate PDF
                                     </a>
-                                    <a href="risk_export.php?format=csv" class="btn btn-default">
+                                    <a href="risk_export.php?format=csv" class="btn btn-secondary">
                                         <i class="fa fa-file-excel-o"></i> Export CSV
                                     </a>
                                 </div>
@@ -451,11 +499,11 @@ $compliance_score = max(0, min(100, $compliance_score));
     <!-- POTRAZ Compliance Checklist -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-check-square-o"></i> POTRAZ Compliance Checklist</h3>
+            <div class="card border-success">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-check-square-o"></i> POTRAZ Compliance Checklist</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -475,9 +523,9 @@ $compliance_score = max(0, min(100, $compliance_score));
                                 <td>
                                     <?php
                                     if ($stats['ropa']['total'] > 0) {
-                                        echo "<span class='label label-success'>{$stats['ropa']['total']} Entries</span>";
+                                        echo "<span class='badge bg-success'>{$stats['ropa']['total']} Entries</span>";
                                     } else {
-                                        echo "<span class='label label-danger'>Not Started</span>";
+                                        echo "<span class='badge bg-danger'>Not Started</span>";
                                     }
                                     ?>
                                 </td>
@@ -494,11 +542,11 @@ $compliance_score = max(0, min(100, $compliance_score));
                                 <td>
                                     <?php
                                     if ($stats['ropa']['high_risk'] == 0) {
-                                        echo "<span class='label label-success'>No High-Risk Activities</span>";
+                                        echo "<span class='badge bg-success'>No High-Risk Activities</span>";
                                     } elseif ($dpia_compliant) {
-                                        echo "<span class='label label-success'>{$stats['dpia']['total']} / {$stats['ropa']['high_risk']} Complete</span>";
+                                        echo "<span class='badge bg-success'>{$stats['dpia']['total']} / {$stats['ropa']['high_risk']} Complete</span>";
                                     } else {
-                                        echo "<span class='label label-danger'>{$stats['dpia']['total']} / {$stats['ropa']['high_risk']} - Missing DPIAs</span>";
+                                        echo "<span class='badge bg-danger'>{$stats['dpia']['total']} / {$stats['ropa']['high_risk']} - Missing DPIAs</span>";
                                     }
                                     ?>
                                 </td>
@@ -512,11 +560,11 @@ $compliance_score = max(0, min(100, $compliance_score));
                                 <td>
                                     <?php
                                     if ($stats['incidents']['breaches'] == 0) {
-                                        echo "<span class='label label-success'>No Breaches</span>";
+                                        echo "<span class='badge bg-success'>No Breaches</span>";
                                     } elseif ($stats['incidents']['overdue'] == 0) {
-                                        echo "<span class='label label-success'>{$stats['incidents']['notified']} / {$stats['incidents']['breaches']} Notified</span>";
+                                        echo "<span class='badge bg-success'>{$stats['incidents']['notified']} / {$stats['incidents']['breaches']} Notified</span>";
                                     } else {
-                                        echo "<span class='label label-danger'>{$stats['incidents']['overdue']} Overdue Notifications</span>";
+                                        echo "<span class='badge bg-danger'>{$stats['incidents']['overdue']} Overdue Notifications</span>";
                                     }
                                     ?>
                                 </td>
@@ -530,11 +578,11 @@ $compliance_score = max(0, min(100, $compliance_score));
                                 <td>
                                     <?php
                                     if ($stats['dsr']['total'] == 0) {
-                                        echo "<span class='label label-info'>No Requests</span>";
+                                        echo "<span class='badge bg-info text-dark'>No Requests</span>";
                                     } elseif ($stats['dsr']['overdue'] == 0) {
-                                        echo "<span class='label label-success'>{$stats['dsr']['completed']} / {$stats['dsr']['total']} On Time</span>";
+                                        echo "<span class='badge bg-success'>{$stats['dsr']['completed']} / {$stats['dsr']['total']} On Time</span>";
                                     } else {
-                                        echo "<span class='label label-warning'>{$stats['dsr']['overdue']} Overdue</span>";
+                                        echo "<span class='badge bg-warning text-dark'>{$stats['dsr']['overdue']} Overdue</span>";
                                     }
                                     ?>
                                 </td>
@@ -548,9 +596,9 @@ $compliance_score = max(0, min(100, $compliance_score));
                                 <td>
                                     <?php
                                     if ($stats['risks']['total'] > 0) {
-                                        echo "<span class='label label-success'>{$stats['risks']['total']} Risks Identified</span>";
+                                        echo "<span class='badge bg-success'>{$stats['risks']['total']} Risks Identified</span>";
                                     } else {
-                                        echo "<span class='label label-danger'>No Risk Assessment</span>";
+                                        echo "<span class='badge bg-danger'>No Risk Assessment</span>";
                                     }
                                     ?>
                                 </td>
@@ -567,9 +615,10 @@ $compliance_score = max(0, min(100, $compliance_score));
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

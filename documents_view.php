@@ -121,7 +121,7 @@ $status_badges = [
     'expired' => 'danger',
     'archived' => 'default'
 ];
-$status_badge = $status_badges[$doc['status']] ?? 'default';
+$status_badge = $status_badges[$doc['status']] ?? 'secondary';
 
 ?>
 <!DOCTYPE html>
@@ -130,8 +130,11 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - View Document</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -156,19 +159,19 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
     <!-- Action Buttons -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-body">
                     <a href="<?php echo htmlspecialchars($doc['file_path']); ?>" class="btn btn-success" download>
                         <i class="fa fa-download"></i> Download
                     </a>
                     <a href="<?php echo htmlspecialchars($doc['file_path']); ?>" class="btn btn-info" target="_blank">
                         <i class="fa fa-external-link"></i> Open in New Tab
                     </a>
-                    <a href="documents_list.php" class="btn btn-default">
+                    <a href="documents_list.php" class="btn btn-secondary">
                         <i class="fa fa-arrow-left"></i> Back to List
                     </a>
                     <?php if (is_admin() || is_dpo()): ?>
-                        <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#deleteModal">
+                        <button type="button" class="btn btn-danger float-end" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class="fa fa-trash"></i> Delete
                         </button>
                     <?php endif; ?>
@@ -181,11 +184,11 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
         <!-- Left Column -->
         <div class="col-md-8">
             <!-- Document Information -->
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="card border-primary">
+                <div class="card-header">
                     <i class="fa fa-info-circle"></i> Document Information
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th width="25%">Document Name:</th>
@@ -194,7 +197,7 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
                         <tr>
                             <th>Document Type:</th>
                             <td>
-                                <span class="label label-default" style="font-size: 12px;">
+                                <span class="badge bg-secondary" style="font-size: 12px;">
                                     <?php echo strtoupper($doc['doc_type']); ?>
                                 </span>
                             </td>
@@ -206,7 +209,7 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
                         <tr>
                             <th>Status:</th>
                             <td>
-                                <span class="label label-<?php echo $status_badge; ?>" style="font-size: 12px;">
+                                <span class="badge bg-<?php echo $status_badge; ?>" style="font-size: 12px;">
                                     <?php echo ucfirst(str_replace('_', ' ', $doc['status'])); ?>
                                 </span>
                             </td>
@@ -223,9 +226,9 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
                             <td>
                                 <?php echo date('d F Y', strtotime($doc['expiry_date'])); ?>
                                 <?php if (strtotime($doc['expiry_date']) < time()): ?>
-                                    <span class="label label-danger">EXPIRED</span>
+                                    <span class="badge bg-danger">EXPIRED</span>
                                 <?php elseif ((strtotime($doc['expiry_date']) - time()) / (60 * 60 * 24) <= 30): ?>
-                                    <span class="label label-warning">EXPIRING SOON</span>
+                                    <span class="badge bg-warning text-dark">EXPIRING SOON</span>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -242,11 +245,11 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
 
             <!-- Markdown Content Viewer (for .md files) -->
             <?php if ($file_ext === 'md' && file_exists($doc['file_path'])): ?>
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                <div class="card-header">
                     <i class="fa fa-file-text"></i> Document Content
                 </div>
-                <div class="panel-body" style="background: white; padding: 30px; line-height: 1.8;">
+                <div class="card-body" style="background: white; padding: 30px; line-height: 1.8;">
                     <?php
                     // Simple markdown parser
                     function parseMarkdown($text) {
@@ -313,11 +316,11 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
 
             <!-- Linked Entities -->
             <?php if (!empty($links)): ?>
-            <div class="panel panel-info">
-                <div class="panel-heading">
+            <div class="card border-info">
+                <div class="card-header">
                     <i class="fa fa-link"></i> Linked Records (<?php echo count($links); ?>)
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -331,7 +334,7 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
                             <?php foreach ($links as $link): ?>
                             <tr>
                                 <td>
-                                    <span class="label label-primary">
+                                    <span class="badge bg-primary">
                                         <?php echo strtoupper($link['entity_type']); ?>
                                     </span>
                                 </td>
@@ -349,7 +352,7 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
                                     ];
                                     $view_url = $view_urls[$link['entity_type']] ?? '#';
                                     ?>
-                                    <a href="<?php echo $view_url . $link['entity_id']; ?>" class="btn btn-info btn-xs">
+                                    <a href="<?php echo $view_url . $link['entity_id']; ?>" class="btn btn-info btn-sm">
                                         <i class="fa fa-eye"></i> View
                                     </a>
                                 </td>
@@ -366,11 +369,11 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
         <!-- Right Column -->
         <div class="col-md-4">
             <!-- File Details -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                <div class="card-header">
                     <i class="fa fa-file-o"></i> File Details
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless" style="font-size: 12px;">
                         <tr>
                             <th>File Name:</th>
@@ -399,11 +402,11 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
             </div>
 
             <!-- Upload Information -->
-            <div class="panel panel-success">
-                <div class="panel-heading">
+            <div class="card border-success">
+                <div class="card-header">
                     <i class="fa fa-user"></i> Upload Information
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <p style="margin: 0; font-size: 12px;">
                         <strong>Uploaded By:</strong><br>
                         <?php echo htmlspecialchars($doc['uploaded_by_name']); ?><br>
@@ -424,11 +427,11 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
 
             <!-- Document Stats -->
             <?php if (!empty($links) || $doc['expiry_date'] || $doc['review_date']): ?>
-            <div class="panel panel-warning">
-                <div class="panel-heading">
+            <div class="card border-warning">
+                <div class="card-header">
                     <i class="fa fa-bar-chart"></i> Quick Stats
                 </div>
-                <div class="panel-body text-center">
+                <div class="card-body text-center">
                     <?php if (!empty($links)): ?>
                     <h3 style="margin: 10px 0;"><?php echo count($links); ?></h3>
                     <p class="text-muted" style="margin: 0;">Linked Records</p>
@@ -464,7 +467,7 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
             <form method="POST">
                 <input type="hidden" name="action" value="delete">
                 <div class="modal-header" style="background-color: #d9534f; color: white;">
-                    <button type="button" class="close" data-dismiss="modal" style="color: white;">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     <h4 class="modal-title"><i class="fa fa-trash"></i> Delete Document</h4>
                 </div>
                 <div class="modal-body">
@@ -476,7 +479,7 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
                     <p><strong><?php echo htmlspecialchars($doc['doc_name']); ?></strong></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="fa fa-times"></i> Cancel
                     </button>
                     <button type="submit" class="btn btn-danger">
@@ -488,9 +491,10 @@ $status_badge = $status_badges[$doc['status']] ?? 'default';
     </div>
 </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

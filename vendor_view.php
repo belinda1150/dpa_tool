@@ -95,53 +95,53 @@ $flash = get_flash_message();
 // Helper functions
 function get_status_badge($status) {
     $badges = [
-        'pending_review' => '<span class="label label-warning">Pending Review</span>',
-        'approved' => '<span class="label label-info">Approved</span>',
-        'active' => '<span class="label label-success">Active</span>',
-        'suspended' => '<span class="label label-danger">Suspended</span>',
-        'terminated' => '<span class="label label-default">Terminated</span>'
+        'pending_review' => '<span class="badge bg-warning text-dark">Pending Review</span>',
+        'approved' => '<span class="badge bg-info text-dark">Approved</span>',
+        'active' => '<span class="badge bg-success">Active</span>',
+        'suspended' => '<span class="badge bg-danger">Suspended</span>',
+        'terminated' => '<span class="badge bg-secondary">Terminated</span>'
     ];
-    return $badges[$status] ?? '<span class="label label-default">' . ucfirst($status) . '</span>';
+    return $badges[$status] ?? '<span class="badge bg-secondary">' . ucfirst($status) . '</span>';
 }
 
 function get_risk_badge($level) {
     $badges = [
-        'critical' => '<span class="label label-danger">Critical</span>',
-        'high' => '<span class="label label-warning">High</span>',
-        'medium' => '<span class="label label-info">Medium</span>',
-        'low' => '<span class="label label-success">Low</span>'
+        'critical' => '<span class="badge bg-danger">Critical</span>',
+        'high' => '<span class="badge bg-warning text-dark">High</span>',
+        'medium' => '<span class="badge bg-info text-dark">Medium</span>',
+        'low' => '<span class="badge bg-success">Low</span>'
     ];
-    return $badges[$level] ?? '<span class="label label-default">Not Assessed</span>';
+    return $badges[$level] ?? '<span class="badge bg-secondary">Not Assessed</span>';
 }
 
 function get_dpa_badge($status) {
     $badges = [
-        'none' => '<span class="label label-default">None</span>',
-        'pending' => '<span class="label label-warning">Pending</span>',
-        'under_review' => '<span class="label label-info">Under Review</span>',
-        'signed' => '<span class="label label-success">Signed</span>',
-        'expired' => '<span class="label label-danger">Expired</span>'
+        'none' => '<span class="badge bg-secondary">None</span>',
+        'pending' => '<span class="badge bg-warning text-dark">Pending</span>',
+        'under_review' => '<span class="badge bg-info text-dark">Under Review</span>',
+        'signed' => '<span class="badge bg-success">Signed</span>',
+        'expired' => '<span class="badge bg-danger">Expired</span>'
     ];
-    return $badges[$status] ?? '<span class="label label-default">' . ucfirst($status) . '</span>';
+    return $badges[$status] ?? '<span class="badge bg-secondary">' . ucfirst($status) . '</span>';
 }
 
 function get_cert_badge($status) {
     $badges = [
-        'valid' => '<span class="label label-success">Valid</span>',
-        'expired' => '<span class="label label-danger">Expired</span>',
-        'pending_renewal' => '<span class="label label-warning">Pending Renewal</span>'
+        'valid' => '<span class="badge bg-success">Valid</span>',
+        'expired' => '<span class="badge bg-danger">Expired</span>',
+        'pending_renewal' => '<span class="badge bg-warning text-dark">Pending Renewal</span>'
     ];
-    return $badges[$status] ?? '<span class="label label-default">' . ucfirst($status) . '</span>';
+    return $badges[$status] ?? '<span class="badge bg-secondary">' . ucfirst($status) . '</span>';
 }
 
 function get_diligence_badge($result) {
     $badges = [
-        'pending' => '<span class="label label-default">Pending</span>',
-        'passed' => '<span class="label label-success">Passed</span>',
-        'failed' => '<span class="label label-danger">Failed</span>',
-        'conditional' => '<span class="label label-warning">Conditional</span>'
+        'pending' => '<span class="badge bg-secondary">Pending</span>',
+        'passed' => '<span class="badge bg-success">Passed</span>',
+        'failed' => '<span class="badge bg-danger">Failed</span>',
+        'conditional' => '<span class="badge bg-warning text-dark">Conditional</span>'
     ];
-    return $badges[$result] ?? '<span class="label label-default">' . ucfirst($result) . '</span>';
+    return $badges[$result] ?? '<span class="badge bg-secondary">' . ucfirst($result) . '</span>';
 }
 
 // Get latest assessment for summary
@@ -153,8 +153,11 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - View Vendor</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <style>
         .info-row { margin-bottom: 10px; }
@@ -183,14 +186,14 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
                             <span class="text-muted"><?php echo ucwords(str_replace('_', ' ', $vendor['vendor_type'])); ?></span>
                         </h5>
                     </div>
-                    <div class="col-md-4 text-right">
+                    <div class="col-md-4 text-end">
                         <a href="vendor_edit.php?id=<?php echo $vendor_id; ?>" class="btn btn-warning">
                             <i class="fa fa-edit"></i> Edit
                         </a>
                         <a href="vendor_assessment_add.php?vendor_id=<?php echo $vendor_id; ?>" class="btn btn-primary">
                             <i class="fa fa-clipboard"></i> New Assessment
                         </a>
-                        <a href="vendor_list.php" class="btn btn-default">
+                        <a href="vendor_list.php" class="btn btn-secondary">
                             <i class="fa fa-arrow-left"></i> Back
                         </a>
                     </div>
@@ -199,7 +202,7 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
 
                 <?php if ($flash): ?>
                 <div class="alert alert-<?php echo $flash['type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <?php echo htmlspecialchars($flash['message']); ?>
                 </div>
                 <?php endif; ?>
@@ -209,11 +212,11 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
                     <div class="col-md-8">
 
                         <!-- Vendor Details -->
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-building"></i> Vendor Details</h3>
+                        <div class="card border-primary">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-building"></i> Vendor Details</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="info-row">
@@ -234,10 +237,10 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
                                             <span class="info-label">Criticality:</span>
                                             <?php
                                             $crit_badges = [
-                                                'low' => '<span class="label label-success">Low</span>',
-                                                'medium' => '<span class="label label-info">Medium</span>',
-                                                'high' => '<span class="label label-warning">High</span>',
-                                                'critical' => '<span class="label label-danger">Critical</span>'
+                                                'low' => '<span class="badge bg-success">Low</span>',
+                                                'medium' => '<span class="badge bg-info text-dark">Medium</span>',
+                                                'high' => '<span class="badge bg-warning text-dark">High</span>',
+                                                'critical' => '<span class="badge bg-danger">Critical</span>'
                                             ];
                                             echo $crit_badges[$vendor['criticality']] ?? $vendor['criticality'];
                                             ?>
@@ -282,11 +285,11 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
                         </div>
 
                         <!-- DPA & Contract -->
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-file-text"></i> DPA & Contract</h3>
+                        <div class="card border-success">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-file-text"></i> DPA & Contract</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="info-row">
@@ -358,11 +361,11 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
                         </div>
 
                         <!-- Data Processing Details -->
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-database"></i> Data Processing Details</h3>
+                        <div class="card border-warning">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-database"></i> Data Processing Details</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="info-row">
@@ -417,16 +420,16 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
                         </div>
 
                         <!-- Risk Assessments -->
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">
+                        <div class="card border-danger">
+                            <div class="card-header">
+                                <h3 class="card-title">
                                     <i class="fa fa-line-chart"></i> Risk Assessments
-                                    <a href="vendor_assessment_add.php?vendor_id=<?php echo $vendor_id; ?>" class="btn btn-xs btn-default pull-right">
+                                    <a href="vendor_assessment_add.php?vendor_id=<?php echo $vendor_id; ?>" class="btn btn-sm btn-secondary float-end">
                                         <i class="fa fa-plus"></i> New Assessment
                                     </a>
                                 </h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <?php if (empty($assessments)): ?>
                                     <p class="text-muted text-center">
                                         <i class="fa fa-info-circle"></i> No risk assessments yet.
@@ -456,16 +459,16 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
                                                     <td>
                                                         <?php
                                                         $assess_badges = [
-                                                            'draft' => '<span class="label label-default">Draft</span>',
-                                                            'in_progress' => '<span class="label label-info">In Progress</span>',
-                                                            'completed' => '<span class="label label-primary">Completed</span>',
-                                                            'approved' => '<span class="label label-success">Approved</span>'
+                                                            'draft' => '<span class="badge bg-secondary">Draft</span>',
+                                                            'in_progress' => '<span class="badge bg-info text-dark">In Progress</span>',
+                                                            'completed' => '<span class="badge bg-primary">Completed</span>',
+                                                            'approved' => '<span class="badge bg-success">Approved</span>'
                                                         ];
                                                         echo $assess_badges[$assess['status']] ?? $assess['status'];
                                                         ?>
                                                     </td>
                                                     <td>
-                                                        <a href="vendor_assessment_view.php?id=<?php echo $assess['assessment_id']; ?>" class="btn btn-xs btn-info">
+                                                        <a href="vendor_assessment_view.php?id=<?php echo $assess['assessment_id']; ?>" class="btn btn-sm btn-info">
                                                             <i class="fa fa-eye"></i>
                                                         </a>
                                                     </td>
@@ -479,16 +482,16 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
                         </div>
 
                         <!-- Certifications -->
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">
+                        <div class="card border-info">
+                            <div class="card-header">
+                                <h3 class="card-title">
                                     <i class="fa fa-certificate"></i> Certifications
-                                    <a href="vendor_certification_add.php?vendor_id=<?php echo $vendor_id; ?>" class="btn btn-xs btn-default pull-right">
+                                    <a href="vendor_certification_add.php?vendor_id=<?php echo $vendor_id; ?>" class="btn btn-sm btn-secondary float-end">
                                         <i class="fa fa-plus"></i> Add Certification
                                     </a>
                                 </h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <?php if (empty($certifications)): ?>
                                     <p class="text-muted text-center">
                                         <i class="fa fa-info-circle"></i> No certifications recorded.
@@ -531,16 +534,16 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
                         </div>
 
                         <!-- Due Diligence -->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
                                     <i class="fa fa-clipboard"></i> Due Diligence
-                                    <a href="vendor_diligence_add.php?vendor_id=<?php echo $vendor_id; ?>" class="btn btn-xs btn-default pull-right">
+                                    <a href="vendor_diligence_add.php?vendor_id=<?php echo $vendor_id; ?>" class="btn btn-sm btn-secondary float-end">
                                         <i class="fa fa-plus"></i> Add Questionnaire
                                     </a>
                                 </h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <?php if (empty($due_diligence)): ?>
                                     <p class="text-muted text-center">
                                         <i class="fa fa-info-circle"></i> No due diligence records.
@@ -588,11 +591,11 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
 
                         <!-- Risk Summary -->
                         <?php if ($latest_assessment): ?>
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-warning"></i> Latest Risk Assessment</h3>
+                        <div class="card border-danger">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-warning"></i> Latest Risk Assessment</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="text-center" style="margin-bottom: 15px;">
                                     <h2><?php echo get_risk_badge($latest_assessment['inherent_risk_level']); ?></h2>
                                     <p class="text-muted">
@@ -620,7 +623,7 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
                                 ?>
                                 <div class="risk-category">
                                     <small><?php echo $label; ?>:</small>
-                                    <span class="label label-<?php echo $class; ?> pull-right"><?php echo $score; ?></span>
+                                    <span class="badge bg-<?php echo $class; ?> float-end"><?php echo $score; ?></span>
                                 </div>
                                 <?php
                                     endif;
@@ -639,11 +642,11 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
                         <?php endif; ?>
 
                         <!-- Linked Processing Activities -->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-link"></i> Linked ROPA</h3>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-link"></i> Linked ROPA</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <?php if (empty($linked_ropa)): ?>
                                     <p class="text-muted text-center">No linked processing activities</p>
                                 <?php else: ?>
@@ -663,11 +666,11 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
 
                         <!-- Vendor DPO -->
                         <?php if ($vendor['dpo_name'] || $vendor['dpo_email']): ?>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-user-secret"></i> Vendor DPO</h3>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-user-secret"></i> Vendor DPO</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <?php if ($vendor['dpo_name']): ?>
                                 <div class="info-row">
                                     <span class="info-label">Name:</span>
@@ -687,11 +690,11 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
                         <?php endif; ?>
 
                         <!-- Metadata -->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-info-circle"></i> Metadata</h3>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-info-circle"></i> Metadata</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="info-row">
                                     <span class="info-label">Created:</span>
                                     <?php echo format_datetime($vendor['created_at'], 'd M Y H:i'); ?>
@@ -713,11 +716,11 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
 
                         <!-- Audit Log -->
                         <?php if (!empty($audit_logs)): ?>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-history"></i> Recent Activity</h3>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-history"></i> Recent Activity</h3>
                             </div>
-                            <div class="panel-body" style="max-height: 300px; overflow-y: auto;">
+                            <div class="card-body" style="max-height: 300px; overflow-y: auto;">
                                 <?php foreach ($audit_logs as $log): ?>
                                 <div style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
                                     <small class="text-muted"><?php echo format_datetime($log['created_at'], 'd M Y H:i'); ?></small>
@@ -731,11 +734,11 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
                         <?php endif; ?>
 
                         <!-- Actions -->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-cog"></i> Actions</h3>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa fa-cog"></i> Actions</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <?php if ($vendor['status'] === 'pending_review' && (has_permission('DPO') || is_admin())): ?>
                                 <a href="vendor_approve.php?id=<?php echo $vendor_id; ?>&action=approve" class="btn btn-success btn-block" onclick="return confirm('Approve this vendor?');">
                                     <i class="fa fa-check"></i> Approve Vendor
@@ -775,9 +778,10 @@ $latest_assessment = !empty($assessments) ? $assessments[0] : null;
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

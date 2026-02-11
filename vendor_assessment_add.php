@@ -214,8 +214,11 @@ $risk_categories = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Vendor Risk Assessment</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <style>
         .risk-category-panel { margin-bottom: 15px; }
@@ -259,7 +262,7 @@ $risk_categories = [
 
                 <?php if (!empty($form_errors)): ?>
                 <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <strong>Please correct the following errors:</strong>
                     <ul>
                         <?php foreach ($form_errors as $error): ?>
@@ -275,11 +278,11 @@ $risk_categories = [
                         <div class="col-md-8">
 
                             <!-- Assessment Info -->
-                            <div class="panel panel-primary">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-info-circle"></i> Assessment Information</h3>
+                            <div class="card border-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fa fa-info-circle"></i> Assessment Information</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
@@ -307,13 +310,13 @@ $risk_categories = [
 
                             <!-- Risk Categories -->
                             <?php foreach ($risk_categories as $key => $category): ?>
-                            <div class="panel panel-warning risk-category-panel">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">
+                            <div class="card border-warning risk-category-panel">
+                                <div class="card-header">
+                                    <h3 class="card-title">
                                         <i class="fa fa-exclamation-triangle"></i> <?php echo $category['label']; ?>
                                     </h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <p class="text-muted"><?php echo $category['description']; ?></p>
                                     <div class="row">
                                         <div class="col-sm-5">
@@ -347,7 +350,7 @@ $risk_categories = [
                                         <div class="col-sm-2">
                                             <div class="risk-score-display">
                                                 <div class="score-value">
-                                                    <span class="label label-default" id="<?php echo $key; ?>_score">9</span>
+                                                    <span class="badge bg-secondary" id="<?php echo $key; ?>_score">9</span>
                                                 </div>
                                                 <small>Score</small>
                                             </div>
@@ -358,11 +361,11 @@ $risk_categories = [
                             <?php endforeach; ?>
 
                             <!-- Treatment Plan -->
-                            <div class="panel panel-success">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-shield"></i> Risk Treatment Plan</h3>
+                            <div class="card border-success">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fa fa-shield"></i> Risk Treatment Plan</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
@@ -405,11 +408,11 @@ $risk_categories = [
                             </div>
 
                             <!-- Findings -->
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-file-text"></i> Findings & Recommendations</h3>
+                            <div class="card border-info">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fa fa-file-text"></i> Findings & Recommendations</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <div class="form-group">
                                         <label for="key_findings">Key Findings</label>
                                         <textarea name="key_findings" id="key_findings" class="form-control" rows="4"
@@ -430,14 +433,14 @@ $risk_categories = [
                         <div class="col-md-4">
 
                             <!-- Overall Risk Score -->
-                            <div class="panel panel-danger">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-warning"></i> Overall Risk Score</h3>
+                            <div class="card border-danger">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fa fa-warning"></i> Overall Risk Score</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <div class="overall-score" id="overallScoreDisplay">
                                         <div class="big-score">
-                                            <span class="label label-warning" id="overallScoreValue">9.0</span>
+                                            <span class="badge bg-warning text-dark" id="overallScoreValue">9.0</span>
                                         </div>
                                         <p id="overallScoreLabel">Medium Risk</p>
                                     </div>
@@ -454,7 +457,7 @@ $risk_categories = [
                                             <tr>
                                                 <td><?php echo $category['label']; ?></td>
                                                 <td class="text-center">
-                                                    <span class="label label-default category-score-display" id="<?php echo $key; ?>_score_summary">9</span>
+                                                    <span class="badge bg-secondary category-score-display" id="<?php echo $key; ?>_score_summary">9</span>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>
@@ -464,11 +467,11 @@ $risk_categories = [
                             </div>
 
                             <!-- Vendor Info -->
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-building"></i> Vendor Information</h3>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fa fa-building"></i> Vendor Information</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <p><strong>Name:</strong> <?php echo htmlspecialchars($vendor['vendor_name']); ?></p>
                                     <p><strong>Type:</strong> <?php echo ucwords(str_replace('_', ' ', $vendor['vendor_type'])); ?></p>
                                     <p><strong>Country:</strong> <?php echo htmlspecialchars($vendor['country'] ?? 'N/A'); ?></p>
@@ -478,15 +481,15 @@ $risk_categories = [
                             </div>
 
                             <!-- Risk Level Guide -->
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-info-circle"></i> Risk Level Guide</h3>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fa fa-info-circle"></i> Risk Level Guide</h3>
                                 </div>
-                                <div class="panel-body">
-                                    <p><span class="label label-danger">Critical</span> Score >= 20</p>
-                                    <p><span class="label label-warning">High</span> Score 15-19</p>
-                                    <p><span class="label label-info">Medium</span> Score 8-14</p>
-                                    <p><span class="label label-success">Low</span> Score < 8</p>
+                                <div class="card-body">
+                                    <p><span class="badge bg-danger">Critical</span> Score >= 20</p>
+                                    <p><span class="badge bg-warning text-dark">High</span> Score 15-19</p>
+                                    <p><span class="badge bg-info text-dark">Medium</span> Score 8-14</p>
+                                    <p><span class="badge bg-success">Low</span> Score < 8</p>
                                 </div>
                             </div>
 
@@ -496,12 +499,12 @@ $risk_categories = [
                     <!-- Form Actions -->
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
+                            <div class="card">
+                                <div class="card-body">
                                     <button type="submit" class="btn btn-success btn-lg">
                                         <i class="fa fa-save"></i> Complete Assessment
                                     </button>
-                                    <a href="vendor_view.php?id=<?php echo $vendor_id; ?>" class="btn btn-default btn-lg">
+                                    <a href="vendor_view.php?id=<?php echo $vendor_id; ?>" class="btn btn-secondary btn-lg">
                                         <i class="fa fa-times"></i> Cancel
                                     </a>
                                 </div>
@@ -514,10 +517,11 @@ $risk_categories = [
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
     <script>
         var categories = ['data_security', 'compliance', 'operational', 'financial', 'reputational'];
 
@@ -541,8 +545,8 @@ $risk_categories = [
             var score = likelihood * impact;
 
             var scoreClass = getScoreClass(score);
-            $('#' + category + '_score').removeClass().addClass('label label-' + scoreClass).text(score);
-            $('#' + category + '_score_summary').removeClass().addClass('label label-' + scoreClass).text(score);
+            $('#' + category + '_score').removeClass().addClass('badge bg-' + scoreClass).text(score);
+            $('#' + category + '_score_summary').removeClass().addClass('badge bg-' + scoreClass).text(score);
         }
 
         function updateOverallScore() {
@@ -557,7 +561,7 @@ $risk_categories = [
             var scoreClass = getScoreClass(avgScore);
             var scoreLabel = getScoreLabel(avgScore);
 
-            $('#overallScoreValue').removeClass().addClass('label label-' + scoreClass).text(avgScore.toFixed(1));
+            $('#overallScoreValue').removeClass().addClass('badge bg-' + scoreClass).text(avgScore.toFixed(1));
             $('#overallScoreLabel').text(scoreLabel);
         }
 

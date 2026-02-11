@@ -130,8 +130,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Assign Training</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <style>
@@ -173,11 +176,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Form -->
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="card border-primary">
+                <div class="card-header">
                     <i class="fa fa-graduation-cap"></i> Training Assignment
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
 
                     <?php if (empty($trainings)): ?>
                         <div class="alert alert-warning">
@@ -288,7 +291,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="form-group">
                             <label for="custom_due_at">Custom Due Date (Optional)</label>
                             <input type="date" class="form-control" id="custom_due_at" name="custom_due_at">
-                            <span class="help-block">Leave blank to use the training's default due period (will be calculated from today)</span>
+                            <span class="form-text">Leave blank to use the training's default due period (will be calculated from today)</span>
                         </div>
 
                         <!-- Action Buttons -->
@@ -296,7 +299,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <button type="submit" class="btn btn-success btn-lg">
                                 <i class="fa fa-check"></i> Assign Training
                             </button>
-                            <a href="training_list.php" class="btn btn-default btn-lg">
+                            <a href="training_list.php" class="btn btn-secondary btn-lg">
                                 <i class="fa fa-times"></i> Cancel
                             </a>
                         </div>
@@ -309,11 +312,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <!-- Help Panel -->
-            <div class="panel panel-info">
-                <div class="panel-heading">
+            <div class="card border-info">
+                <div class="card-header">
                     <i class="fa fa-info-circle"></i> Training Assignment Guidelines
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <ul>
                         <li><strong>Mandatory Training:</strong> Data protection awareness training should be assigned to all staff annually</li>
                         <li><strong>Role-Based Assignment:</strong> Assign specialized training based on job roles (e.g., incident response for IT)</li>
@@ -334,10 +337,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 <script>
 $(document).ready(function() {
     // Show/hide assignment sections based on radio selection

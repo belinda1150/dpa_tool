@@ -281,8 +281,11 @@ if ($ropa_id) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - DPIA Wizard</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <style>
         .wizard-header {
@@ -370,20 +373,20 @@ if ($ropa_id) {
                             <p><strong>Estimated Data Subjects:</strong> <?php echo number_format($ropa_details['estimated_data_subjects'] ?? 0); ?></p>
                             <p><strong>Flags:</strong>
                                 <?php if ($ropa_details['has_special_categories']): ?>
-                                    <span class="label label-primary">Special Categories</span>
+                                    <span class="badge bg-primary">Special Categories</span>
                                 <?php endif; ?>
                                 <?php if ($ropa_details['has_minors']): ?>
-                                    <span class="label label-warning">Minors</span>
+                                    <span class="badge bg-warning text-dark">Minors</span>
                                 <?php endif; ?>
                                 <?php if ($ropa_details['has_cross_border']): ?>
-                                    <span class="label label-info">Cross-Border</span>
+                                    <span class="badge bg-info text-dark">Cross-Border</span>
                                 <?php endif; ?>
                             </p>
                             <p><strong>Status:</strong>
                                 <?php if ($ropa_details['status'] == 'validated'): ?>
-                                    <span class="label label-success">Validated</span>
+                                    <span class="badge bg-success">Validated</span>
                                 <?php else: ?>
-                                    <span class="label label-warning">Draft</span>
+                                    <span class="badge bg-warning text-dark">Draft</span>
                                 <?php endif; ?>
                             </p>
                             <p><a href="ropa_view.php?id=<?php echo $ropa_details['ropa_id']; ?>" class="btn btn-sm btn-primary" target="_blank">
@@ -424,11 +427,11 @@ if ($ropa_id) {
                 <form method="POST" action="dpia_wizard.php?id=<?php echo $dpia_id; ?>&step=<?php echo $current_step; ?>">
                     <input type="hidden" name="step" value="<?php echo $current_step; ?>">
 
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
+                    <div class="card border-primary">
+                        <div class="card-header">
                             <i class="fa fa-list-ol"></i> Step <?php echo $current_step; ?>: <?php echo $steps[$current_step]; ?>
                         </div>
-                        <div class="panel-body">
+                        <div class="card-body">
 
                             <?php if ($current_step == 1): ?>
                                 <!-- Step 1: Screening -->
@@ -632,7 +635,7 @@ if ($ropa_id) {
                                     <?php endif; ?>
                                 </div>
 
-                                <button type="button" class="btn btn-default" onclick="addRisk()">
+                                <button type="button" class="btn btn-secondary" onclick="addRisk()">
                                     <i class="fa fa-plus"></i> Add Another Risk
                                 </button>
 
@@ -744,11 +747,11 @@ if ($ropa_id) {
                                                 <td>
                                                     <strong><?php echo $risk['residual_score']; ?></strong>
                                                     <?php if ($risk['residual_score'] >= RISK_ACCEPTABLE_THRESHOLD): ?>
-                                                        <span class="label label-danger">High</span>
+                                                        <span class="badge bg-danger">High</span>
                                                     <?php elseif ($risk['residual_score'] >= 3): ?>
-                                                        <span class="label label-warning">Medium</span>
+                                                        <span class="badge bg-warning text-dark">Medium</span>
                                                     <?php else: ?>
-                                                        <span class="label label-success">Low</span>
+                                                        <span class="badge bg-success">Low</span>
                                                     <?php endif; ?>
                                                 </td>
                                                 <td>
@@ -769,9 +772,9 @@ if ($ropa_id) {
                                                     <?php echo round($total_residual / $count, 1); ?>
                                                 </strong>
                                                 <?php if (($total_residual / $count) >= RISK_ACCEPTABLE_THRESHOLD): ?>
-                                                    <span class="label label-danger">UNACCEPTABLE - Further mitigation required</span>
+                                                    <span class="badge bg-danger">UNACCEPTABLE - Further mitigation required</span>
                                                 <?php else: ?>
-                                                    <span class="label label-success">ACCEPTABLE</span>
+                                                    <span class="badge bg-success">ACCEPTABLE</span>
                                                 <?php endif; ?>
                                             </th>
                                         </tr>
@@ -835,9 +838,9 @@ if ($ropa_id) {
                                 $all_risks = db_fetch_all($stmt);
                                 ?>
 
-                                <div class="panel panel-default">
-                                    <div class="panel-heading"><strong>DPIA Summary</strong></div>
-                                    <div class="panel-body">
+                                <div class="card">
+                                    <div class="card-header"><strong>DPIA Summary</strong></div>
+                                    <div class="card-body">
                                         <p><strong>Title:</strong> <?php echo htmlspecialchars($dpia_summary['dpia_title']); ?></p>
                                         <p><strong>Linked ROPA:</strong> <?php echo htmlspecialchars($dpia_summary['activity_name'] ?? 'None'); ?></p>
                                         <p><strong>Screening Result:</strong> <?php echo ucfirst($dpia_summary['screening_result']); ?></p>
@@ -845,9 +848,9 @@ if ($ropa_id) {
                                         <p><strong>Average Residual Risk:</strong>
                                             <strong><?php echo round($dpia_summary['residual_risk_score'], 1); ?></strong>
                                             <?php if ($dpia_summary['residual_risk_score'] >= RISK_ACCEPTABLE_THRESHOLD): ?>
-                                                <span class="label label-danger">High Risk</span>
+                                                <span class="badge bg-danger">High Risk</span>
                                             <?php else: ?>
-                                                <span class="label label-success">Acceptable</span>
+                                                <span class="badge bg-success">Acceptable</span>
                                             <?php endif; ?>
                                         </p>
                                     </div>
@@ -862,26 +865,26 @@ if ($ropa_id) {
                             <?php endif; ?>
 
                         </div>
-                        <div class="panel-footer">
+                        <div class="card-footer">
                             <div class="row">
                                 <div class="col-md-6">
                                     <?php if ($current_step > 1): ?>
-                                        <a href="dpia_wizard.php?id=<?php echo $dpia_id; ?>&step=<?php echo $current_step - 1; ?>" class="btn btn-default">
+                                        <a href="dpia_wizard.php?id=<?php echo $dpia_id; ?>&step=<?php echo $current_step - 1; ?>" class="btn btn-secondary">
                                             <i class="fa fa-arrow-left"></i> Previous
                                         </a>
                                     <?php else: ?>
-                                        <a href="dpia_list.php" class="btn btn-default">
+                                        <a href="dpia_list.php" class="btn btn-secondary">
                                             <i class="fa fa-times"></i> Cancel
                                         </a>
                                     <?php endif; ?>
                                 </div>
-                                <div class="col-md-6 text-right">
+                                <div class="col-md-6 text-end">
                                     <?php if ($current_step < 7): ?>
                                         <button type="submit" class="btn btn-primary">
                                             Next <i class="fa fa-arrow-right"></i>
                                         </button>
                                     <?php else: ?>
-                                        <button type="submit" name="action" value="save" class="btn btn-default">
+                                        <button type="submit" name="action" value="save" class="btn btn-secondary">
                                             <i class="fa fa-save"></i> Save as Draft
                                         </button>
                                         <button type="submit" name="action" value="submit" class="btn btn-success">
@@ -898,10 +901,11 @@ if ($ropa_id) {
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
     <script>
         let riskCounter = <?php echo count($existing_risks) > 0 ? count($existing_risks) : 1; ?>;
 

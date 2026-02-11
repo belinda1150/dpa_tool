@@ -148,8 +148,11 @@ $high_risk_countries = ['China', 'Russia', 'North Korea', 'Iran', 'Syria', 'Cuba
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Record Cross-Border Transfer</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -174,7 +177,7 @@ $high_risk_countries = ['China', 'Russia', 'North Korea', 'Iran', 'Syria', 'Cuba
     <!-- Form Errors -->
     <?php if (!empty($form_errors)): ?>
         <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <strong>Please correct the following errors:</strong>
             <ul>
                 <?php foreach ($form_errors as $error): ?>
@@ -198,11 +201,11 @@ $high_risk_countries = ['China', 'Russia', 'North Korea', 'Iran', 'Syria', 'Cuba
             <div class="col-md-6">
 
                 <!-- Transfer Details -->
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
+                <div class="card border-primary">
+                    <div class="card-header">
                         <i class="fa fa-info-circle"></i> Transfer Details
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
 
                         <div class="form-group">
                             <label>Link to Processing Activity (ROPA) <small class="text-muted">(Optional)</small></label>
@@ -277,11 +280,11 @@ $high_risk_countries = ['China', 'Russia', 'North Korea', 'Iran', 'Syria', 'Cuba
             <div class="col-md-6">
 
                 <!-- Safeguards & Compliance -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
+                <div class="card border-info">
+                    <div class="card-header">
                         <i class="fa fa-shield"></i> Safeguards & POTRAZ Notification
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
 
                         <div class="form-group">
                             <label>Legal Safeguard <span class="text-danger">*</span></label>
@@ -341,12 +344,12 @@ $high_risk_countries = ['China', 'Russia', 'North Korea', 'Iran', 'Syria', 'Cuba
         <!-- Form Actions -->
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-body">
+                <div class="card">
+                    <div class="card-body">
                         <button type="submit" class="btn btn-primary btn-lg">
                             <i class="fa fa-save"></i> Record Cross-Border Transfer
                         </button>
-                        <a href="crossborder_list.php" class="btn btn-default btn-lg">
+                        <a href="crossborder_list.php" class="btn btn-secondary btn-lg">
                             <i class="fa fa-times"></i> Cancel
                         </a>
                     </div>
@@ -361,10 +364,11 @@ $high_risk_countries = ['China', 'Russia', 'North Korea', 'Iran', 'Syria', 'Cuba
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 <script>
 $(document).ready(function() {
     // High-risk country warning

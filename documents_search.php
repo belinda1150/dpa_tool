@@ -101,8 +101,11 @@ function formatBytes($bytes, $precision = 2) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Search Documents</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -127,11 +130,11 @@ function formatBytes($bytes, $precision = 2) {
     <!-- Search Form -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="card border-primary">
+                <div class="card-header">
                     <i class="fa fa-filter"></i> Search Criteria
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <form method="GET" action="documents_search.php">
                         <input type="hidden" name="search" value="1">
 
@@ -213,10 +216,10 @@ function formatBytes($bytes, $precision = 2) {
 
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="documents_search.php" class="btn btn-default btn-sm">
+                                <a href="documents_search.php" class="btn btn-secondary btn-sm">
                                     <i class="fa fa-refresh"></i> Clear Filters
                                 </a>
-                                <a href="documents_list.php" class="btn btn-default btn-sm">
+                                <a href="documents_list.php" class="btn btn-secondary btn-sm">
                                     <i class="fa fa-arrow-left"></i> Back to Documents
                                 </a>
                             </div>
@@ -231,14 +234,14 @@ function formatBytes($bytes, $precision = 2) {
     <?php if ($search_performed): ?>
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-success">
-                <div class="panel-heading">
+            <div class="card border-success">
+                <div class="card-header">
                     <i class="fa fa-list"></i> Search Results
                     <span class="badge" style="background-color: white; color: #27ae60; margin-left: 10px;">
                         <?php echo count($results); ?> document<?php echo count($results) !== 1 ? 's' : ''; ?> found
                     </span>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if (empty($results)): ?>
                         <div class="alert alert-warning">
                             <i class="fa fa-info-circle"></i>
@@ -267,7 +270,7 @@ function formatBytes($bytes, $precision = 2) {
                                             'expired' => 'danger',
                                             'archived' => 'default'
                                         ];
-                                        $status_badge = $status_badges[$doc['status']] ?? 'default';
+                                        $status_badge = $status_badges[$doc['status']] ?? 'secondary';
                                         ?>
                                         <tr>
                                             <td>
@@ -288,12 +291,12 @@ function formatBytes($bytes, $precision = 2) {
                                                 <?php endif; ?>
                                             </td>
                                             <td>
-                                                <span class="label label-default">
+                                                <span class="badge bg-secondary">
                                                     <?php echo strtoupper($doc['doc_type']); ?>
                                                 </span>
                                             </td>
                                             <td>
-                                                <span class="label label-<?php echo $status_badge; ?>">
+                                                <span class="badge bg-<?php echo $status_badge; ?>">
                                                     <?php echo ucfirst(str_replace('_', ' ', $doc['status'])); ?>
                                                 </span>
                                             </td>
@@ -301,10 +304,10 @@ function formatBytes($bytes, $precision = 2) {
                                             <td><?php echo htmlspecialchars($doc['uploaded_by_name']); ?></td>
                                             <td><?php echo date('d M Y', strtotime($doc['uploaded_at'])); ?></td>
                                             <td>
-                                                <a href="documents_view.php?id=<?php echo $doc['doc_id']; ?>" class="btn btn-info btn-xs">
+                                                <a href="documents_view.php?id=<?php echo $doc['doc_id']; ?>" class="btn btn-info btn-sm">
                                                     <i class="fa fa-eye"></i> View
                                                 </a>
-                                                <a href="<?php echo htmlspecialchars($doc['file_path']); ?>" class="btn btn-success btn-xs" download>
+                                                <a href="<?php echo htmlspecialchars($doc['file_path']); ?>" class="btn btn-success btn-sm" download>
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                             </td>
@@ -326,9 +329,10 @@ function formatBytes($bytes, $precision = 2) {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

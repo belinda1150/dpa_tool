@@ -90,7 +90,7 @@ if ($format === 'csv') {
         .badge-warning { background: #f0ad4e; }
         .badge-danger { background: #d9534f; }
         .badge-info { background: #5bc0de; }
-        .badge-default { background: #999; }
+        .bg-secondary { background: #999; }
         .summary { margin-bottom: 20px; }
         .summary-item { display: inline-block; margin-right: 30px; }
         .summary-value { font-size: 24px; font-weight: bold; color: #337ab7; }
@@ -173,7 +173,7 @@ if ($format === 'csv') {
                         'suspended' => 'danger',
                         'terminated' => 'default'
                     ];
-                    $class = $status_classes[$vendor['status']] ?? 'default';
+                    $class = $status_classes[$vendor['status']] ?? 'secondary';
                     ?>
                     <span class="badge badge-<?php echo $class; ?>">
                         <?php echo ucfirst(str_replace('_', ' ', $vendor['status'])); ?>
@@ -187,7 +187,7 @@ if ($format === 'csv') {
                         'expired' => 'danger',
                         'none' => 'default'
                     ];
-                    $class = $dpa_classes[$vendor['dpa_status']] ?? 'default';
+                    $class = $dpa_classes[$vendor['dpa_status']] ?? 'secondary';
                     ?>
                     <span class="badge badge-<?php echo $class; ?>">
                         <?php echo ucfirst(str_replace('_', ' ', $vendor['dpa_status'])); ?>
@@ -197,14 +197,14 @@ if ($format === 'csv') {
                     <?php if ($vendor['latest_risk_level']): ?>
                         <?php
                         $risk_classes = ['critical' => 'danger', 'high' => 'warning', 'medium' => 'info', 'low' => 'success'];
-                        $class = $risk_classes[$vendor['latest_risk_level']] ?? 'default';
+                        $class = $risk_classes[$vendor['latest_risk_level']] ?? 'secondary';
                         ?>
                         <span class="badge badge-<?php echo $class; ?>">
                             <?php echo ucfirst($vendor['latest_risk_level']); ?>
                         </span>
                         <small>(<?php echo number_format($vendor['latest_risk_score'], 1); ?>)</small>
                     <?php else: ?>
-                        <span class="badge badge-default">N/A</span>
+                        <span class="badge bg-secondary">N/A</span>
                     <?php endif; ?>
                 </td>
                 <td><?php echo $vendor['valid_certs']; ?></td>

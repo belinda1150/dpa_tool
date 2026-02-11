@@ -192,8 +192,11 @@ foreach ($risks as $risk) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Approve DPIA</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -218,7 +221,7 @@ foreach ($risks as $risk) {
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['flash_message'])): ?>
         <div class="alert alert-<?php echo htmlspecialchars($_SESSION['flash_type']); ?> alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <?php
                 echo htmlspecialchars($_SESSION['flash_message']);
                 unset($_SESSION['flash_message'], $_SESSION['flash_type']);
@@ -229,11 +232,11 @@ foreach ($risks as $risk) {
     <!-- DPIA Overview Panel -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-file-text"></i> DPIA Overview</h3>
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-file-text"></i> DPIA Overview</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <table class="table table-bordered">
@@ -269,9 +272,9 @@ foreach ($risks as $risk) {
                                     <th width="40%">Screening Result:</th>
                                     <td>
                                         <?php if ($dpia['screening_result'] === 'required'): ?>
-                                            <span class="label label-danger">DPIA Required</span>
+                                            <span class="badge bg-danger">DPIA Required</span>
                                         <?php else: ?>
-                                            <span class="label label-info">DPIA Recommended</span>
+                                            <span class="badge bg-info text-dark">DPIA Recommended</span>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
@@ -291,7 +294,7 @@ foreach ($risks as $risk) {
                                             $risk_label = 'Medium Risk';
                                         }
                                         ?>
-                                        <span class="label label-<?php echo $risk_class; ?>" style="font-size: 14px;">
+                                        <span class="badge bg-<?php echo $risk_class; ?>" style="font-size: 14px;">
                                             <?php echo $residual; ?>/25 - <?php echo $risk_label; ?>
                                         </span>
                                     </td>
@@ -302,17 +305,17 @@ foreach ($risks as $risk) {
                                         <strong><?php echo $total_risks; ?></strong> risks
                                         <div class="progress" style="margin-top: 5px; margin-bottom: 0;">
                                             <?php if ($high_risks > 0): ?>
-                                                <div class="progress-bar progress-bar-danger" style="width: <?php echo ($high_risks / $total_risks * 100); ?>%">
+                                                <div class="progress-bar bg-danger" style="width: <?php echo ($high_risks / $total_risks * 100); ?>%">
                                                     <?php echo $high_risks; ?> High
                                                 </div>
                                             <?php endif; ?>
                                             <?php if ($medium_risks > 0): ?>
-                                                <div class="progress-bar progress-bar-warning" style="width: <?php echo ($medium_risks / $total_risks * 100); ?>%">
+                                                <div class="progress-bar bg-warning" style="width: <?php echo ($medium_risks / $total_risks * 100); ?>%">
                                                     <?php echo $medium_risks; ?> Med
                                                 </div>
                                             <?php endif; ?>
                                             <?php if ($low_risks > 0): ?>
-                                                <div class="progress-bar progress-bar-success" style="width: <?php echo ($low_risks / $total_risks * 100); ?>%">
+                                                <div class="progress-bar bg-success" style="width: <?php echo ($low_risks / $total_risks * 100); ?>%">
                                                     <?php echo $low_risks; ?> Low
                                                 </div>
                                             <?php endif; ?>
@@ -321,7 +324,7 @@ foreach ($risks as $risk) {
                                 </tr>
                                 <tr>
                                     <th>Status:</th>
-                                    <td><span class="label label-info">Pending Approval</span></td>
+                                    <td><span class="badge bg-info text-dark">Pending Approval</span></td>
                                 </tr>
                             </table>
                         </div>
@@ -334,11 +337,11 @@ foreach ($risks as $risk) {
     <!-- DPIA Description -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><i class="fa fa-info-circle"></i> Description & Screening Reason</h4>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title"><i class="fa fa-info-circle"></i> Description & Screening Reason</h4>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <h5><strong>Description:</strong></h5>
@@ -357,14 +360,14 @@ foreach ($risks as $risk) {
     <!-- Risks Summary -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-warning">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
+            <div class="card border-warning">
+                <div class="card-header">
+                    <h4 class="card-title">
                         <i class="fa fa-exclamation-triangle"></i> Identified Risks & Mitigations
                         <span class="badge"><?php echo $total_risks; ?></span>
                     </h4>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if (empty($risks)): ?>
                         <p class="text-muted">No risks identified.</p>
                     <?php else: ?>
@@ -376,24 +379,24 @@ foreach ($risks as $risk) {
                             $inherent_class = $inherent >= 6 ? 'danger' : ($inherent >= 3 ? 'warning' : 'success');
                             $residual_class = $residual >= RISK_ACCEPTABLE_THRESHOLD ? 'danger' : ($residual >= 3 ? 'warning' : 'success');
                             ?>
-                            <div class="panel panel-default" style="border-left: 4px solid #<?php echo $residual_class === 'danger' ? 'f44336' : ($residual_class === 'warning' ? 'ff9800' : '4caf50'); ?>;">
-                                <div class="panel-heading" style="background-color: #f9f9f9;">
+                            <div class="card" style="border-left: 4px solid #<?php echo $residual_class === 'danger' ? 'f44336' : ($residual_class === 'warning' ? 'ff9800' : '4caf50'); ?>;">
+                                <div class="card-header" style="background-color: #f9f9f9;">
                                     <h5 style="margin: 0;">
                                         <strong>Risk #<?php echo $index + 1; ?>:</strong>
                                         <?php echo htmlspecialchars($risk['risk_title']); ?>
-                                        <span class="pull-right">
-                                            <span class="label label-<?php echo $residual_class; ?>">
+                                        <span class="float-end">
+                                            <span class="badge bg-<?php echo $residual_class; ?>">
                                                 Residual: <?php echo $residual; ?>/25
                                             </span>
                                         </span>
                                     </h5>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-8">
                                             <p><strong>Description:</strong> <?php echo nl2br(htmlspecialchars($risk['risk_description'])); ?></p>
                                             <p><strong>Category:</strong>
-                                                <span class="label label-default"><?php echo htmlspecialchars($risk['risk_category']); ?></span>
+                                                <span class="badge bg-secondary"><?php echo htmlspecialchars($risk['risk_category']); ?></span>
                                             </p>
 
                                             <?php if (!empty($risk['mitigation_measures'])): ?>
@@ -425,7 +428,7 @@ foreach ($risks as $risk) {
                                                 <tr>
                                                     <th>Score:</th>
                                                     <td>
-                                                        <span class="label label-<?php echo $inherent_class; ?>">
+                                                        <span class="badge bg-<?php echo $inherent_class; ?>">
                                                             <?php echo $inherent; ?>/25
                                                         </span>
                                                     </td>
@@ -444,7 +447,7 @@ foreach ($risks as $risk) {
                                                 <tr>
                                                     <th>Score:</th>
                                                     <td>
-                                                        <span class="label label-<?php echo $residual_class; ?>">
+                                                        <span class="badge bg-<?php echo $residual_class; ?>">
                                                             <?php echo $residual; ?>/25
                                                         </span>
                                                     </td>
@@ -465,11 +468,11 @@ foreach ($risks as $risk) {
     <?php if (isset($step_data[6])): ?>
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h4 class="panel-title"><i class="fa fa-users"></i> Consultation & Sign-off</h4>
+                <div class="card border-info">
+                    <div class="card-header">
+                        <h4 class="card-title"><i class="fa fa-users"></i> Consultation & Sign-off</h4>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <h5><strong>DPO Consulted:</strong></h5>
@@ -496,16 +499,16 @@ foreach ($risks as $risk) {
     <div class="row">
         <div class="col-md-12">
             <form method="POST" action="dpia_approve.php?id=<?php echo $dpia_id; ?>" id="approvalForm">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h4 class="panel-title"><i class="fa fa-pencil"></i> DPO Decision & Notes</h4>
+                <div class="card border-success">
+                    <div class="card-header">
+                        <h4 class="card-title"><i class="fa fa-pencil"></i> DPO Decision & Notes</h4>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label for="approval_notes">Approval Notes / Comments <span class="text-danger">*</span></label>
                             <textarea name="approval_notes" id="approval_notes" class="form-control" rows="5" required
                                 placeholder="Provide detailed notes about your decision, any concerns, recommendations, or additional measures required..."></textarea>
-                            <p class="help-block">
+                            <p class="form-text">
                                 These notes will be visible to the DPIA creator and will be included in the DPIA record.
                             </p>
                         </div>
@@ -533,11 +536,11 @@ foreach ($risks as $risk) {
                             </button>
                         </div>
                     </div>
-                    <div class="panel-footer">
-                        <a href="dpia_view.php?id=<?php echo $dpia_id; ?>" class="btn btn-default">
+                    <div class="card-footer">
+                        <a href="dpia_view.php?id=<?php echo $dpia_id; ?>" class="btn btn-secondary">
                             <i class="fa fa-arrow-left"></i> Back to View
                         </a>
-                        <a href="dpia_list.php" class="btn btn-default">
+                        <a href="dpia_list.php" class="btn btn-secondary">
                             <i class="fa fa-list"></i> Back to List
                         </a>
                     </div>
@@ -566,9 +569,10 @@ document.getElementById('approvalForm').addEventListener('submit', function(e) {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

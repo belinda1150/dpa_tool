@@ -32,9 +32,12 @@ $flash = get_flash_message();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Control Library</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/js/dataTables/dataTables.bootstrap.css?v=2" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
+    <link href="assets/js/dataTables/dataTables.bootstrap5.css?v=2" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -54,27 +57,27 @@ $flash = get_flash_message();
 
                 <?php if ($flash): ?>
                 <div class="alert alert-<?php echo $flash['type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <?php echo htmlspecialchars($flash['message']); ?>
                 </div>
                 <?php endif; ?>
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <i class="fa fa-shield"></i> Security Controls
                                     </div>
-                                    <div class="col-md-6 text-right">
+                                    <div class="col-md-6 text-end">
                                         <a href="controls_add.php" class="btn btn-primary btn-sm">
                                             <i class="fa fa-plus"></i> Add New Control
                                         </a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="controlsTable">
                                         <thead>
@@ -113,7 +116,7 @@ $flash = get_flash_message();
                                                             break;
                                                     }
                                                     ?>
-                                                    <span class="label label-<?php echo $type_class; ?>">
+                                                    <span class="badge bg-<?php echo $type_class; ?>">
                                                         <?php echo ucfirst($control['control_type']); ?>
                                                     </span>
                                                 </td>
@@ -124,16 +127,16 @@ $flash = get_flash_message();
                                                     <?php echo $control['usage_count'] == 1 ? 'risk' : 'risks'; ?>
                                                 </td>
                                                 <td>
-                                                    <a href="controls_edit.php?id=<?php echo $control['control_id']; ?>" class="btn btn-warning btn-xs" title="Edit">
+                                                    <a href="controls_edit.php?id=<?php echo $control['control_id']; ?>" class="btn btn-warning btn-sm" title="Edit">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
                                                     <?php if ($control['usage_count'] == 0): ?>
-                                                    <a href="controls_delete.php?id=<?php echo $control['control_id']; ?>" class="btn btn-danger btn-xs" title="Delete"
+                                                    <a href="controls_delete.php?id=<?php echo $control['control_id']; ?>" class="btn btn-danger btn-sm" title="Delete"
                                                        onclick="return confirm('Are you sure you want to delete this control?');">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                     <?php else: ?>
-                                                    <button class="btn btn-danger btn-xs" disabled title="Cannot delete - in use">
+                                                    <button class="btn btn-danger btn-sm" disabled title="Cannot delete - in use">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
                                                     <?php endif; ?>
@@ -153,12 +156,13 @@ $flash = get_flash_message();
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/dataTables/jquery.dataTables.js"></script>
-    <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
+    <script src="assets/js/dataTables/dataTables.bootstrap5.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
     <script>
         $(document).ready(function() {
             <?php if (!empty($controls)): ?>

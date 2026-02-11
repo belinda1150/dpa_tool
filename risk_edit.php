@@ -177,8 +177,11 @@ unset($_SESSION['form_errors']);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Edit Risk</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -203,7 +206,7 @@ unset($_SESSION['form_errors']);
     <!-- Form Errors -->
     <?php if (!empty($form_errors)): ?>
         <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <strong>Please correct the following errors:</strong>
             <ul>
                 <?php foreach ($form_errors as $error): ?>
@@ -220,11 +223,11 @@ unset($_SESSION['form_errors']);
             <div class="col-md-6">
 
                 <!-- Basic Information -->
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-info-circle"></i> Basic Information</h3>
+                <div class="card border-primary">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-info-circle"></i> Basic Information</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label for="risk_title">Risk Title <span class="text-danger">*</span></label>
                             <input type="text" name="risk_title" id="risk_title" class="form-control" required
@@ -263,7 +266,7 @@ unset($_SESSION['form_errors']);
                             <input type="text" name="risk_source" id="risk_source" class="form-control"
                                    value="<?php echo htmlspecialchars($_POST['risk_source'] ?? ''); ?>"
                                    placeholder="e.g., DPIA Assessment, Audit Finding, Incident Report">
-                            <p class="help-block">Where was this risk identified?</p>
+                            <p class="form-text">Where was this risk identified?</p>
                         </div>
 
                         <div class="row">
@@ -293,7 +296,7 @@ unset($_SESSION['form_errors']);
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
-                                    <p class="help-block">Person responsible for managing this risk</p>
+                                    <p class="form-text">Person responsible for managing this risk</p>
                                 </div>
                             </div>
                         </div>
@@ -301,11 +304,11 @@ unset($_SESSION['form_errors']);
                 </div>
 
                 <!-- Risk Assessment -->
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-line-chart"></i> Inherent Risk Assessment (Before Treatment)</h3>
+                <div class="card border-warning">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-line-chart"></i> Inherent Risk Assessment (Before Treatment)</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -355,8 +358,8 @@ unset($_SESSION['form_errors']);
 
                         <div class="alert alert-info" id="inherentScore" style="margin-bottom: 0;">
                             <strong>Inherent Risk Score:</strong>
-                            <span class="pull-right">
-                                <span class="label label-default" id="inherentScoreValue">1</span>
+                            <span class="float-end">
+                                <span class="badge bg-secondary" id="inherentScoreValue">1</span>
                                 <span id="inherentScoreLabel">Low Risk</span>
                             </span>
                         </div>
@@ -369,11 +372,11 @@ unset($_SESSION['form_errors']);
             <div class="col-md-6">
 
                 <!-- Treatment Plan -->
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-shield"></i> Risk Treatment Plan</h3>
+                <div class="card border-success">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-shield"></i> Risk Treatment Plan</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label for="treatment_strategy">Treatment Strategy <span class="text-danger">*</span></label>
                             <select name="treatment_strategy" id="treatment_strategy" class="form-control" required>
@@ -433,8 +436,8 @@ unset($_SESSION['form_errors']);
 
                             <div class="alert alert-success" id="residualScore" style="display: none; margin-bottom: 0;">
                                 <strong>Residual Risk Score:</strong>
-                                <span class="pull-right">
-                                    <span class="label label-default" id="residualScoreValue">0</span>
+                                <span class="float-end">
+                                    <span class="badge bg-secondary" id="residualScoreValue">0</span>
                                     <span id="residualScoreLabel"></span>
                                 </span>
                             </div>
@@ -443,11 +446,11 @@ unset($_SESSION['form_errors']);
                 </div>
 
                 <!-- Status & Timeline -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-calendar"></i> Status & Timeline</h3>
+                <div class="card border-info">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-calendar"></i> Status & Timeline</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label for="status">Status <span class="text-danger">*</span></label>
                             <select name="status" id="status" class="form-control" required>
@@ -471,7 +474,7 @@ unset($_SESSION['form_errors']);
                             <input type="date" name="review_date" id="review_date" class="form-control"
                                    value="<?php echo htmlspecialchars($_POST['review_date'] ?? ''); ?>"
                                    min="<?php echo date('Y-m-d'); ?>">
-                            <p class="help-block">Schedule when this risk should be reviewed again</p>
+                            <p class="form-text">Schedule when this risk should be reviewed again</p>
                         </div>
                     </div>
                 </div>
@@ -482,12 +485,12 @@ unset($_SESSION['form_errors']);
         <!-- Form Actions -->
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-body">
+                <div class="card">
+                    <div class="card-body">
                         <button type="submit" class="btn btn-success btn-lg">
                             <i class="fa fa-save"></i> Update Risk
                         </button>
-                        <a href="risk_view.php?id=<?php echo $risk_id; ?>" class="btn btn-default btn-lg">
+                        <a href="risk_view.php?id=<?php echo $risk_id; ?>" class="btn btn-secondary btn-lg">
                             <i class="fa fa-times"></i> Cancel
                         </a>
                     </div>
@@ -505,7 +508,7 @@ function updateInherentScore() {
     var impact = parseInt($('#impact').val()) || 1;
     var score = likelihood * impact;
 
-    var scoreClass = 'default';
+    var scoreClass = 'secondary';
     var scoreLabel = 'Low Risk';
 
     if (score >= 15) {
@@ -522,7 +525,7 @@ function updateInherentScore() {
         scoreLabel = 'Low Risk';
     }
 
-    $('#inherentScoreValue').removeClass().addClass('label label-' + scoreClass).text(score + '/25');
+    $('#inherentScoreValue').removeClass().addClass('badge bg-' + scoreClass).text(score + '/25');
     $('#inherentScoreLabel').text(scoreLabel);
 }
 
@@ -534,7 +537,7 @@ function updateResidualScore() {
     if (likelihood && impact) {
         var score = likelihood * impact;
 
-        var scoreClass = 'default';
+        var scoreClass = 'secondary';
         var scoreLabel = 'Low Risk';
 
         if (score >= 15) {
@@ -551,7 +554,7 @@ function updateResidualScore() {
             scoreLabel = 'Low Risk';
         }
 
-        $('#residualScoreValue').removeClass().addClass('label label-' + scoreClass).text(score + '/25');
+        $('#residualScoreValue').removeClass().addClass('badge bg-' + scoreClass).text(score + '/25');
         $('#residualScoreLabel').text(scoreLabel);
         $('#residualScore').show();
     } else {
@@ -610,9 +613,10 @@ $(document).ready(function() {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

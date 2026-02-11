@@ -121,8 +121,11 @@ $flash = get_flash_message();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Manage Risk Controls</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -142,14 +145,14 @@ $flash = get_flash_message();
 
                 <?php if ($flash): ?>
                 <div class="alert alert-<?php echo $flash['type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <?php echo htmlspecialchars($flash['message']); ?>
                 </div>
                 <?php endif; ?>
 
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="risk_view.php?id=<?php echo $risk_id; ?>" class="btn btn-default">
+                        <a href="risk_view.php?id=<?php echo $risk_id; ?>" class="btn btn-secondary">
                             <i class="fa fa-arrow-left"></i> Back to Risk
                         </a>
                         <hr>
@@ -159,11 +162,11 @@ $flash = get_flash_message();
                 <!-- Linked Controls -->
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
+                        <div class="card border-primary">
+                            <div class="card-header">
                                 <i class="fa fa-shield"></i> Linked Controls (<?php echo count($linked_controls); ?>)
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <?php if (empty($linked_controls)): ?>
                                 <div class="alert alert-info">
                                     <i class="fa fa-info-circle"></i> No controls linked to this risk yet. Add controls below to mitigate this risk.
@@ -190,24 +193,24 @@ $flash = get_flash_message();
                                                     <br><small class="text-muted"><?php echo htmlspecialchars($lc['framework_ref']); ?></small>
                                                     <?php endif; ?>
                                                 </td>
-                                                <td><span class="label label-default"><?php echo ucfirst($lc['control_type']); ?></span></td>
+                                                <td><span class="badge bg-secondary"><?php echo ucfirst($lc['control_type']); ?></span></td>
                                                 <td>
                                                     <?php
                                                     $status_class = '';
                                                     switch ($lc['implementation_status']) {
-                                                        case 'planned': $status_class = 'default'; break;
+                                                        case 'planned': $status_class = 'secondary'; break;
                                                         case 'in_progress': $status_class = 'info'; break;
                                                         case 'implemented': $status_class = 'success'; break;
                                                         case 'verified': $status_class = 'primary'; break;
                                                     }
                                                     ?>
-                                                    <span class="label label-<?php echo $status_class; ?>">
+                                                    <span class="badge bg-<?php echo $status_class; ?>">
                                                         <?php echo ucfirst(str_replace('_', ' ', $lc['implementation_status'])); ?>
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <?php if ($lc['effectiveness']): ?>
-                                                    <span class="label label-<?php echo $lc['effectiveness'] == 'high' ? 'success' : ($lc['effectiveness'] == 'medium' ? 'warning' : 'danger'); ?>">
+                                                    <span class="badge bg-<?php echo $lc['effectiveness'] == 'high' ? 'success' : ($lc['effectiveness'] == 'medium' ? 'warning' : 'danger'); ?>">
                                                         <?php echo ucfirst($lc['effectiveness']); ?>
                                                     </span>
                                                     <?php else: ?>
@@ -216,11 +219,11 @@ $flash = get_flash_message();
                                                 </td>
                                                 <td><?php echo $lc['verification_date'] ? format_date($lc['verification_date'], 'd M Y') : 'Not verified'; ?></td>
                                                 <td>
-                                                    <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#editModal<?php echo $lc['risk_control_id']; ?>">
+                                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $lc['risk_control_id']; ?>">
                                                         <i class="fa fa-edit"></i> Edit
                                                     </button>
                                                     <a href="risk_controls_manage.php?id=<?php echo $risk_id; ?>&remove=<?php echo $lc['risk_control_id']; ?>"
-                                                       class="btn btn-danger btn-xs"
+                                                       class="btn btn-danger btn-sm"
                                                        onclick="return confirm('Remove this control from the risk?');">
                                                         <i class="fa fa-trash"></i> Remove
                                                     </a>
@@ -235,7 +238,7 @@ $flash = get_flash_message();
                                                             <input type="hidden" name="action" value="update">
                                                             <input type="hidden" name="risk_control_id" value="<?php echo $lc['risk_control_id']; ?>">
                                                             <div class="modal-header">
-                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                                 <h4 class="modal-title">Edit Control Status</h4>
                                                             </div>
                                                             <div class="modal-body">
@@ -268,7 +271,7 @@ $flash = get_flash_message();
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                                                 <button type="submit" class="btn btn-primary">Update</button>
                                                             </div>
                                                         </form>
@@ -288,11 +291,11 @@ $flash = get_flash_message();
                 <!-- Add Control -->
                 <div class="row">
                     <div class="col-md-8">
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
+                        <div class="card border-success">
+                            <div class="card-header">
                                 <i class="fa fa-plus"></i> Link New Control
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <?php if (empty($available_controls)): ?>
                                 <div class="alert alert-warning">
                                     <i class="fa fa-exclamation-triangle"></i> All available controls are already linked to this risk. <a href="controls_add.php">Create a new control</a> if needed.
@@ -356,11 +359,11 @@ $flash = get_flash_message();
                     </div>
 
                     <div class="col-md-4">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
+                        <div class="card border-info">
+                            <div class="card-header">
                                 <i class="fa fa-info-circle"></i> About Controls
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <p><strong>Controls</strong> are measures that reduce the likelihood or impact of risks.</p>
 
                                 <h5>Implementation Status:</h5>
@@ -381,9 +384,10 @@ $flash = get_flash_message();
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

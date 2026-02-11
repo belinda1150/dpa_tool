@@ -78,8 +78,11 @@ $user_info = get_current_dpa_user();
 <head>
   <meta charset="UTF-8">
   <title><?php echo APP_NAME; ?> - Password Reset Required</title>
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <script src="assets/js/theme.js"></script>
+  <link href="assets/css/theme-variables.css" rel="stylesheet" />
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="assets/css/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/css/v4-shims.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <link rel="stylesheet" href="assets/css/login.css">
 </head>

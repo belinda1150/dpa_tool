@@ -1,8 +1,8 @@
 <?php
 /**
  * DPA Tool - Header
- * Version: 1.0
- * Date: October 2025
+ * Version: 2.0
+ * Bootstrap 5 compatible with dark mode and global search
  */
 
 require_once dirname(__DIR__) . '/includes/auth.php';
@@ -17,22 +17,33 @@ $notif_query = "SELECT COUNT(*) as count FROM notifications WHERE org_id = ? AND
 $notif_stmt = db_query($notif_query, [$_org_id, $_user_id]);
 $unread_notifications = db_fetch_one($notif_stmt)['count'] ?? 0;
 ?>
-<nav class="navbar navbar-default navbar-cls-top" role="navigation">
+<nav class="navbar navbar-cls-top" role="navigation">
      <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-               <span class="sr-only">Toggle navigation</span>
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-          </button>
           <button type="button" class="sidebar-toggle-btn" id="sidebarToggleBtn" title="Toggle Sidebar">
                <i class="fa fa-bars"></i>
           </button>
           <a class="navbar-brand" href="dashboard.php"><?php echo APP_NAME; ?></a>
      </div>
+
+     <!-- Global Search -->
+     <div class="navbar-search" id="globalSearch">
+          <div class="search-wrapper">
+               <i class="fa fa-search search-icon"></i>
+               <input type="text" id="globalSearchInput" class="search-input"
+                    placeholder="Search ROPA, DPIA, incidents, vendors... (Ctrl+K)"
+                    autocomplete="off" />
+               <div class="search-results" id="searchResults" style="display: none;"></div>
+          </div>
+     </div>
+
      <div class="navbar-user-info">
+          <!-- Dark Mode Toggle -->
+          <button type="button" class="theme-toggle-btn" id="themeToggle" title="Toggle Dark Mode">
+               <i class="fa fa-moon-o" id="themeIcon"></i>
+          </button>
+
           <div class="dropdown" style="display: inline-block;">
-               <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white; text-decoration: none; position: relative;">
+               <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" style="color: white; text-decoration: none; position: relative;">
                     <?php if (!empty($current_user['profile_picture']) && file_exists($current_user['profile_picture'])): ?>
                          <img src="<?php echo htmlspecialchars($current_user['profile_picture']); ?>"
                               alt="Profile"
@@ -42,30 +53,30 @@ $unread_notifications = db_fetch_one($notif_stmt)['count'] ?? 0;
                     <?php endif; ?>
                     <?php echo htmlspecialchars($current_user['first_name'] . ' ' . $current_user['last_name']); ?>
                     <?php if ($unread_notifications > 0): ?>
-                    <span class="badge" style="position: absolute; top: -5px; right: -10px; background-color: #d9534f; color: white; font-size: 10px; padding: 3px 6px; border-radius: 10px;">
+                    <span class="badge bg-danger" style="position: absolute; top: -5px; right: -10px; font-size: 10px; padding: 3px 6px; border-radius: 10px;">
                          <?php echo $unread_notifications > 99 ? '99+' : $unread_notifications; ?>
                     </span>
                     <?php endif; ?>
                     <i class="fa fa-caret-down" style="margin-left: 5px;"></i>
                </a>
-               <ul class="dropdown-menu dropdown-menu-right" style="min-width: 250px;">
-                    <li class="dropdown-header" style="padding: 10px 20px; border-bottom: 1px solid #e5e5e5;">
+               <ul class="dropdown-menu dropdown-menu-end" style="min-width: 250px;">
+                    <li><h6 class="dropdown-header" style="padding: 10px 20px; border-bottom: 1px solid var(--border-color, #e5e5e5);">
                          <strong><?php echo htmlspecialchars($current_user['first_name'] . ' ' . $current_user['last_name']); ?></strong><br>
                          <small class="text-muted">
                               <i class="fa fa-shield"></i> <?php echo htmlspecialchars($current_user['role_name']); ?>
                          </small>
-                    </li>
-                    <li><a href="users_edit.php?id=<?php echo get_current_user_id(); ?>"><i class="fa fa-camera"></i> Change Profile Photo</a></li>
-                    <li><a href="notifications.php">
+                    </h6></li>
+                    <li><a class="dropdown-item" href="users_edit.php?id=<?php echo get_current_user_id(); ?>"><i class="fa fa-camera"></i> Change Profile Photo</a></li>
+                    <li><a class="dropdown-item" href="notifications.php">
                          <i class="fa fa-bell"></i> Notifications
                          <?php if ($unread_notifications > 0): ?>
-                              <span class="badge" style="background-color: #d9534f; margin-left: 5px;">
+                              <span class="badge bg-danger" style="margin-left: 5px;">
                                    <?php echo $unread_notifications > 99 ? '99+' : $unread_notifications; ?>
                               </span>
                          <?php endif; ?>
                     </a></li>
-                    <li class="divider"></li>
-                    <li><a href="logout.php"><i class="fa fa-sign-out"></i> Logout</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="logout.php"><i class="fa fa-sign-out"></i> Logout</a></li>
                </ul>
           </div>
      </div>

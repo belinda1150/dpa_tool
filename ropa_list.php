@@ -34,9 +34,12 @@ $flash = get_flash_message();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - ROPA Register</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/js/dataTables/dataTables.bootstrap.css?v=2" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
+    <link href="assets/js/dataTables/dataTables.bootstrap5.css?v=2" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -56,20 +59,20 @@ $flash = get_flash_message();
 
                 <?php if ($flash): ?>
                 <div class="alert alert-<?php echo $flash['type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <?php echo htmlspecialchars($flash['message']); ?>
                 </div>
                 <?php endif; ?>
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <i class="fa fa-list-alt"></i> Processing Activities Register
                                     </div>
-                                    <div class="col-md-6 text-right">
+                                    <div class="col-md-6 text-end">
                                         <a href="ropa_add.php" class="btn btn-primary btn-sm">
                                             <i class="fa fa-plus"></i> Add New Activity
                                         </a>
@@ -79,7 +82,7 @@ $flash = get_flash_message();
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="ropaTable">
                                         <thead>
@@ -102,9 +105,9 @@ $flash = get_flash_message();
                                                 <td><?php echo htmlspecialchars($entry['purpose_name'] ?? 'N/A'); ?></td>
                                                 <td>
                                                     <?php if ($entry['basis_name']): ?>
-                                                        <span class="label label-info"><?php echo htmlspecialchars($entry['basis_name']); ?></span>
+                                                        <span class="badge bg-info text-dark"><?php echo htmlspecialchars($entry['basis_name']); ?></span>
                                                     <?php else: ?>
-                                                        <span class="label label-danger">Missing</span>
+                                                        <span class="badge bg-danger">Missing</span>
                                                     <?php endif; ?>
                                                 </td>
                                                 <td>
@@ -118,41 +121,41 @@ $flash = get_flash_message();
                                                             $status_class = 'warning';
                                                             break;
                                                         case 'archived':
-                                                            $status_class = 'default';
+                                                            $status_class = 'secondary';
                                                             break;
                                                     }
                                                     ?>
-                                                    <span class="label label-<?php echo $status_class; ?>">
+                                                    <span class="badge bg-<?php echo $status_class; ?>">
                                                         <?php echo ucfirst($entry['status']); ?>
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <?php if ($entry['has_special_categories']): ?>
-                                                        <span class="label label-danger" title="Contains Special Categories">
+                                                        <span class="badge bg-danger" title="Contains Special Categories">
                                                             <i class="fa fa-exclamation-circle"></i> Special
                                                         </span>
                                                     <?php endif; ?>
                                                     <?php if ($entry['has_minors']): ?>
-                                                        <span class="label label-warning" title="Involves Minors">
+                                                        <span class="badge bg-warning text-dark" title="Involves Minors">
                                                             <i class="fa fa-child"></i> Minors
                                                         </span>
                                                     <?php endif; ?>
                                                     <?php if ($entry['has_cross_border']): ?>
-                                                        <span class="label label-info" title="Cross-Border Transfer">
+                                                        <span class="badge bg-info text-dark" title="Cross-Border Transfer">
                                                             <i class="fa fa-globe"></i> X-Border
                                                         </span>
                                                     <?php endif; ?>
                                                 </td>
                                                 <td><?php echo htmlspecialchars($entry['first_name'] . ' ' . $entry['last_name']); ?></td>
                                                 <td>
-                                                    <a href="ropa_view.php?id=<?php echo $entry['ropa_id']; ?>" class="btn btn-info btn-xs" title="View">
+                                                    <a href="ropa_view.php?id=<?php echo $entry['ropa_id']; ?>" class="btn btn-info btn-sm" title="View">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
-                                                    <a href="ropa_edit.php?id=<?php echo $entry['ropa_id']; ?>" class="btn btn-warning btn-xs" title="Edit">
+                                                    <a href="ropa_edit.php?id=<?php echo $entry['ropa_id']; ?>" class="btn btn-warning btn-sm" title="Edit">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
                                                     <?php if (is_dpo()): ?>
-                                                    <a href="ropa_delete.php?id=<?php echo $entry['ropa_id']; ?>" class="btn btn-danger btn-xs" title="Archive"
+                                                    <a href="ropa_delete.php?id=<?php echo $entry['ropa_id']; ?>" class="btn btn-danger btn-sm" title="Archive"
                                                        onclick="return confirm('Are you sure you want to archive this entry?');">
                                                         <i class="fa fa-archive"></i>
                                                     </a>
@@ -172,12 +175,13 @@ $flash = get_flash_message();
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/dataTables/jquery.dataTables.js"></script>
-    <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
+    <script src="assets/js/dataTables/dataTables.bootstrap5.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
     <script>
         $(document).ready(function() {
             $('#ropaTable').dataTable({

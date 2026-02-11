@@ -34,9 +34,12 @@ $flash = get_flash_message();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - User Management</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/js/dataTables/dataTables.bootstrap.css?v=2" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
+    <link href="assets/js/dataTables/dataTables.bootstrap5.css?v=2" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -56,27 +59,27 @@ $flash = get_flash_message();
 
                 <?php if ($flash): ?>
                 <div class="alert alert-<?php echo $flash['type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <?php echo htmlspecialchars($flash['message']); ?>
                 </div>
                 <?php endif; ?>
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <i class="fa fa-users"></i> User Accounts
                                     </div>
-                                    <div class="col-md-6 text-right">
+                                    <div class="col-md-6 text-end">
                                         <a href="users_add.php" class="btn btn-primary btn-sm">
                                             <i class="fa fa-plus"></i> Add New User
                                         </a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="usersTable">
                                         <thead>
@@ -111,14 +114,14 @@ $flash = get_flash_message();
                                                             $role_class = 'info';
                                                             break;
                                                         case 'Staff':
-                                                            $role_class = 'default';
+                                                            $role_class = 'secondary';
                                                             break;
                                                         case 'Auditor':
                                                             $role_class = 'warning';
                                                             break;
                                                     }
                                                     ?>
-                                                    <span class="label label-<?php echo $role_class; ?>">
+                                                    <span class="badge bg-<?php echo $role_class; ?>">
                                                         <?php echo htmlspecialchars($user['role_name']); ?>
                                                     </span>
                                                 </td>
@@ -131,14 +134,14 @@ $flash = get_flash_message();
                                                             $status_class = 'success';
                                                             break;
                                                         case 'inactive':
-                                                            $status_class = 'default';
+                                                            $status_class = 'secondary';
                                                             break;
                                                         case 'locked':
                                                             $status_class = 'danger';
                                                             break;
                                                     }
                                                     ?>
-                                                    <span class="label label-<?php echo $status_class; ?>">
+                                                    <span class="badge bg-<?php echo $status_class; ?>">
                                                         <?php echo ucfirst($user['status']); ?>
                                                     </span>
                                                 </td>
@@ -152,11 +155,11 @@ $flash = get_flash_message();
                                                     ?>
                                                 </td>
                                                 <td>
-                                                    <a href="users_edit.php?id=<?php echo $user['user_id']; ?>" class="btn btn-warning btn-xs" title="Edit">
+                                                    <a href="users_edit.php?id=<?php echo $user['user_id']; ?>" class="btn btn-warning btn-sm" title="Edit">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
                                                     <?php if ($user['user_id'] != get_current_user_id()): ?>
-                                                    <a href="users_delete.php?id=<?php echo $user['user_id']; ?>" class="btn btn-danger btn-xs" title="Deactivate"
+                                                    <a href="users_delete.php?id=<?php echo $user['user_id']; ?>" class="btn btn-danger btn-sm" title="Deactivate"
                                                        onclick="return confirm('Are you sure you want to deactivate this user?');">
                                                         <i class="fa fa-ban"></i>
                                                     </a>
@@ -176,12 +179,13 @@ $flash = get_flash_message();
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/dataTables/jquery.dataTables.js"></script>
-    <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
+    <script src="assets/js/dataTables/dataTables.bootstrap5.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
     <script>
         $(document).ready(function() {
             $('#usersTable').dataTable({

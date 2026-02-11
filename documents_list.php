@@ -80,8 +80,11 @@ function formatBytes($bytes, $precision = 2) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Document Repository</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <style>
@@ -124,7 +127,7 @@ function formatBytes($bytes, $precision = 2) {
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['flash_message'])): ?>
         <div class="alert alert-<?php echo $_SESSION['flash_type']; ?> alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <?php
                 echo htmlspecialchars($_SESSION['flash_message']);
                 unset($_SESSION['flash_message'], $_SESSION['flash_type']);
@@ -135,13 +138,13 @@ function formatBytes($bytes, $precision = 2) {
     <!-- Statistics Cards -->
     <div class="row">
         <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
+            <div class="card border-info">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-file fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $total_docs; ?></div>
                             <div>Total Documents</div>
                         </div>
@@ -151,13 +154,13 @@ function formatBytes($bytes, $precision = 2) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="card border-primary">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-database fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo formatBytes($total_size); ?></div>
                             <div>Total Storage</div>
                         </div>
@@ -167,13 +170,13 @@ function formatBytes($bytes, $precision = 2) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-warning">
-                <div class="panel-heading">
+            <div class="card border-warning">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-clock-o fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $expiring_soon; ?></div>
                             <div>Expiring Soon</div>
                         </div>
@@ -183,13 +186,13 @@ function formatBytes($bytes, $precision = 2) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
+            <div class="card border-danger">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-calendar-times-o fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $expired; ?></div>
                             <div>Expired</div>
                         </div>
@@ -202,8 +205,8 @@ function formatBytes($bytes, $precision = 2) {
     <!-- Action Buttons & Filters -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-body">
                     <a href="documents_upload.php" class="btn btn-primary">
                         <i class="fa fa-upload"></i> Upload Document
                     </a>
@@ -211,9 +214,9 @@ function formatBytes($bytes, $precision = 2) {
                         <i class="fa fa-search"></i> Advanced Search
                     </a>
 
-                    <div class="pull-right">
+                    <div class="float-end">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
                                 <i class="fa fa-filter"></i> Filter by Type
                                 <span class="caret"></span>
                             </button>
@@ -234,7 +237,7 @@ function formatBytes($bytes, $precision = 2) {
                         </div>
 
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
                                 <i class="fa fa-filter"></i> Filter by Status
                                 <span class="caret"></span>
                             </button>
@@ -256,20 +259,20 @@ function formatBytes($bytes, $precision = 2) {
     <!-- Documents List -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                <div class="card-header">
                     <i class="fa fa-table"></i> Documents
                     <?php if ($doc_type_filter !== 'all'): ?>
-                        <span class="label label-info"><?php echo strtoupper($doc_type_filter); ?></span>
+                        <span class="badge bg-info text-dark"><?php echo strtoupper($doc_type_filter); ?></span>
                     <?php endif; ?>
                     <?php if ($status_filter !== 'all'): ?>
-                        <span class="label label-warning"><?php echo strtoupper($status_filter); ?></span>
+                        <span class="badge bg-warning text-dark"><?php echo strtoupper($status_filter); ?></span>
                     <?php endif; ?>
-                    <div class="pull-right">
-                        <input type="text" id="searchInput" class="form-control input-sm" placeholder="Quick search..." style="width: 200px; display: inline-block;">
+                    <div class="float-end">
+                        <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Quick search..." style="width: 200px; display: inline-block;">
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if (empty($documents)): ?>
                         <div class="alert alert-info">
                             <i class="fa fa-info-circle"></i>
@@ -311,7 +314,7 @@ function formatBytes($bytes, $precision = 2) {
                                     'expired' => 'danger',
                                     'archived' => 'default'
                                 ];
-                                $status_badge = $status_badges[$doc['status']] ?? 'default';
+                                $status_badge = $status_badges[$doc['status']] ?? 'secondary';
                                 ?>
 
                                 <div class="doc-card">
@@ -340,11 +343,11 @@ function formatBytes($bytes, $precision = 2) {
                                             </small>
                                         </div>
                                         <div class="col-md-2">
-                                            <span class="label label-default doc-type-badge">
+                                            <span class="badge bg-secondary doc-type-badge">
                                                 <?php echo strtoupper($doc['doc_type']); ?>
                                             </span>
                                             <br>
-                                            <span class="label label-<?php echo $status_badge; ?> doc-type-badge" style="margin-top: 5px;">
+                                            <span class="badge bg-<?php echo $status_badge; ?> doc-type-badge" style="margin-top: 5px;">
                                                 <?php echo ucfirst(str_replace('_', ' ', $doc['status'])); ?>
                                             </span>
                                             <?php if ($doc['expiry_date'] && strtotime($doc['expiry_date']) > time()): ?>
@@ -353,7 +356,7 @@ function formatBytes($bytes, $precision = 2) {
                                                 </small>
                                             <?php endif; ?>
                                         </div>
-                                        <div class="col-md-2 text-right">
+                                        <div class="col-md-2 text-end">
                                             <a href="documents_view.php?id=<?php echo $doc['doc_id']; ?>" class="btn btn-info btn-sm">
                                                 <i class="fa fa-eye"></i> View
                                             </a>
@@ -377,10 +380,11 @@ function formatBytes($bytes, $precision = 2) {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 <script>
 $(document).ready(function() {
     // Quick search functionality

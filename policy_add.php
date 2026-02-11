@@ -157,8 +157,11 @@ if (!$is_edit) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - <?php echo $is_edit ? 'Edit' : 'Add'; ?> Policy</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -183,11 +186,11 @@ if (!$is_edit) {
     <!-- Form -->
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="card border-primary">
+                <div class="card-header">
                     <i class="fa fa-file-text"></i> Policy Details
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <form method="POST" enctype="multipart/form-data">
 
                         <!-- Policy Title -->
@@ -195,7 +198,7 @@ if (!$is_edit) {
                             <label for="policy_title">Policy Title <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="policy_title" name="policy_title"
                                    value="<?php echo htmlspecialchars($policy['policy_title']); ?>" required>
-                            <span class="help-block">e.g., "Data Protection Policy", "Information Security Policy"</span>
+                            <span class="form-text">e.g., "Data Protection Policy", "Information Security Policy"</span>
                         </div>
 
                         <!-- Policy Type -->
@@ -216,14 +219,14 @@ if (!$is_edit) {
                             <label for="version">Version <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="version" name="version"
                                    value="<?php echo htmlspecialchars($policy['version']); ?>" required>
-                            <span class="help-block">e.g., "1.0", "2.1", "3.0-DRAFT"</span>
+                            <span class="form-text">e.g., "1.0", "2.1", "3.0-DRAFT"</span>
                         </div>
 
                         <!-- Description -->
                         <div class="form-group">
                             <label for="description">Description</label>
                             <textarea class="form-control" id="description" name="description" rows="4"><?php echo htmlspecialchars($policy['description']); ?></textarea>
-                            <span class="help-block">Brief summary of the policy scope and purpose</span>
+                            <span class="form-text">Brief summary of the policy scope and purpose</span>
                         </div>
 
                         <!-- Policy Document Upload -->
@@ -236,7 +239,7 @@ if (!$is_edit) {
                                 </div>
                             <?php endif; ?>
                             <input type="file" class="form-control" id="policy_document" name="policy_document" accept=".pdf,.doc,.docx,.txt">
-                            <span class="help-block">Supported formats: PDF, DOC, DOCX, TXT (Max 10MB)</span>
+                            <span class="form-text">Supported formats: PDF, DOC, DOCX, TXT (Max 10MB)</span>
                         </div>
 
                         <!-- Status -->
@@ -247,7 +250,7 @@ if (!$is_edit) {
                                 <option value="published" <?php echo $policy['status'] === 'published' ? 'selected' : ''; ?>>Published (visible to all staff)</option>
                                 <option value="archived" <?php echo $policy['status'] === 'archived' ? 'selected' : ''; ?>>Archived</option>
                             </select>
-                            <span class="help-block">Only published policies require staff acknowledgement</span>
+                            <span class="form-text">Only published policies require staff acknowledgement</span>
                         </div>
 
                         <!-- Review Due Date -->
@@ -255,7 +258,7 @@ if (!$is_edit) {
                             <label for="review_due_date">Review Due Date</label>
                             <input type="date" class="form-control" id="review_due_date" name="review_due_date"
                                    value="<?php echo htmlspecialchars($policy['review_due_date'] ?? ''); ?>">
-                            <span class="help-block">Set a date for policy review (typically annual)</span>
+                            <span class="form-text">Set a date for policy review (typically annual)</span>
                         </div>
 
                         <!-- Action Buttons -->
@@ -263,7 +266,7 @@ if (!$is_edit) {
                             <button type="submit" class="btn btn-success btn-lg">
                                 <i class="fa fa-save"></i> <?php echo $is_edit ? 'Update' : 'Create'; ?> Policy
                             </button>
-                            <a href="policy_list.php" class="btn btn-default btn-lg">
+                            <a href="policy_list.php" class="btn btn-secondary btn-lg">
                                 <i class="fa fa-times"></i> Cancel
                             </a>
                         </div>
@@ -273,11 +276,11 @@ if (!$is_edit) {
             </div>
 
             <!-- Help Panel -->
-            <div class="panel panel-info">
-                <div class="panel-heading">
+            <div class="card border-info">
+                <div class="card-header">
                     <i class="fa fa-info-circle"></i> Policy Management Best Practices
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <ul>
                         <li><strong>Version Control:</strong> Increment version numbers when making significant changes (e.g., 1.0 to 2.0)</li>
                         <li><strong>Annual Review:</strong> Set review dates 12 months from publication to ensure policies remain current</li>
@@ -297,9 +300,10 @@ if (!$is_edit) {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

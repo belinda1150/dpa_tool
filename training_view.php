@@ -66,7 +66,7 @@ $status_colors = [
     'active' => 'success',
     'inactive' => 'default'
 ];
-$status_color = $status_colors[$training['status']] ?? 'default';
+$status_color = $status_colors[$training['status']] ?? 'secondary';
 
 $completion_rate = $stats['total_assigned'] > 0
     ? round(($stats['completed_count'] / $stats['total_assigned']) * 100)
@@ -79,8 +79,11 @@ $completion_rate = $stats['total_assigned'] > 0
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - View Training</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -105,8 +108,8 @@ $completion_rate = $stats['total_assigned'] > 0
     <!-- Action Buttons -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-body">
                     <?php if (is_admin() || is_dpo()): ?>
                     <a href="training_add.php?id=<?php echo $training_id; ?>" class="btn btn-primary">
                         <i class="fa fa-edit"></i> Edit Training
@@ -115,7 +118,7 @@ $completion_rate = $stats['total_assigned'] > 0
                         <i class="fa fa-users"></i> Assign to Staff
                     </a>
                     <?php endif; ?>
-                    <a href="training_list.php" class="btn btn-default">
+                    <a href="training_list.php" class="btn btn-secondary">
                         <i class="fa fa-arrow-left"></i> Back to List
                     </a>
                     <?php if ($training['content_path'] && file_exists($training['content_path'])): ?>
@@ -133,11 +136,11 @@ $completion_rate = $stats['total_assigned'] > 0
         <div class="col-md-6">
 
             <!-- Training Information -->
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="card border-primary">
+                <div class="card-header">
                     <i class="fa fa-info-circle"></i> Training Information
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th width="40%">Training Title:</th>
@@ -162,7 +165,7 @@ $completion_rate = $stats['total_assigned'] > 0
                         <tr>
                             <th>Status:</th>
                             <td>
-                                <span class="label label-<?php echo $status_color; ?>" style="font-size: 14px; padding: 8px 12px;">
+                                <span class="badge bg-<?php echo $status_color; ?>" style="font-size: 14px; padding: 8px 12px;">
                                     <?php echo strtoupper($training['status']); ?>
                                 </span>
                             </td>
@@ -194,11 +197,11 @@ $completion_rate = $stats['total_assigned'] > 0
             </div>
 
             <!-- Metadata -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                <div class="card-header">
                     <i class="fa fa-clock-o"></i> Record Metadata
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-borderless">
                         <tr>
                             <th width="40%">Created By:</th>
@@ -225,14 +228,14 @@ $completion_rate = $stats['total_assigned'] > 0
         <div class="col-md-6">
 
             <!-- Completion Statistics -->
-            <div class="panel panel-info">
-                <div class="panel-heading">
+            <div class="card border-info">
+                <div class="card-header">
                     <i class="fa fa-bar-chart"></i> Completion Statistics
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <h4>Overall Completion Rate</h4>
                     <div class="progress" style="height: 30px;">
-                        <div class="progress-bar progress-bar-<?php echo $completion_rate >= 80 ? 'success' : ($completion_rate >= 50 ? 'warning' : 'danger'); ?>"
+                        <div class="progress-bar bg-<?php echo $completion_rate >= 80 ? 'success' : ($completion_rate >= 50 ? 'warning' : 'danger'); ?>"
                              role="progressbar"
                              style="width: <?php echo $completion_rate; ?>%; font-size: 16px; line-height: 30px;">
                             <?php echo $completion_rate; ?>%
@@ -245,33 +248,33 @@ $completion_rate = $stats['total_assigned'] > 0
                     <hr>
 
                     <div class="row">
-                        <div class="col-xs-6">
-                            <div class="panel panel-default">
-                                <div class="panel-body text-center">
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-body text-center">
                                     <h3 style="margin: 0; color: #5cb85c;"><?php echo $stats['completed_count']; ?></h3>
                                     <p style="margin: 0; color: #777;">Completed</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6">
-                            <div class="panel panel-default">
-                                <div class="panel-body text-center">
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-body text-center">
                                     <h3 style="margin: 0; color: #5bc0de;"><?php echo $stats['in_progress_count']; ?></h3>
                                     <p style="margin: 0; color: #777;">In Progress</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6">
-                            <div class="panel panel-default">
-                                <div class="panel-body text-center">
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-body text-center">
                                     <h3 style="margin: 0; color: #f0ad4e;"><?php echo $stats['not_started_count']; ?></h3>
                                     <p style="margin: 0; color: #777;">Not Started</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6">
-                            <div class="panel panel-default">
-                                <div class="panel-body text-center">
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-body text-center">
                                     <h3 style="margin: 0; color: #d9534f;"><?php echo $stats['overdue_count']; ?></h3>
                                     <p style="margin: 0; color: #777;">Overdue</p>
                                 </div>
@@ -282,11 +285,11 @@ $completion_rate = $stats['total_assigned'] > 0
             </div>
 
             <!-- Recent Completions -->
-            <div class="panel panel-success">
-                <div class="panel-heading">
+            <div class="card border-success">
+                <div class="card-header">
                     <i class="fa fa-check-circle"></i> Recent Completions
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if (!empty($completions)): ?>
                         <div style="max-height: 300px; overflow-y: auto;">
                             <ul class="list-unstyled">
@@ -294,7 +297,7 @@ $completion_rate = $stats['total_assigned'] > 0
                                     <li style="padding: 10px 0; border-bottom: 1px solid #eee;">
                                         <i class="fa fa-user"></i> <strong><?php echo htmlspecialchars($completion['user_name']); ?></strong>
                                         <?php if ($completion['score']): ?>
-                                            <span class="label label-<?php echo $completion['score'] >= $training['passing_score'] ? 'success' : 'danger'; ?>">
+                                            <span class="badge bg-<?php echo $completion['score'] >= $training['passing_score'] ? 'success' : 'danger'; ?>">
                                                 Score: <?php echo $completion['score']; ?>%
                                             </span>
                                         <?php endif; ?>
@@ -323,9 +326,10 @@ $completion_rate = $stats['total_assigned'] > 0
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

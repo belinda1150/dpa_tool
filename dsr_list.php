@@ -61,10 +61,13 @@ foreach ($requests as $req) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - DSR Requests</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
-    <link href="assets/js/dataTables/dataTables.bootstrap.css?v=2" rel="stylesheet" />
+    <link href="assets/js/dataTables/dataTables.bootstrap5.css?v=2" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
 <body>
@@ -86,8 +89,8 @@ foreach ($requests as $req) {
     <!-- Statistics Cards -->
     <div class="row">
         <div class="col-md-3">
-            <div class="panel panel-primary">
-                <div class="panel-body text-center">
+            <div class="card border-primary">
+                <div class="card-body text-center">
                     <h2 style="margin: 10px 0;"><?php echo $total; ?></h2>
                     <p class="text-muted" style="margin: 0;">
                         <i class="fa fa-list"></i> Total Requests
@@ -97,8 +100,8 @@ foreach ($requests as $req) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-warning">
-                <div class="panel-body text-center">
+            <div class="card border-warning">
+                <div class="card-body text-center">
                     <h2 style="margin: 10px 0;"><?php echo $pending; ?></h2>
                     <p class="text-muted" style="margin: 0;">
                         <i class="fa fa-clock-o"></i> Pending
@@ -108,8 +111,8 @@ foreach ($requests as $req) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-danger">
-                <div class="panel-body text-center">
+            <div class="card border-danger">
+                <div class="card-body text-center">
                     <h2 style="margin: 10px 0;"><?php echo $overdue; ?></h2>
                     <p class="text-muted" style="margin: 0;">
                         <i class="fa fa-exclamation-triangle"></i> Overdue (&gt;30 Days)
@@ -119,8 +122,8 @@ foreach ($requests as $req) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-success">
-                <div class="panel-body text-center">
+            <div class="card border-success">
+                <div class="card-body text-center">
                     <h2 style="margin: 10px 0;"><?php echo $completed; ?></h2>
                     <p class="text-muted" style="margin: 0;">
                         <i class="fa fa-check-circle"></i> Completed
@@ -138,7 +141,7 @@ foreach ($requests as $req) {
             <div class="alert alert-danger">
                 <strong><i class="fa fa-exclamation-triangle"></i> URGENT:</strong>
                 <?php echo $overdue; ?> request(s) have exceeded the 30-day response deadline required by CDPA.
-                <a href="#" onclick="$('#requestsTable').DataTable().column(6).search('overdue').draw(); return false;" class="btn btn-danger btn-xs pull-right">
+                <a href="#" onclick="$('#requestsTable').DataTable().column(6).search('overdue').draw(); return false;" class="btn btn-danger btn-sm float-end">
                     <i class="fa fa-filter"></i> Show Overdue
                 </a>
             </div>
@@ -148,7 +151,7 @@ foreach ($requests as $req) {
             <div class="alert alert-warning">
                 <strong><i class="fa fa-clock-o"></i> Due Soon:</strong>
                 <?php echo $due_soon; ?> request(s) are approaching the 30-day deadline (25+ days elapsed).
-                <a href="#" onclick="$('#requestsTable').DataTable().column(6).search('due_soon').draw(); return false;" class="btn btn-warning btn-xs pull-right">
+                <a href="#" onclick="$('#requestsTable').DataTable().column(6).search('due_soon').draw(); return false;" class="btn btn-warning btn-sm float-end">
                     <i class="fa fa-filter"></i> Show Due Soon
                 </a>
             </div>
@@ -160,18 +163,18 @@ foreach ($requests as $req) {
     <!-- Add New Request Button -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
                         <i class="fa fa-list"></i> All DSR Requests
                     </h3>
-                    <div class="pull-right" style="margin-top: -22px;">
+                    <div class="float-end" style="margin-top: -22px;">
                         <a href="dsr_add.php" class="btn btn-primary btn-sm">
                             <i class="fa fa-plus"></i> New DSR Request
                         </a>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if (empty($requests)): ?>
                         <div class="alert alert-info">
                             <i class="fa fa-info-circle"></i>
@@ -200,7 +203,7 @@ foreach ($requests as $req) {
                                     </td>
                                     <td><?php echo date('d M Y', strtotime($req['received_at'])); ?></td>
                                     <td>
-                                        <span class="label label-info">
+                                        <span class="badge bg-info text-dark">
                                             <?php echo htmlspecialchars($req['request_type']); ?>
                                         </span>
                                     </td>
@@ -215,8 +218,8 @@ foreach ($requests as $req) {
                                             'in_progress' => 'info',
                                             'completed' => 'success',
                                             'rejected' => 'danger'
-                                        ][$req['status']] ?? 'default';
-                                        echo "<span class='label label-$status_class'>" . ucfirst(str_replace('_', ' ', $req['status'])) . "</span>";
+                                        ][$req['status']] ?? 'secondary';
+                                        echo "<span class='badge bg-$status_class'>" . ucfirst(str_replace('_', ' ', $req['status'])) . "</span>";
                                         ?>
                                     </td>
                                     <td class="text-center">
@@ -232,17 +235,17 @@ foreach ($requests as $req) {
                                         <?php
                                         if ($req['status'] == 'completed') {
                                             if ($req['sla_status'] == 'on_time') {
-                                                echo "<span class='label label-success'><i class='fa fa-check'></i> On Time</span>";
+                                                echo "<span class='badge bg-success'><i class='fa fa-check'></i> On Time</span>";
                                             } else {
-                                                echo "<span class='label label-danger'><i class='fa fa-times'></i> Late</span>";
+                                                echo "<span class='badge bg-danger'><i class='fa fa-times'></i> Late</span>";
                                             }
                                         } else {
                                             if ($req['sla_status'] == 'overdue') {
-                                                echo "<span class='label label-danger'><i class='fa fa-exclamation-triangle'></i> OVERDUE</span>";
+                                                echo "<span class='badge bg-danger'><i class='fa fa-exclamation-triangle'></i> OVERDUE</span>";
                                             } elseif ($req['sla_status'] == 'due_soon') {
-                                                echo "<span class='label label-warning'><i class='fa fa-clock-o'></i> Due Soon</span>";
+                                                echo "<span class='badge bg-warning text-dark'><i class='fa fa-clock-o'></i> Due Soon</span>";
                                             } else {
-                                                echo "<span class='label label-success'><i class='fa fa-check-circle'></i> On Track</span>";
+                                                echo "<span class='badge bg-success'><i class='fa fa-check-circle'></i> On Track</span>";
                                             }
                                         }
                                         ?>
@@ -257,7 +260,7 @@ foreach ($requests as $req) {
                                         ?>
                                     </td>
                                     <td>
-                                        <div class="btn-group btn-group-xs">
+                                        <div class="btn-group btn-group-sm">
                                             <a href="dsr_view.php?id=<?php echo $req['dsr_id']; ?>" class="btn btn-info" title="View Details">
                                                 <i class="fa fa-eye"></i>
                                             </a>
@@ -281,11 +284,11 @@ foreach ($requests as $req) {
     <!-- Information Panel -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-info-circle"></i> About Data Subject Rights (DSR)</h3>
+            <div class="card border-info">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-info-circle"></i> About Data Subject Rights (DSR)</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <p>
                         Under the Zimbabwe Cyber and Data Protection Act (CDPA), data subjects have the following rights:
                     </p>
@@ -322,12 +325,13 @@ foreach ($requests as $req) {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+<script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/dataTables/jquery.dataTables.js"></script>
-<script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
+<script src="assets/js/dataTables/dataTables.bootstrap5.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 <script>
 $(document).ready(function() {
     $('#requestsTable').DataTable({

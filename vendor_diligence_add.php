@@ -97,8 +97,11 @@ $result_options = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Add Due Diligence</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -125,11 +128,11 @@ $result_options = [
                 <form method="POST">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-clipboard"></i> Questionnaire Details</h3>
+                            <div class="card border-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fa fa-clipboard"></i> Questionnaire Details</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <div class="form-group">
                                         <label>Questionnaire Type <span class="text-danger">*</span></label>
                                         <select name="questionnaire_type" class="form-control" required>
@@ -176,11 +179,11 @@ $result_options = [
                         </div>
 
                         <div class="col-md-6">
-                            <div class="panel panel-success">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-check-circle"></i> Results</h3>
+                            <div class="card border-success">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fa fa-check-circle"></i> Results</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="form-group">
@@ -243,7 +246,7 @@ $result_options = [
                     <div class="row">
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-save"></i> Save Record</button>
-                            <a href="vendor_view.php?id=<?php echo $vendor_id; ?>" class="btn btn-default btn-lg">Cancel</a>
+                            <a href="vendor_view.php?id=<?php echo $vendor_id; ?>" class="btn btn-secondary btn-lg">Cancel</a>
                         </div>
                     </div>
                 </form>
@@ -251,10 +254,11 @@ $result_options = [
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
     <script>
         $(document).ready(function() {
             function toggleRemediation() {

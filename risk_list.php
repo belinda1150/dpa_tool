@@ -88,8 +88,11 @@ foreach ($risks as $risk) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Risk Register</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -112,7 +115,7 @@ foreach ($risks as $risk) {
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['flash_message'])): ?>
         <div class="alert alert-<?php echo htmlspecialchars($_SESSION['flash_type']); ?> alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <?php
                 echo htmlspecialchars($_SESSION['flash_message']);
                 unset($_SESSION['flash_message'], $_SESSION['flash_type']);
@@ -123,8 +126,8 @@ foreach ($risks as $risk) {
     <!-- Statistics Cards -->
     <div class="row">
         <div class="col-md-3 col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-body">
                     <div class="text-center">
                         <h2 class="text-primary" style="margin: 0; font-size: 36px;"><?php echo $total_risks; ?></h2>
                         <p class="text-muted">Total Risks</p>
@@ -133,8 +136,8 @@ foreach ($risks as $risk) {
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="panel panel-danger">
-                <div class="panel-body">
+            <div class="card border-danger">
+                <div class="card-body">
                     <div class="text-center">
                         <h2 style="margin: 0; font-size: 36px;"><?php echo $critical_risks + $high_risks; ?></h2>
                         <p>Critical/High Risks</p>
@@ -143,8 +146,8 @@ foreach ($risks as $risk) {
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="panel panel-warning">
-                <div class="panel-body">
+            <div class="card border-warning">
+                <div class="card-body">
                     <div class="text-center">
                         <h2 style="margin: 0; font-size: 36px;"><?php echo $medium_risks; ?></h2>
                         <p>Medium Risks</p>
@@ -153,8 +156,8 @@ foreach ($risks as $risk) {
             </div>
         </div>
         <div class="col-md-3 col-sm-6">
-            <div class="panel panel-success">
-                <div class="panel-body">
+            <div class="card border-success">
+                <div class="card-body">
                     <div class="text-center">
                         <h2 style="margin: 0; font-size: 36px;"><?php echo $low_risks; ?></h2>
                         <p>Low Risks</p>
@@ -167,16 +170,16 @@ foreach ($risks as $risk) {
     <!-- Risk Heat Map -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h3 class="card-title">
                         <i class="fa fa-fire"></i> Risk Heat Map (Residual Risk)
-                        <span class="pull-right">
+                        <span class="float-end">
                             <small>Higher = More Critical</small>
                         </span>
                     </h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered" style="margin-bottom: 0;">
                             <thead>
@@ -244,10 +247,10 @@ foreach ($risks as $risk) {
                     <div style="margin-top: 15px;">
                         <p class="text-muted">
                             <strong>Legend:</strong>
-                            <span class="label label-danger">Critical (15-25)</span>
+                            <span class="badge bg-danger">Critical (15-25)</span>
                             <span class="label" style="background-color: #f0ad4e;">High (6-14)</span>
-                            <span class="label label-warning">Medium (3-5)</span>
-                            <span class="label label-success">Low (1-2)</span>
+                            <span class="badge bg-warning text-dark">Medium (3-5)</span>
+                            <span class="badge bg-success">Low (1-2)</span>
                         </p>
                     </div>
                 </div>
@@ -258,16 +261,16 @@ foreach ($risks as $risk) {
     <!-- Risk List -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
                         <i class="fa fa-list"></i> All Risks
-                        <a href="risk_add.php" class="btn btn-success btn-sm pull-right">
+                        <a href="risk_add.php" class="btn btn-success btn-sm float-end">
                             <i class="fa fa-plus"></i> Add New Risk
                         </a>
                     </h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if (empty($risks)): ?>
                         <div class="alert alert-info">
                             <i class="fa fa-info-circle"></i>
@@ -319,7 +322,7 @@ foreach ($risks as $risk) {
                                             'accepted' => 'info',
                                             'closed' => 'success'
                                         ];
-                                        $status_class = $status_labels[$risk['status']] ?? 'default';
+                                        $status_class = $status_labels[$risk['status']] ?? 'secondary';
                                         ?>
                                         <tr>
                                             <td>RISK-<?php echo str_pad($risk['risk_id'], 4, '0', STR_PAD_LEFT); ?></td>
@@ -327,7 +330,7 @@ foreach ($risks as $risk) {
                                                 <strong><?php echo htmlspecialchars($risk['risk_title']); ?></strong>
                                             </td>
                                             <td>
-                                                <span class="label label-default">
+                                                <span class="badge bg-secondary">
                                                     <?php echo htmlspecialchars($risk['risk_category']); ?>
                                                 </span>
                                             </td>
@@ -342,20 +345,20 @@ foreach ($risks as $risk) {
                                                 ?>
                                             </td>
                                             <td class="text-center">
-                                                <span class="label label-default"><?php echo $inherent; ?>/25</span>
+                                                <span class="badge bg-secondary"><?php echo $inherent; ?>/25</span>
                                             </td>
                                             <td class="text-center">
-                                                <span class="label label-<?php echo $risk_class; ?>">
+                                                <span class="badge bg-<?php echo $risk_class; ?>">
                                                     <?php echo $residual; ?>/25
                                                 </span>
                                             </td>
                                             <td>
-                                                <span class="label label-<?php echo $risk_class; ?>">
+                                                <span class="badge bg-<?php echo $risk_class; ?>">
                                                     <?php echo $risk_level; ?>
                                                 </span>
                                             </td>
                                             <td>
-                                                <span class="label label-<?php echo $status_class; ?>">
+                                                <span class="badge bg-<?php echo $status_class; ?>">
                                                     <?php echo ucfirst($risk['status']); ?>
                                                 </span>
                                             </td>
@@ -378,7 +381,7 @@ foreach ($risks as $risk) {
                                                 ?>
                                             </td>
                                             <td>
-                                                <div class="btn-group btn-group-xs">
+                                                <div class="btn-group btn-group-sm">
                                                     <a href="risk_view.php?id=<?php echo $risk['risk_id']; ?>"
                                                        class="btn btn-info" title="View Risk">
                                                         <i class="fa fa-eye"></i>
@@ -397,7 +400,7 @@ foreach ($risks as $risk) {
                     <?php endif; ?>
                 </div>
                 <?php if (!empty($risks)): ?>
-                <div class="panel-footer">
+                <div class="card-footer">
                     <div class="row">
                         <div class="col-sm-6">
                             <a href="risk_add.php" class="btn btn-success">
@@ -407,7 +410,7 @@ foreach ($risks as $risk) {
                                 <i class="fa fa-download"></i> Export Register
                             </a>
                         </div>
-                        <div class="col-sm-6 text-right">
+                        <div class="col-sm-6 text-end">
                             <p class="text-muted" style="margin-top: 8px;">
                                 Showing <?php echo $total_risks; ?> risk<?php echo $total_risks != 1 ? 's' : ''; ?>
                             </p>
@@ -425,12 +428,13 @@ foreach ($risks as $risk) {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+<script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/dataTables/jquery.dataTables.js"></script>
-<script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
+<script src="assets/js/dataTables/dataTables.bootstrap5.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 <script>
 $(document).ready(function() {
     // Initialize DataTables

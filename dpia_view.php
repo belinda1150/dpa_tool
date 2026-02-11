@@ -60,8 +60,11 @@ foreach ($steps as $step) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - View DPIA</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <style>
         .section-title {
@@ -120,7 +123,7 @@ foreach ($steps as $step) {
                 <div class="row">
                     <div class="col-md-12">
                         <!-- Action Buttons -->
-                        <div class="btn-group pull-right" style="margin-bottom: 15px;">
+                        <div class="btn-group float-end" style="margin-bottom: 15px;">
                             <?php if ($dpia['status'] == 'draft' || $dpia['status'] == 'rework'): ?>
                                 <a href="dpia_wizard.php?id=<?php echo $dpia_id; ?>" class="btn btn-warning">
                                     <i class="fa fa-edit"></i> Continue Editing
@@ -134,15 +137,15 @@ foreach ($steps as $step) {
                             <a href="dpia_export.php?id=<?php echo $dpia_id; ?>" class="btn btn-primary">
                                 <i class="fa fa-download"></i> Export PDF
                             </a>
-                            <a href="dpia_list.php" class="btn btn-default">
+                            <a href="dpia_list.php" class="btn btn-secondary">
                                 <i class="fa fa-arrow-left"></i> Back to List
                             </a>
                         </div>
                         <div class="clearfix"></div>
 
                         <!-- Status Panel -->
-                        <div class="panel panel-default">
-                            <div class="panel-body">
+                        <div class="card">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
                                         <strong>Status:</strong>
@@ -162,10 +165,10 @@ foreach ($steps as $step) {
                                                 $status_class = 'danger';
                                                 break;
                                             default:
-                                                $status_class = 'default';
+                                                $status_class = 'secondary';
                                         }
                                         ?>
-                                        <span class="label label-<?php echo $status_class; ?> label-lg">
+                                        <span class="badge bg-<?php echo $status_class; ?> label-lg">
                                             <?php echo strtoupper($dpia['status']); ?>
                                         </span>
                                     </div>
@@ -196,9 +199,9 @@ foreach ($steps as $step) {
                                     <div class="col-md-3">
                                         <strong>Screening Result:</strong>
                                         <?php if ($dpia['screening_result'] == 'needed'): ?>
-                                            <span class="label label-warning">DPIA Needed</span>
+                                            <span class="badge bg-warning text-dark">DPIA Needed</span>
                                         <?php else: ?>
-                                            <span class="label label-default">Not Needed</span>
+                                            <span class="badge bg-secondary">Not Needed</span>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -206,11 +209,11 @@ foreach ($steps as $step) {
                         </div>
 
                         <!-- Basic Information -->
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
+                        <div class="card border-primary">
+                            <div class="card-header">
                                 <i class="fa fa-info-circle"></i> Basic Information
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="info-row">
                                     <div class="info-label">DPIA Title:</div>
                                     <div><?php echo htmlspecialchars($dpia['dpia_title']); ?></div>
@@ -234,11 +237,11 @@ foreach ($steps as $step) {
 
                         <!-- Processing Description (Step 2) -->
                         <?php if (!empty($step_data[2])): ?>
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
+                        <div class="card border-info">
+                            <div class="card-header">
                                 <i class="fa fa-file-text"></i> Processing Description
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <?php if (!empty($step_data[2]['processing_description'])): ?>
                                 <div class="info-row">
                                     <div class="info-label">Processing Description:</div>
@@ -271,17 +274,17 @@ foreach ($steps as $step) {
                         <?php endif; ?>
 
                         <!-- Risks & Mitigations -->
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">
+                        <div class="card border-warning">
+                            <div class="card-header">
                                 <i class="fa fa-exclamation-triangle"></i> Identified Risks & Mitigation Measures
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <?php if (!empty($risks)): ?>
                                     <?php foreach ($risks as $index => $risk): ?>
                                         <div class="risk-card">
                                             <h4 style="margin-top: 0;">
                                                 Risk #<?php echo $index + 1; ?>: <?php echo htmlspecialchars($risk['risk_title']); ?>
-                                                <span class="label label-info pull-right">
+                                                <span class="badge bg-info text-dark float-end">
                                                     <?php echo ucfirst($risk['risk_category']); ?>
                                                 </span>
                                             </h4>
@@ -377,11 +380,11 @@ foreach ($steps as $step) {
 
                         <!-- Consultation (Step 6) -->
                         <?php if (!empty($step_data[6])): ?>
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
+                        <div class="card border-success">
+                            <div class="card-header">
                                 <i class="fa fa-users"></i> Consultation & Evidence
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="info-row">
                                     <div class="info-label">DPO Consulted:</div>
                                     <div>
@@ -419,11 +422,11 @@ foreach ($steps as $step) {
 
                         <!-- Approval Information -->
                         <?php if ($dpia['status'] == 'approved' || $dpia['status'] == 'rejected' || $dpia['status'] == 'rework'): ?>
-                        <div class="panel panel-<?php echo $dpia['status'] == 'approved' ? 'success' : 'warning'; ?>">
-                            <div class="panel-heading">
+                        <div class="card border-<?php echo $dpia['status'] == 'approved' ? 'success' : 'warning'; ?>">
+                            <div class="card-header">
                                 <i class="fa fa-check-square-o"></i> DPO Review & Approval
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="info-label">Reviewed By:</div>
@@ -436,7 +439,7 @@ foreach ($steps as $step) {
                                     <div class="col-md-4">
                                         <div class="info-label">Decision:</div>
                                         <div>
-                                            <span class="label label-<?php echo $status_class; ?> label-lg">
+                                            <span class="badge bg-<?php echo $status_class; ?> label-lg">
                                                 <?php echo strtoupper($dpia['status']); ?>
                                             </span>
                                         </div>
@@ -454,11 +457,11 @@ foreach ($steps as $step) {
                         <?php endif; ?>
 
                         <!-- Metadata -->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 <i class="fa fa-clock-o"></i> Record Information
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="info-label">Created By:</div>
@@ -484,9 +487,10 @@ foreach ($steps as $step) {
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

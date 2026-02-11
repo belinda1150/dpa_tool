@@ -46,8 +46,11 @@ foreach ($trainings as $training) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Training Courses</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <style>
@@ -82,7 +85,7 @@ foreach ($trainings as $training) {
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['flash_message'])): ?>
         <div class="alert alert-<?php echo $_SESSION['flash_type']; ?> alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <?php
                 echo htmlspecialchars($_SESSION['flash_message']);
                 unset($_SESSION['flash_message'], $_SESSION['flash_type']);
@@ -93,13 +96,13 @@ foreach ($trainings as $training) {
     <!-- Statistics Cards -->
     <div class="row">
         <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
+            <div class="card border-info">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-graduation-cap fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $total_trainings; ?></div>
                             <div>Total Courses</div>
                         </div>
@@ -109,13 +112,13 @@ foreach ($trainings as $training) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-success">
-                <div class="panel-heading">
+            <div class="card border-success">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-play-circle fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $active_count; ?></div>
                             <div>Active</div>
                         </div>
@@ -125,13 +128,13 @@ foreach ($trainings as $training) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-warning">
-                <div class="panel-heading">
+            <div class="card border-warning">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-pencil fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $draft_count; ?></div>
                             <div>Drafts</div>
                         </div>
@@ -141,13 +144,13 @@ foreach ($trainings as $training) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-archive fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $archived_count; ?></div>
                             <div>Archived</div>
                         </div>
@@ -160,8 +163,8 @@ foreach ($trainings as $training) {
     <!-- Action Buttons -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-body">
                     <?php if (is_admin() || is_dpo()): ?>
                     <a href="training_add.php" class="btn btn-primary">
                         <i class="fa fa-plus"></i> Create New Training Course
@@ -173,7 +176,7 @@ foreach ($trainings as $training) {
                     <a href="training_my.php" class="btn btn-success">
                         <i class="fa fa-user"></i> My Training Dashboard
                     </a>
-                    <a href="policy_list.php" class="btn btn-default">
+                    <a href="policy_list.php" class="btn btn-secondary">
                         <i class="fa fa-file-text"></i> View Policies
                     </a>
                 </div>
@@ -184,14 +187,14 @@ foreach ($trainings as $training) {
     <!-- Training Table -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                <div class="card-header">
                     <i class="fa fa-table"></i> Training Courses
-                    <div class="pull-right">
-                        <input type="text" id="searchInput" class="form-control input-sm" placeholder="Search training..." style="width: 200px; display: inline-block;">
+                    <div class="float-end">
+                        <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Search training..." style="width: 200px; display: inline-block;">
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if (empty($trainings)): ?>
                         <div class="alert alert-info">
                             <i class="fa fa-info-circle"></i>
@@ -227,7 +230,7 @@ foreach ($trainings as $training) {
                                                 <?php endif; ?>
                                             </td>
                                             <td>
-                                                <span class="label label-default">
+                                                <span class="badge bg-secondary">
                                                     <?php
                                                     $types = [
                                                         'data_protection' => 'Data Protection',
@@ -261,7 +264,7 @@ foreach ($trainings as $training) {
                                             </td>
                                             <td>
                                                 <div class="progress" style="margin-bottom: 0;">
-                                                    <div class="progress-bar progress-bar-<?php echo $completion_rate >= 80 ? 'success' : ($completion_rate >= 50 ? 'warning' : 'danger'); ?>"
+                                                    <div class="progress-bar bg-<?php echo $completion_rate >= 80 ? 'success' : ($completion_rate >= 50 ? 'warning' : 'danger'); ?>"
                                                          role="progressbar"
                                                          style="width: <?php echo $completion_rate; ?>%">
                                                         <?php echo $completion_rate; ?>%
@@ -273,14 +276,14 @@ foreach ($trainings as $training) {
                                                 <br><small class="text-muted">by <?php echo htmlspecialchars($training['created_by_name']); ?></small>
                                             </td>
                                             <td>
-                                                <a href="training_view.php?id=<?php echo $training['training_id']; ?>" class="btn btn-info btn-xs" title="View Details">
+                                                <a href="training_view.php?id=<?php echo $training['training_id']; ?>" class="btn btn-info btn-sm" title="View Details">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
                                                 <?php if (is_admin() || is_dpo()): ?>
-                                                <a href="training_add.php?id=<?php echo $training['training_id']; ?>" class="btn btn-primary btn-xs" title="Edit">
+                                                <a href="training_add.php?id=<?php echo $training['training_id']; ?>" class="btn btn-primary btn-sm" title="Edit">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <a href="training_assign.php?training_id=<?php echo $training['training_id']; ?>" class="btn btn-success btn-xs" title="Assign">
+                                                <a href="training_assign.php?training_id=<?php echo $training['training_id']; ?>" class="btn btn-success btn-sm" title="Assign">
                                                     <i class="fa fa-users"></i>
                                                 </a>
                                                 <?php endif; ?>
@@ -302,10 +305,11 @@ foreach ($trainings as $training) {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 <script>
 $(document).ready(function() {
     // Search functionality

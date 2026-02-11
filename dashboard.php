@@ -493,8 +493,11 @@ if ($table_exists) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Dashboard</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href="assets/css/dashboard-custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
@@ -577,38 +580,134 @@ if ($table_exists) {
                 }
                 </script>
 
-                <!-- Main Dashboard Layout -->
-                <div class="dashboard-container">
-                    <!-- Left Summary Column -->
-                    <div class="summary-column">
-                        <div class="summary-card">
-                            <span class="label">ROPA</span>
-                            <span class="value"><?php echo $stats['ropa']['total']; ?></span>
-                            <span class="unit">Processing Activities</span>
+                <!-- CDPA Readiness Card -->
+                <?php
+                // Calculate CDPA checklist readiness
+                $cdpa_readiness_pct = 0;
+                $cdpa_readiness_started = false;
+                $table_check_cr = $dpa_db->query("SHOW TABLES LIKE 'compliance_responses'");
+                if ($table_check_cr->num_rows > 0) {
+                    require_once 'config/checklist_items.php';
+                    $cr_stmt = db_query("SELECT item_key, response FROM compliance_responses WHERE org_id = ?", [$org_id]);
+                    $cr_rows = db_fetch_all($cr_stmt);
+                    if (!empty($cr_rows)) {
+                        $cdpa_readiness_started = true;
+                        $cr_saved = [];
+                        foreach ($cr_rows as $cr_row) {
+                            $cr_saved[$cr_row['item_key']] = $cr_row['response'];
+                        }
+                        $cr_applicable = 0;
+                        $cr_earned = 0;
+                        foreach ($CHECKLIST_ITEMS as $cat) {
+                            foreach ($cat['items'] as $ik => $it) {
+                                $r = $cr_saved[$ik] ?? null;
+                                if ($r === 'yes') { $cr_earned += 1; $cr_applicable++; }
+                                elseif ($r === 'partial') { $cr_earned += 0.5; $cr_applicable++; }
+                                elseif ($r === 'no') { $cr_applicable++; }
+                            }
+                        }
+                        $cdpa_readiness_pct = $cr_applicable > 0 ? round(($cr_earned / $cr_applicable) * 100, 1) : 0;
+                    }
+                }
+                if ($cdpa_readiness_started) {
+                    if ($cdpa_readiness_pct >= 80) { $cdpa_color = '#28a745'; $cdpa_icon = 'fa-check-circle'; }
+                    elseif ($cdpa_readiness_pct >= 50) { $cdpa_color = '#ffc107'; $cdpa_icon = 'fa-exclamation-triangle'; }
+                    else { $cdpa_color = '#dc3545'; $cdpa_icon = 'fa-times-circle'; }
+                } else {
+                    $cdpa_color = '#6c757d'; $cdpa_icon = 'fa-clipboard-check';
+                }
+                ?>
+                <div style="margin-bottom: 20px;">
+                    <a href="compliance_checklist.php" style="text-decoration: none;">
+                        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--card-shadow); transition: box-shadow 0.2s;">
+                            <div style="display: flex; align-items: center; gap: 14px;">
+                                <i class="fa <?php echo $cdpa_icon; ?>" style="font-size: 28px; color: <?php echo $cdpa_color; ?>;"></i>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 14px; color: var(--text-heading);">CDPA Readiness</div>
+                                    <div style="font-size: 12px; color: var(--text-muted);">
+                                        <?php echo $cdpa_readiness_started ? 'Compliance Gap Assessment' : 'Start your compliance assessment'; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="width: 100px; height: 8px; background: var(--border-light); border-radius: 4px; overflow: hidden;">
+                                    <div style="width: <?php echo $cdpa_readiness_pct; ?>%; height: 100%; background: <?php echo $cdpa_color; ?>; border-radius: 4px;"></div>
+                                </div>
+                                <span style="font-size: 18px; font-weight: 700; color: <?php echo $cdpa_color; ?>; min-width: 50px; text-align: right;">
+                                    <?php echo $cdpa_readiness_started ? $cdpa_readiness_pct . '%' : '--'; ?>
+                                </span>
+                                <i class="fa fa-chevron-right" style="color: var(--text-muted); font-size: 12px;"></i>
+                            </div>
                         </div>
-                        <div class="summary-card">
-                            <span class="label">DPIA</span>
-                            <span class="value"><?php echo $stats['dpia']['total']; ?></span>
-                            <span class="unit">Assessments</span>
+                    </a>
+                </div>
+
+                <!-- Top Stat Cards Row -->
+                <div class="top-stats-row">
+                    <div class="top-stat-card">
+                        <div class="top-stat-info">
+                            <div class="top-stat-value"><?php echo $stats['ropa']['total']; ?></div>
+                            <div class="top-stat-label">Processing Activities</div>
+                            <div class="top-stat-detail">
+                                <span class="stat-up"><i class="fa fa-check"></i> <?php echo $stats['ropa']['validated']; ?> Validated</span>
+                            </div>
                         </div>
-                        <div class="summary-card">
-                            <span class="label">Open Risks</span>
-                            <span class="value"><?php echo $stats['risks']['open']; ?></span>
-                            <span class="unit"><?php echo $stats['risks']['high_risk']; ?> High Risk</span>
-                        </div>
-                        <div class="summary-card">
-                            <span class="label">Incidents</span>
-                            <span class="value"><?php echo $stats['incidents']['active']; ?></span>
-                            <span class="unit">Active Cases</span>
-                        </div>
-                        <div class="summary-card">
-                            <span class="label">Vendors</span>
-                            <span class="value"><?php echo $stats['vendors']['active'] ?? 0; ?></span>
-                            <span class="unit"><?php echo $stats['vendors']['high_risk'] ?? 0; ?> High Risk</span>
+                        <div class="top-stat-icon" style="background: #FFB300;">
+                            <i class="fa fa-list-alt"></i>
                         </div>
                     </div>
+                    <div class="top-stat-card">
+                        <div class="top-stat-info">
+                            <div class="top-stat-value"><?php echo $stats['dpia']['total']; ?></div>
+                            <div class="top-stat-label">DPIA Assessments</div>
+                            <div class="top-stat-detail">
+                                <span class="stat-up"><i class="fa fa-check"></i> <?php echo $stats['dpia']['approved']; ?> Approved</span>
+                            </div>
+                        </div>
+                        <div class="top-stat-icon" style="background: #26A69A;">
+                            <i class="fa fa-shield"></i>
+                        </div>
+                    </div>
+                    <div class="top-stat-card">
+                        <div class="top-stat-info">
+                            <div class="top-stat-value"><?php echo $stats['risks']['open']; ?></div>
+                            <div class="top-stat-label">Open Risks</div>
+                            <div class="top-stat-detail">
+                                <span class="stat-down"><i class="fa fa-exclamation-triangle"></i> <?php echo $stats['risks']['high_risk']; ?> High Risk</span>
+                            </div>
+                        </div>
+                        <div class="top-stat-icon" style="background: #EF5350;">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </div>
+                    </div>
+                    <div class="top-stat-card">
+                        <div class="top-stat-info">
+                            <div class="top-stat-value"><?php echo $stats['incidents']['active']; ?></div>
+                            <div class="top-stat-label">Active Incidents</div>
+                            <div class="top-stat-detail">
+                                <span class="stat-neutral"><i class="fa fa-bolt"></i> <?php echo $stats['incidents']['critical']; ?> Critical</span>
+                            </div>
+                        </div>
+                        <div class="top-stat-icon" style="background: #AB47BC;">
+                            <i class="fa fa-bolt"></i>
+                        </div>
+                    </div>
+                    <div class="top-stat-card">
+                        <div class="top-stat-info">
+                            <div class="top-stat-value"><?php echo $stats['vendors']['active'] ?? 0; ?></div>
+                            <div class="top-stat-label">Active Vendors</div>
+                            <div class="top-stat-detail">
+                                <span class="stat-neutral"><i class="fa fa-briefcase"></i> <?php echo $stats['vendors']['high_risk'] ?? 0; ?> High Risk</span>
+                            </div>
+                        </div>
+                        <div class="top-stat-icon" style="background: #42A5F5;">
+                            <i class="fa fa-briefcase"></i>
+                        </div>
+                    </div>
+                </div>
 
-                    <!-- Charts Column -->
+                <!-- Charts Section -->
+                <div class="charts-section">
                     <div class="charts-column">
                         <!-- First Row of Charts -->
                         <div class="charts-row">
@@ -858,11 +957,12 @@ if ($table_exists) {
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/echarts.min.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 
     <script>
     // ============================================
@@ -1120,7 +1220,7 @@ if ($table_exists) {
                 width: 8,
                 length: '75%',
                 itemStyle: {
-                    color: '#004889'
+                    color: '#1B1464'
                 }
             },
             axisTick: {

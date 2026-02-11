@@ -137,8 +137,11 @@ $incidents_list = db_fetch_all(db_query("SELECT incident_id, incident_title FROM
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Upload Document</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <style>
@@ -182,11 +185,11 @@ $incidents_list = db_fetch_all(db_query("SELECT incident_id, incident_title FROM
         <div class="row">
             <div class="col-md-8">
                 <!-- File Upload -->
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
+                <div class="card border-primary">
+                    <div class="card-header">
                         <i class="fa fa-file"></i> Document File
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="drop-zone" id="dropZone">
                             <i class="fa fa-cloud-upload fa-4x text-muted"></i>
                             <h4>Drag & Drop File Here</h4>
@@ -198,7 +201,7 @@ $incidents_list = db_fetch_all(db_query("SELECT incident_id, incident_title FROM
                             <div class="alert alert-success">
                                 <strong><i class="fa fa-check-circle"></i> File Selected:</strong>
                                 <span id="fileName"></span>
-                                <span id="fileSize" class="pull-right"></span>
+                                <span id="fileSize" class="float-end"></span>
                             </div>
                         </div>
 
@@ -210,11 +213,11 @@ $incidents_list = db_fetch_all(db_query("SELECT incident_id, incident_title FROM
                 </div>
 
                 <!-- Document Details -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
+                <div class="card">
+                    <div class="card-header">
                         <i class="fa fa-info-circle"></i> Document Details
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label>Document Name <span class="text-danger">*</span></label>
                             <input type="text" name="doc_name" class="form-control" required
@@ -276,11 +279,11 @@ $incidents_list = db_fetch_all(db_query("SELECT incident_id, incident_title FROM
                 </div>
 
                 <!-- Link to Entities (Optional) -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
+                <div class="card border-info">
+                    <div class="card-header">
                         <i class="fa fa-link"></i> Link to Records (Optional)
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <p class="text-muted">Link this document to relevant records in your system</p>
 
                         <div id="linksContainer">
@@ -334,23 +337,23 @@ $incidents_list = db_fetch_all(db_query("SELECT incident_id, incident_title FROM
 
             <div class="col-md-4">
                 <!-- Action Buttons -->
-                <div class="panel panel-default">
-                    <div class="panel-body">
+                <div class="card">
+                    <div class="card-body">
                         <button type="submit" class="btn btn-success btn-block btn-lg">
                             <i class="fa fa-upload"></i> Upload Document
                         </button>
-                        <a href="documents_list.php" class="btn btn-default btn-block">
+                        <a href="documents_list.php" class="btn btn-secondary btn-block">
                             <i class="fa fa-times"></i> Cancel
                         </a>
                     </div>
                 </div>
 
                 <!-- Upload Guidelines -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
+                <div class="card border-info">
+                    <div class="card-header">
                         <i class="fa fa-lightbulb-o"></i> Document Management Tips
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <ul style="font-size: 12px; margin: 0;">
                             <li><strong>Naming:</strong> Use clear, descriptive names</li>
                             <li><strong>Version Control:</strong> Update version when making changes</li>
@@ -363,11 +366,11 @@ $incidents_list = db_fetch_all(db_query("SELECT incident_id, incident_title FROM
                 </div>
 
                 <!-- Security Notice -->
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
+                <div class="card border-warning">
+                    <div class="card-header">
                         <i class="fa fa-shield"></i> Security Notice
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <p style="font-size: 12px; margin: 0;">
                             <strong>Confidentiality:</strong> Do not upload documents containing:
                         </p>
@@ -392,10 +395,11 @@ $incidents_list = db_fetch_all(db_query("SELECT incident_id, incident_title FROM
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 <script>
 $(document).ready(function() {
     const dropZone = $('#dropZone');

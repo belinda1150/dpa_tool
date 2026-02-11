@@ -153,8 +153,11 @@ unset($_SESSION['form_errors'], $_SESSION['form_data']);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Report Incident</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -177,7 +180,7 @@ unset($_SESSION['form_errors'], $_SESSION['form_data']);
     <!-- Form Errors -->
     <?php if (!empty($form_errors)): ?>
         <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <strong>Please correct the following errors:</strong>
             <ul>
                 <?php foreach ($form_errors as $error): ?>
@@ -201,11 +204,11 @@ unset($_SESSION['form_errors'], $_SESSION['form_data']);
             <div class="col-md-6">
 
                 <!-- Basic Information -->
-                <div class="panel panel-danger">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-info-circle"></i> Incident Details</h3>
+                <div class="card border-danger">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-info-circle"></i> Incident Details</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label for="incident_title">Incident Title <span class="text-danger">*</span></label>
                             <input type="text" name="incident_title" id="incident_title" class="form-control" required
@@ -243,7 +246,7 @@ unset($_SESSION['form_errors'], $_SESSION['form_data']);
                             <input type="datetime-local" name="detected_at" id="detected_at" class="form-control" required
                                    value="<?php echo isset($form_data['detected_at']) ? date('Y-m-d\TH:i', strtotime($form_data['detected_at'])) : date('Y-m-d\TH:i'); ?>"
                                    max="<?php echo date('Y-m-d\TH:i'); ?>">
-                            <p class="help-block">When was the incident detected or discovered?</p>
+                            <p class="form-text">When was the incident detected or discovered?</p>
                         </div>
 
                         <div class="form-group">
@@ -279,7 +282,7 @@ unset($_SESSION['form_errors'], $_SESSION['form_data']);
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
-                                    <p class="help-block">Person who detected this incident</p>
+                                    <p class="form-text">Person who detected this incident</p>
                                 </div>
                             </div>
                         </div>
@@ -292,14 +295,14 @@ unset($_SESSION['form_errors'], $_SESSION['form_data']);
             <div class="col-md-6">
 
                 <!-- Data Breach Information -->
-                <div class="panel panel-warning" id="dataBreachPanel">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
+                <div class="card border-warning" id="dataBreachPanel">
+                    <div class="card-header">
+                        <h3 class="card-title">
                             <i class="fa fa-shield"></i> Data Breach Information
-                            <span class="label label-danger pull-right" id="breachLabel" style="display: none;">72-HOUR DEADLINE</span>
+                            <span class="badge bg-danger float-end" id="breachLabel" style="display: none;">72-HOUR DEADLINE</span>
                         </h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <div class="checkbox">
                                 <label>
@@ -308,7 +311,7 @@ unset($_SESSION['form_errors'], $_SESSION['form_data']);
                                     <strong>This is a Notifiable Breach</strong> (Personal data compromised/exposed)
                                 </label>
                             </div>
-                            <p class="help-block text-danger" id="breachWarning" style="display: <?php echo (isset($form_data['notifiable']) && $form_data['notifiable']) ? 'block' : 'none'; ?>;">
+                            <p class="form-text text-danger" id="breachWarning" style="display: <?php echo (isset($form_data['notifiable']) && $form_data['notifiable']) ? 'block' : 'none'; ?>;">
                                 <i class="fa fa-warning"></i>
                                 <strong>IMPORTANT:</strong> POTRAZ must be notified within 72 hours of breach discovery (SI 156 of 2022)
                             </p>
@@ -320,14 +323,14 @@ unset($_SESSION['form_errors'], $_SESSION['form_data']);
                                 <input type="number" name="data_subjects_affected" id="data_subjects_affected" class="form-control"
                                        value="<?php echo htmlspecialchars($form_data['data_subjects_affected'] ?? ''); ?>"
                                        min="0" placeholder="e.g., 150">
-                                <p class="help-block">How many individuals are affected? (Approximate if exact number unknown)</p>
+                                <p class="form-text">How many individuals are affected? (Approximate if exact number unknown)</p>
                             </div>
 
                             <div class="form-group">
                                 <label for="data_categories_affected">Types of Data Affected <span class="text-danger">*</span></label>
                                 <textarea name="data_categories_affected" id="data_categories_affected" class="form-control" rows="3"
                                           placeholder="e.g., Names, email addresses, phone numbers, ID numbers, financial data, medical records..."><?php echo htmlspecialchars($form_data['data_categories_affected'] ?? ''); ?></textarea>
-                                <p class="help-block">List all types of personal data that were compromised</p>
+                                <p class="form-text">List all types of personal data that were compromised</p>
                             </div>
 
                             <div class="alert alert-danger">
@@ -346,11 +349,11 @@ unset($_SESSION['form_errors'], $_SESSION['form_data']);
                 </div>
 
                 <!-- Immediate Actions -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-flash"></i> Immediate Actions Taken</h3>
+                <div class="card border-info">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-flash"></i> Immediate Actions Taken</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label for="root_cause">Root Cause (if known)</label>
                             <textarea name="root_cause" id="root_cause" class="form-control" rows="3"
@@ -380,12 +383,12 @@ unset($_SESSION['form_errors'], $_SESSION['form_data']);
         <!-- Form Actions -->
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-body">
+                <div class="card">
+                    <div class="card-body">
                         <button type="submit" class="btn btn-danger btn-lg">
                             <i class="fa fa-save"></i> Report Incident
                         </button>
-                        <a href="incident_list.php" class="btn btn-default btn-lg">
+                        <a href="incident_list.php" class="btn btn-secondary btn-lg">
                             <i class="fa fa-times"></i> Cancel
                         </a>
                     </div>
@@ -465,9 +468,10 @@ $(document).ready(function() {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

@@ -135,3 +135,40 @@ body {
   text-align: center;
   font-size: large;
 }
+
+/* ============================================
+   DARK MODE - Login Page
+   ============================================ */
+[data-theme="dark"] .login {
+  background: #252830;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .login input {
+  background: #2a2d35;
+  border-color: #3a3d45;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .login input:focus {
+  color: #e0e0e0;
+  border-color: #9d7651;
+}
+
+[data-theme="dark"] .login .title {
+  color: #e0e0e0;
+  border-bottom-color: #3a3d45;
+}
+
+[data-theme="dark"] .login button {
+  background: #3a3d45;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .login button:hover {
+  background: #4a4d55;
+}
+
+[data-theme="dark"] .login-title {
+  color: #e0e0e0;
+}

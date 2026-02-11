@@ -87,8 +87,11 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Record New Consent</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -110,7 +113,7 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
 
     <?php if (!empty($errors)): ?>
         <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <strong>Validation Errors:</strong>
             <ul>
                 <?php foreach ($errors as $error): ?>
@@ -124,11 +127,11 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
         <div class="row">
             <div class="col-md-8">
                 <!-- Data Subject Information -->
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-user"></i> Data Subject Information</h3>
+                <div class="card border-primary">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-user"></i> Data Subject Information</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label>Full Name <span class="text-danger">*</span></label>
                             <input type="text" name="subject_name" class="form-control" required
@@ -162,11 +165,11 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
                 </div>
 
                 <!-- Consent Purpose -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-gavel"></i> Consent Purpose</h3>
+                <div class="card border-info">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-gavel"></i> Consent Purpose</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label>Purpose <span class="text-danger">*</span></label>
                             <select name="purpose" id="purposeSelect" class="form-control" required>
@@ -214,11 +217,11 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
                 </div>
 
                 <!-- Consent Details -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-file-text"></i> Consent Details</h3>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-file-text"></i> Consent Details</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -281,11 +284,11 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
 
             <div class="col-md-4">
                 <!-- Consent Requirements -->
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-check-square"></i> Valid Consent Requirements</h3>
+                <div class="card border-warning">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-check-square"></i> Valid Consent Requirements</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <p><strong>CDPA s.8 Requirements:</strong></p>
                         <ul style="font-size: 12px; margin-bottom: 15px;">
                             <li><strong>Freely Given</strong> - No coercion, bundling, or negative consequences</li>
@@ -307,23 +310,23 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="panel panel-default">
-                    <div class="panel-body">
+                <div class="card">
+                    <div class="card-body">
                         <button type="submit" class="btn btn-primary btn-block btn-lg">
                             <i class="fa fa-save"></i> Record Consent
                         </button>
-                        <a href="consent_list.php" class="btn btn-default btn-block">
+                        <a href="consent_list.php" class="btn btn-secondary btn-block">
                             <i class="fa fa-times"></i> Cancel
                         </a>
                     </div>
                 </div>
 
                 <!-- Quick Reference -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-book"></i> Documentation Tips</h3>
+                <div class="card border-info">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-book"></i> Documentation Tips</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <p style="font-size: 12px; margin-bottom: 10px;">
                             <strong>What to Document:</strong>
                         </p>
@@ -339,11 +342,11 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
                 </div>
 
                 <!-- Legal Basis Info -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-info-circle"></i> Legal Basis</h3>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-info-circle"></i> Legal Basis</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <p style="font-size: 11px; margin: 0;">
                             <strong>Remember:</strong> Consent is just one of several lawful bases under CDPA s.8.
                             Other bases include contract, legal obligation, vital interests, public task, and legitimate interests.
@@ -377,9 +380,10 @@ $(document).ready(function() {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

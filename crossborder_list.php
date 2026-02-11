@@ -51,8 +51,11 @@ foreach ($transfers as $transfer) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Cross-Border Transfers</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <style>
@@ -96,7 +99,7 @@ foreach ($transfers as $transfer) {
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['flash_message'])): ?>
         <div class="alert alert-<?php echo $_SESSION['flash_type']; ?> alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <?php
                 echo htmlspecialchars($_SESSION['flash_message']);
                 unset($_SESSION['flash_message'], $_SESSION['flash_type']);
@@ -107,13 +110,13 @@ foreach ($transfers as $transfer) {
     <!-- Statistics Cards -->
     <div class="row">
         <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
+            <div class="card border-info">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-globe fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $total_transfers; ?></div>
                             <div>Total Transfers</div>
                         </div>
@@ -123,13 +126,13 @@ foreach ($transfers as $transfer) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-warning">
-                <div class="panel-heading">
+            <div class="card border-warning">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-clock-o fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $pending_count; ?></div>
                             <div>Pending Notification</div>
                         </div>
@@ -139,13 +142,13 @@ foreach ($transfers as $transfer) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-success">
-                <div class="panel-heading">
+            <div class="card border-success">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-check fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $approved_count; ?></div>
                             <div>Approved</div>
                         </div>
@@ -155,13 +158,13 @@ foreach ($transfers as $transfer) {
         </div>
 
         <div class="col-md-3">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
+            <div class="card border-danger">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-xs-3">
+                        <div class="col-3">
                             <i class="fa fa-exclamation-triangle fa-3x"></i>
                         </div>
-                        <div class="col-xs-9 text-right">
+                        <div class="col-9 text-end">
                             <div style="font-size: 36px; font-weight: bold;"><?php echo $high_risk_count; ?></div>
                             <div>High-Risk Countries</div>
                         </div>
@@ -174,8 +177,8 @@ foreach ($transfers as $transfer) {
     <!-- Action Buttons -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-body">
                     <a href="crossborder_add.php" class="btn btn-primary">
                         <i class="fa fa-plus"></i> Record New Cross-Border Transfer
                     </a>
@@ -193,14 +196,14 @@ foreach ($transfers as $transfer) {
     <!-- Transfers Table -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                <div class="card-header">
                     <i class="fa fa-table"></i> Cross-Border Transfers
-                    <div class="pull-right">
-                        <input type="text" id="searchInput" class="form-control input-sm" placeholder="Search..." style="width: 200px; display: inline-block;">
+                    <div class="float-end">
+                        <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Search..." style="width: 200px; display: inline-block;">
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if (empty($transfers)): ?>
                         <div class="alert alert-info">
                             <i class="fa fa-info-circle"></i>
@@ -257,7 +260,7 @@ foreach ($transfers as $transfer) {
                                             <td><?php echo htmlspecialchars($transfer['safeguard_name']); ?></td>
                                             <td>
                                                 <?php if ($transfer['potraz_notification_ref']): ?>
-                                                    <span class="label label-success">
+                                                    <span class="badge bg-success">
                                                         <?php echo htmlspecialchars($transfer['potraz_notification_ref']); ?>
                                                     </span>
                                                 <?php else: ?>
@@ -279,10 +282,10 @@ foreach ($transfers as $transfer) {
                                                 <br><small class="text-muted">by <?php echo htmlspecialchars($transfer['created_by_name']); ?></small>
                                             </td>
                                             <td>
-                                                <a href="crossborder_view.php?id=<?php echo $transfer['cb_id']; ?>" class="btn btn-info btn-xs" title="View Details">
+                                                <a href="crossborder_view.php?id=<?php echo $transfer['cb_id']; ?>" class="btn btn-info btn-sm" title="View Details">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
-                                                <a href="crossborder_edit.php?id=<?php echo $transfer['cb_id']; ?>" class="btn btn-primary btn-xs" title="Edit">
+                                                <a href="crossborder_edit.php?id=<?php echo $transfer['cb_id']; ?>" class="btn btn-primary btn-sm" title="Edit">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                             </td>
@@ -303,10 +306,11 @@ foreach ($transfers as $transfer) {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 <script>
 $(document).ready(function() {
     // Search functionality

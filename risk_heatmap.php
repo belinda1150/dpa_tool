@@ -73,8 +73,11 @@ $flash = get_flash_message();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Risk Heat Map</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <style>
         .heatmap-container {
@@ -175,7 +178,7 @@ $flash = get_flash_message();
 
                 <?php if ($flash): ?>
                 <div class="alert alert-<?php echo $flash['type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <?php echo htmlspecialchars($flash['message']); ?>
                 </div>
                 <?php endif; ?>
@@ -183,8 +186,8 @@ $flash = get_flash_message();
                 <!-- Statistics -->
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
+                        <div class="card">
+                            <div class="card-body">
                                 <div class="stat-panel text-center">
                                     <h3 class="text-primary"><?php echo $total_risks; ?></h3>
                                     <p>Total Risks</p>
@@ -193,8 +196,8 @@ $flash = get_flash_message();
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="panel panel-danger">
-                            <div class="panel-body">
+                        <div class="card border-danger">
+                            <div class="card-body">
                                 <div class="stat-panel text-center">
                                     <h3><?php echo $high_risks; ?></h3>
                                     <p>High Risks (≥15)</p>
@@ -203,8 +206,8 @@ $flash = get_flash_message();
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="panel panel-warning">
-                            <div class="panel-body">
+                        <div class="card border-warning">
+                            <div class="card-body">
                                 <div class="stat-panel text-center">
                                     <h3><?php echo $medium_risks; ?></h3>
                                     <p>Medium Risks (8-14)</p>
@@ -213,8 +216,8 @@ $flash = get_flash_message();
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
+                        <div class="card border-success">
+                            <div class="card-body">
                                 <div class="stat-panel text-center">
                                     <h3><?php echo $low_risks; ?></h3>
                                     <p>Low Risks (<8)</p>
@@ -227,11 +230,11 @@ $flash = get_flash_message();
                 <!-- Filters -->
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 <i class="fa fa-filter"></i> Filters
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <form method="get" action="risk_heatmap.php" class="form-inline">
                                     <div class="form-group">
                                         <label>Status:</label>
@@ -256,7 +259,7 @@ $flash = get_flash_message();
                                     <button type="submit" class="btn btn-primary" style="margin-left: 10px;">
                                         <i class="fa fa-filter"></i> Apply
                                     </button>
-                                    <a href="risk_heatmap.php" class="btn btn-default">
+                                    <a href="risk_heatmap.php" class="btn btn-secondary">
                                         <i class="fa fa-refresh"></i> Reset
                                     </a>
                                 </form>
@@ -268,14 +271,14 @@ $flash = get_flash_message();
                 <!-- Heat Map -->
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <i class="fa fa-th"></i> Risk Heat Map (Likelihood × Impact)
                                     </div>
-                                    <div class="col-md-6 text-right">
-                                        <a href="risk_list.php" class="btn btn-default btn-sm">
+                                    <div class="col-md-6 text-end">
+                                        <a href="risk_list.php" class="btn btn-secondary btn-sm">
                                             <i class="fa fa-list"></i> List View
                                         </a>
                                         <a href="risk_add.php" class="btn btn-primary btn-sm">
@@ -284,7 +287,7 @@ $flash = get_flash_message();
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="heatmap-container">
                                     <table class="heatmap-table">
                                         <tr>
@@ -366,10 +369,11 @@ $flash = get_flash_message();
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
     <script>
         // Store risks data for JavaScript access
         var risksData = <?php echo json_encode($heatmap); ?>;
@@ -382,18 +386,18 @@ $flash = get_flash_message();
                 return;
             }
 
-            var html = '<div class="panel panel-info"><div class="panel-heading">';
+            var html = '<div class="card border-info"><div class="card-header">';
             html += '<h4>Risks: Likelihood ' + likelihood + ' × Impact ' + impact + ' (Score: ' + (likelihood * impact) + ')</h4>';
-            html += '</div><div class="panel-body"><table class="table table-striped">';
+            html += '</div><div class="card-body"><table class="table table-striped">';
             html += '<thead><tr><th>Risk Title</th><th>Category</th><th>Owner</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
 
             risks.forEach(function(risk) {
                 html += '<tr>';
                 html += '<td>' + escapeHtml(risk.risk_title) + '</td>';
-                html += '<td><span class="label label-default">' + risk.risk_category + '</span></td>';
+                html += '<td><span class="badge bg-secondary">' + risk.risk_category + '</span></td>';
                 html += '<td>' + (risk.first_name ? escapeHtml(risk.first_name + ' ' + risk.last_name) : 'N/A') + '</td>';
-                html += '<td><span class="label label-' + getStatusClass(risk.status) + '">' + risk.status + '</span></td>';
-                html += '<td><a href="risk_view.php?id=' + risk.risk_id + '" class="btn btn-info btn-xs">View</a></td>';
+                html += '<td><span class="badge bg-' + getStatusClass(risk.status) + '">' + risk.status + '</span></td>';
+                html += '<td><a href="risk_view.php?id=' + risk.risk_id + '" class="btn btn-info btn-sm">View</a></td>';
                 html += '</tr>';
             });
 

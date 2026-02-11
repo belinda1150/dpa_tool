@@ -254,7 +254,7 @@ if ($format === 'csv') {
         .badge-high { background-color: #f57c00; }
         .badge-medium { background-color: #fbc02d; color: #333; }
         .badge-low { background-color: #388e3c; }
-        .badge-default { background-color: #95a5a6; }
+        .bg-secondary { background-color: #95a5a6; }
         .badge-open { background-color: #e74c3c; }
         .badge-mitigated { background-color: #f39c12; }
         .badge-accepted { background-color: #3498db; }
@@ -295,7 +295,7 @@ if ($format === 'csv') {
             color: white;
         }
 
-        .btn-default {
+        .btn-secondary {
             background-color: #95a5a6;
             color: white;
         }
@@ -315,7 +315,7 @@ if ($format === 'csv') {
     <button class="btn btn-success" onclick="window.location.href='risk_export.php?<?php echo $risk_id > 0 ? 'id=' . $risk_id . '&' : ''; ?>format=csv';">
         Download CSV
     </button>
-    <button class="btn btn-default" onclick="window.location.href='risk_list.php';">
+    <button class="btn btn-secondary" onclick="window.location.href='risk_list.php';">
         Back to Risk Register
     </button>
 </div>
@@ -406,7 +406,7 @@ if ($format === 'csv') {
         'accepted' => 'badge-accepted',
         'closed' => 'badge-closed'
     ];
-    $status_class = $status_badges[$risk['status']] ?? 'badge-default';
+    $status_class = $status_badges[$risk['status']] ?? 'bg-secondary';
     ?>
 
     <div class="risk-card <?php echo $risk_class; ?>">
@@ -425,7 +425,7 @@ if ($format === 'csv') {
             </tr>
             <tr>
                 <th>Category:</th>
-                <td><span class="badge badge-default"><?php echo htmlspecialchars($risk['risk_category']); ?></span></td>
+                <td><span class="badge bg-secondary"><?php echo htmlspecialchars($risk['risk_category']); ?></span></td>
             </tr>
             <tr>
                 <th>Department:</th>

@@ -233,8 +233,11 @@ $criticality_options = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Add Vendor</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -255,7 +258,7 @@ $criticality_options = [
                 <!-- Form Errors -->
                 <?php if (!empty($form_errors)): ?>
                     <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         <strong>Please correct the following errors:</strong>
                         <ul>
                             <?php foreach ($form_errors as $error): ?>
@@ -272,11 +275,11 @@ $criticality_options = [
                         <div class="col-md-6">
 
                             <!-- Basic Information -->
-                            <div class="panel panel-primary">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-building"></i> Vendor Information</h3>
+                            <div class="card border-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fa fa-building"></i> Vendor Information</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <div class="form-group">
                                         <label for="vendor_name">Vendor Name <span class="text-danger">*</span></label>
                                         <input type="text" name="vendor_name" id="vendor_name" class="form-control" required
@@ -347,11 +350,11 @@ $criticality_options = [
                             </div>
 
                             <!-- Contact Information -->
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-user"></i> Contact Information</h3>
+                            <div class="card border-info">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fa fa-user"></i> Contact Information</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <div class="form-group">
                                         <label for="primary_contact_name">Primary Contact Name</label>
                                         <input type="text" name="primary_contact_name" id="primary_contact_name" class="form-control"
@@ -403,11 +406,11 @@ $criticality_options = [
                         <div class="col-md-6">
 
                             <!-- DPA/Contract Information -->
-                            <div class="panel panel-success">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-file-text"></i> DPA & Contract</h3>
+                            <div class="card border-success">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fa fa-file-text"></i> DPA & Contract</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
@@ -479,11 +482,11 @@ $criticality_options = [
                             </div>
 
                             <!-- Data Processing Details -->
-                            <div class="panel panel-warning">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-database"></i> Data Processing Details</h3>
+                            <div class="card border-warning">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fa fa-database"></i> Data Processing Details</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
@@ -558,11 +561,11 @@ $criticality_options = [
 
                             <!-- Link to ROPA -->
                             <?php if (!empty($ropa_entries)): ?>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-link"></i> Link to Processing Activities</h3>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fa fa-link"></i> Link to Processing Activities</h3>
                                 </div>
-                                <div class="panel-body" style="max-height: 200px; overflow-y: auto;">
+                                <div class="card-body" style="max-height: 200px; overflow-y: auto;">
                                     <?php foreach ($ropa_entries as $ropa): ?>
                                     <div class="checkbox">
                                         <label>
@@ -589,12 +592,12 @@ $criticality_options = [
                     <!-- Form Actions -->
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
+                            <div class="card">
+                                <div class="card-body">
                                     <button type="submit" class="btn btn-success btn-lg">
                                         <i class="fa fa-save"></i> Save Vendor
                                     </button>
-                                    <a href="vendor_list.php" class="btn btn-default btn-lg">
+                                    <a href="vendor_list.php" class="btn btn-secondary btn-lg">
                                         <i class="fa fa-times"></i> Cancel
                                     </a>
                                 </div>
@@ -607,10 +610,11 @@ $criticality_options = [
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
     <script>
         $(document).ready(function() {
             // Toggle DPA date fields based on status

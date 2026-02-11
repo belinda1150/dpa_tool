@@ -32,9 +32,12 @@ $flash = get_flash_message();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Recipients Management</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <link href="assets/js/dataTables/dataTables.bootstrap.css?v=2" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
+    <link href="assets/js/dataTables/dataTables.bootstrap5.css?v=2" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -54,27 +57,27 @@ $flash = get_flash_message();
 
                 <?php if ($flash): ?>
                 <div class="alert alert-<?php echo $flash['type'] == 'success' ? 'success' : 'danger'; ?> alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <?php echo htmlspecialchars($flash['message']); ?>
                 </div>
                 <?php endif; ?>
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <i class="fa fa-building"></i> Recipients / Third Parties
                                     </div>
-                                    <div class="col-md-6 text-right">
+                                    <div class="col-md-6 text-end">
                                         <a href="recipients_add.php" class="btn btn-primary btn-sm">
                                             <i class="fa fa-plus"></i> Add New Recipient
                                         </a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="recipientsTable">
                                         <thead>
@@ -102,10 +105,10 @@ $flash = get_flash_message();
                                                 <td>
                                                     <?php
                                                     $type_labels = [
-                                                        'processor' => '<span class="label label-info">Processor</span>',
-                                                        'controller' => '<span class="label label-primary">Controller</span>',
-                                                        'authority' => '<span class="label label-warning">Authority</span>',
-                                                        'other' => '<span class="label label-default">Other</span>'
+                                                        'processor' => '<span class="badge bg-info text-dark">Processor</span>',
+                                                        'controller' => '<span class="badge bg-primary">Controller</span>',
+                                                        'authority' => '<span class="badge bg-warning text-dark">Authority</span>',
+                                                        'other' => '<span class="badge bg-secondary">Other</span>'
                                                     ];
                                                     echo $type_labels[$recipient['recipient_type']] ?? ucfirst($recipient['recipient_type']);
                                                     ?>
@@ -126,10 +129,10 @@ $flash = get_flash_message();
                                                     <?php echo $recipient['usage_count'] == 1 ? 'ROPA' : 'ROPAs'; ?>
                                                 </td>
                                                 <td>
-                                                    <a href="recipients_edit.php?id=<?php echo $recipient['recipient_id']; ?>" class="btn btn-warning btn-xs" title="Edit">
+                                                    <a href="recipients_edit.php?id=<?php echo $recipient['recipient_id']; ?>" class="btn btn-warning btn-sm" title="Edit">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
-                                                    <a href="recipients_delete.php?id=<?php echo $recipient['recipient_id']; ?>" class="btn btn-danger btn-xs" title="Delete"
+                                                    <a href="recipients_delete.php?id=<?php echo $recipient['recipient_id']; ?>" class="btn btn-danger btn-sm" title="Delete"
                                                        onclick="return confirm('Are you sure you want to delete this recipient?<?php if ($recipient['usage_count'] > 0) echo ' This recipient is used in ' . $recipient['usage_count'] . ' ROPA entries.'; ?>');">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
@@ -149,12 +152,13 @@ $flash = get_flash_message();
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/dataTables/jquery.dataTables.js"></script>
-    <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
+    <script src="assets/js/dataTables/dataTables.bootstrap5.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
     <script>
         $(document).ready(function() {
             <?php if (!empty($recipients)): ?>

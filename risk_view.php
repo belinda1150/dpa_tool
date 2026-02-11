@@ -92,8 +92,11 @@ $linked_controls = db_fetch_all($stmt);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - View Risk</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -118,7 +121,7 @@ $linked_controls = db_fetch_all($stmt);
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['flash_message'])): ?>
         <div class="alert alert-<?php echo htmlspecialchars($_SESSION['flash_type']); ?> alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <?php
                 echo htmlspecialchars($_SESSION['flash_message']);
                 unset($_SESSION['flash_message'], $_SESSION['flash_type']);
@@ -129,11 +132,11 @@ $linked_controls = db_fetch_all($stmt);
     <!-- Risk Summary Panel -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h3 class="card-title">
                         <i class="fa fa-warning"></i> <?php echo htmlspecialchars($risk['risk_title']); ?>
-                        <span class="pull-right">
+                        <span class="float-end">
                             <?php
                             $status_labels = [
                                 'open' => 'danger',
@@ -141,15 +144,15 @@ $linked_controls = db_fetch_all($stmt);
                                 'accepted' => 'info',
                                 'closed' => 'success'
                             ];
-                            $status_class = $status_labels[$risk['status']] ?? 'default';
+                            $status_class = $status_labels[$risk['status']] ?? 'secondary';
                             ?>
-                            <span class="label label-<?php echo $status_class; ?>">
+                            <span class="badge bg-<?php echo $status_class; ?>">
                                 <?php echo strtoupper($risk['status']); ?>
                             </span>
                         </span>
                     </h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-8">
                             <table class="table table-bordered">
@@ -160,7 +163,7 @@ $linked_controls = db_fetch_all($stmt);
                                 <tr>
                                     <th>Category:</th>
                                     <td>
-                                        <span class="label label-default">
+                                        <span class="badge bg-secondary">
                                             <?php echo htmlspecialchars($risk['risk_category']); ?>
                                         </span>
                                     </td>
@@ -187,11 +190,11 @@ $linked_controls = db_fetch_all($stmt);
                             </table>
                         </div>
                         <div class="col-md-4">
-                            <div class="panel panel-<?php echo $residual_level['class']; ?>">
-                                <div class="panel-heading text-center">
+                            <div class="card border-<?php echo $residual_level['class']; ?>">
+                                <div class="card-header text-center">
                                     <h4 style="margin: 0;">Current Risk Level</h4>
                                 </div>
-                                <div class="panel-body text-center">
+                                <div class="card-body text-center">
                                     <h1 style="margin: 10px 0; font-size: 48px;">
                                         <?php echo $residual_score; ?><small>/25</small>
                                     </h1>
@@ -210,9 +213,9 @@ $linked_controls = db_fetch_all($stmt);
                                     <strong>Next Review:</strong><br>
                                     <?php echo date('d M Y', $review_date); ?>
                                     <?php if ($is_overdue): ?>
-                                        <br><span class="label label-danger">OVERDUE</span>
+                                        <br><span class="badge bg-danger">OVERDUE</span>
                                     <?php elseif ($is_soon): ?>
-                                        <br><span class="label label-warning">DUE SOON</span>
+                                        <br><span class="badge bg-warning text-dark">DUE SOON</span>
                                     <?php endif; ?>
                                 </div>
                             <?php endif; ?>
@@ -226,11 +229,11 @@ $linked_controls = db_fetch_all($stmt);
     <!-- Risk Description -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><i class="fa fa-file-text"></i> Risk Description</h4>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title"><i class="fa fa-file-text"></i> Risk Description</h4>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <p><?php echo nl2br(htmlspecialchars($risk['risk_description'])); ?></p>
                 </div>
             </div>
@@ -240,11 +243,11 @@ $linked_controls = db_fetch_all($stmt);
     <!-- Risk Assessment -->
     <div class="row">
         <div class="col-md-6">
-            <div class="panel panel-warning">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><i class="fa fa-line-chart"></i> Inherent Risk (Before Treatment)</h4>
+            <div class="card border-warning">
+                <div class="card-header">
+                    <h4 class="card-title"><i class="fa fa-line-chart"></i> Inherent Risk (Before Treatment)</h4>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-bordered">
                         <tr>
                             <th width="40%">Likelihood:</th>
@@ -281,7 +284,7 @@ $linked_controls = db_fetch_all($stmt);
                         <tr class="<?php echo $inherent_level['class']; ?>">
                             <th>Inherent Risk Score:</th>
                             <td>
-                                <span class="label label-<?php echo $inherent_level['class']; ?>" style="font-size: 14px;">
+                                <span class="badge bg-<?php echo $inherent_level['class']; ?>" style="font-size: 14px;">
                                     <?php echo $inherent_score; ?>/25 - <?php echo $inherent_level['level']; ?> Risk
                                 </span>
                             </td>
@@ -292,11 +295,11 @@ $linked_controls = db_fetch_all($stmt);
         </div>
 
         <div class="col-md-6">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><i class="fa fa-shield"></i> Residual Risk (After Treatment)</h4>
+            <div class="card border-success">
+                <div class="card-header">
+                    <h4 class="card-title"><i class="fa fa-shield"></i> Residual Risk (After Treatment)</h4>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if ($risk['residual_likelihood'] && $risk['residual_impact']): ?>
                         <table class="table table-bordered">
                             <tr>
@@ -316,7 +319,7 @@ $linked_controls = db_fetch_all($stmt);
                             <tr class="<?php echo $residual_level['class']; ?>">
                                 <th>Residual Risk Score:</th>
                                 <td>
-                                    <span class="label label-<?php echo $residual_level['class']; ?>" style="font-size: 14px;">
+                                    <span class="badge bg-<?php echo $residual_level['class']; ?>" style="font-size: 14px;">
                                         <?php echo $residual_score; ?>/25 - <?php echo $residual_level['level']; ?> Risk
                                     </span>
                                 </td>
@@ -355,11 +358,11 @@ $linked_controls = db_fetch_all($stmt);
     <!-- Treatment Plan -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><i class="fa fa-shield"></i> Risk Treatment Plan</h4>
+            <div class="card border-info">
+                <div class="card-header">
+                    <h4 class="card-title"><i class="fa fa-shield"></i> Risk Treatment Plan</h4>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <table class="table table-bordered">
                         <tr>
                             <th width="25%">Treatment Strategy:</th>
@@ -373,7 +376,7 @@ $linked_controls = db_fetch_all($stmt);
                                 ];
                                 $strategy = $strategy_labels[$risk['treatment_strategy']] ?? ['label' => 'Unknown', 'class' => 'default', 'icon' => 'question'];
                                 ?>
-                                <span class="label label-<?php echo $strategy['class']; ?>">
+                                <span class="badge bg-<?php echo $strategy['class']; ?>">
                                     <i class="fa fa-<?php echo $strategy['icon']; ?>"></i>
                                     <?php echo strtoupper($strategy['label']); ?>
                                 </span>
@@ -392,20 +395,20 @@ $linked_controls = db_fetch_all($stmt);
     <!-- Linked Controls -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-success">
-                <div class="panel-heading">
+            <div class="card border-success">
+                <div class="card-header">
                     <div class="row">
                         <div class="col-md-6">
-                            <h4 class="panel-title"><i class="fa fa-shield"></i> Linked Controls (<?php echo count($linked_controls); ?>)</h4>
+                            <h4 class="card-title"><i class="fa fa-shield"></i> Linked Controls (<?php echo count($linked_controls); ?>)</h4>
                         </div>
-                        <div class="col-md-6 text-right">
+                        <div class="col-md-6 text-end">
                             <a href="risk_controls_manage.php?id=<?php echo $risk_id; ?>" class="btn btn-primary btn-sm">
                                 <i class="fa fa-plus"></i> Manage Controls
                             </a>
                         </div>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <?php if (empty($linked_controls)): ?>
                         <div class="alert alert-info" style="margin-bottom: 0;">
                             <i class="fa fa-info-circle"></i> No controls linked to this risk yet.
@@ -436,7 +439,7 @@ $linked_controls = db_fetch_all($stmt);
                                                 case 'corrective': $type_class = 'warning'; break;
                                             }
                                             ?>
-                                            <span class="label label-<?php echo $type_class; ?>">
+                                            <span class="badge bg-<?php echo $type_class; ?>">
                                                 <?php echo ucfirst($lc['control_type']); ?>
                                             </span>
                                         </td>
@@ -445,19 +448,19 @@ $linked_controls = db_fetch_all($stmt);
                                             <?php
                                             $status_class = '';
                                             switch ($lc['implementation_status']) {
-                                                case 'planned': $status_class = 'default'; break;
+                                                case 'planned': $status_class = 'secondary'; break;
                                                 case 'in_progress': $status_class = 'info'; break;
                                                 case 'implemented': $status_class = 'success'; break;
                                                 case 'verified': $status_class = 'primary'; break;
                                             }
                                             ?>
-                                            <span class="label label-<?php echo $status_class; ?>">
+                                            <span class="badge bg-<?php echo $status_class; ?>">
                                                 <?php echo ucfirst(str_replace('_', ' ', $lc['implementation_status'])); ?>
                                             </span>
                                         </td>
                                         <td>
                                             <?php if ($lc['effectiveness']): ?>
-                                            <span class="label label-<?php echo $lc['effectiveness'] == 'high' ? 'success' : ($lc['effectiveness'] == 'medium' ? 'warning' : 'danger'); ?>">
+                                            <span class="badge bg-<?php echo $lc['effectiveness'] == 'high' ? 'success' : ($lc['effectiveness'] == 'medium' ? 'warning' : 'danger'); ?>">
                                                 <?php echo ucfirst($lc['effectiveness']); ?>
                                             </span>
                                             <?php else: ?>
@@ -479,11 +482,11 @@ $linked_controls = db_fetch_all($stmt);
     <?php if (!empty($audit_logs)): ?>
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title"><i class="fa fa-history"></i> Activity History</h4>
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title"><i class="fa fa-history"></i> Activity History</h4>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-condensed">
                                 <thead>
@@ -510,7 +513,7 @@ $linked_controls = db_fetch_all($stmt);
                                                 ];
                                                 $action = $action_labels[$log['action']] ?? ['label' => 'Action', 'class' => 'default'];
                                                 ?>
-                                                <span class="label label-<?php echo $action['class']; ?>">
+                                                <span class="badge bg-<?php echo $action['class']; ?>">
                                                     <?php echo $action['label']; ?>
                                                 </span>
                                             </td>
@@ -529,11 +532,11 @@ $linked_controls = db_fetch_all($stmt);
     <!-- Metadata -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><i class="fa fa-info-circle"></i> Metadata</h4>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title"><i class="fa fa-info-circle"></i> Metadata</h4>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <p><strong>Created By:</strong> <?php echo htmlspecialchars($risk['creator_first'] . ' ' . $risk['creator_last']); ?></p>
@@ -554,18 +557,18 @@ $linked_controls = db_fetch_all($stmt);
     <!-- Action Buttons -->
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-body">
                     <a href="risk_edit.php?id=<?php echo $risk_id; ?>" class="btn btn-warning">
                         <i class="fa fa-edit"></i> Edit Risk
                     </a>
                     <a href="risk_controls_manage.php?id=<?php echo $risk_id; ?>" class="btn btn-primary">
                         <i class="fa fa-shield"></i> Manage Controls
                     </a>
-                    <a href="risk_list.php" class="btn btn-default">
+                    <a href="risk_list.php" class="btn btn-secondary">
                         <i class="fa fa-list"></i> Back to List
                     </a>
-                    <a href="risk_export.php?id=<?php echo $risk_id; ?>" class="btn btn-primary pull-right">
+                    <a href="risk_export.php?id=<?php echo $risk_id; ?>" class="btn btn-primary float-end">
                         <i class="fa fa-download"></i> Export Risk
                     </a>
                 </div>
@@ -575,9 +578,10 @@ $linked_controls = db_fetch_all($stmt);
 
 </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

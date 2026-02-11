@@ -99,8 +99,11 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Update Incident</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -123,7 +126,7 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
 
     <?php if (!empty($errors)): ?>
         <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <strong>Validation Errors:</strong>
             <ul>
                 <?php foreach ($errors as $error): ?>
@@ -137,11 +140,11 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
         <div class="row">
             <div class="col-md-8">
                 <!-- Basic Information -->
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-info-circle"></i> Basic Information</h3>
+                <div class="card border-primary">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-info-circle"></i> Basic Information</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label>Incident Title <span class="text-danger">*</span></label>
                             <input type="text" name="incident_title" class="form-control" required
@@ -236,11 +239,11 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
                 </div>
 
                 <!-- Data Breach Details -->
-                <div class="panel panel-danger" id="breachPanel" style="<?php echo $incident['is_data_breach'] ? '' : 'display:none;'; ?>">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-database"></i> Data Breach Details</h3>
+                <div class="card border-danger" id="breachPanel" style="<?php echo $incident['is_data_breach'] ? '' : 'display:none;'; ?>">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-database"></i> Data Breach Details</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="alert alert-danger">
                             <i class="fa fa-warning"></i>
                             <strong>POTRAZ Notification Required:</strong> All data breaches must be reported to POTRAZ within 72 hours of discovery (CDPA s.26).
@@ -262,11 +265,11 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
                 </div>
 
                 <!-- Immediate Actions -->
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-flash"></i> Immediate Actions Taken</h3>
+                <div class="card border-warning">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-flash"></i> Immediate Actions Taken</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label>Actions Taken to Contain the Incident</label>
                             <textarea name="immediate_actions" class="form-control" rows="5"
@@ -278,18 +281,18 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
 
             <div class="col-md-4">
                 <!-- Status & Assignment -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-tasks"></i> Status & Assignment</h3>
+                <div class="card border-info">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fa fa-tasks"></i> Status & Assignment</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label>
                                 <input type="checkbox" name="is_data_breach" id="breachCheckbox"
                                        value="1" <?php echo $incident['is_data_breach'] ? 'checked' : ''; ?>>
                                 This is a Data Breach
                             </label>
-                            <p class="help-block text-danger">
+                            <p class="form-text text-danger">
                                 <i class="fa fa-info-circle"></i> Check if personal data was compromised
                             </p>
                         </div>
@@ -346,12 +349,12 @@ $ropa_entries = db_fetch_all(db_query($ropa_query, [$org_id]));
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="panel panel-default">
-                    <div class="panel-body">
+                <div class="card">
+                    <div class="card-body">
                         <button type="submit" class="btn btn-primary btn-block btn-lg">
                             <i class="fa fa-save"></i> Save Changes
                         </button>
-                        <a href="incident_view.php?id=<?php echo $incident_id; ?>" class="btn btn-default btn-block">
+                        <a href="incident_view.php?id=<?php echo $incident_id; ?>" class="btn btn-secondary btn-block">
                             <i class="fa fa-times"></i> Cancel
                         </a>
                     </div>
@@ -379,9 +382,10 @@ $(document).ready(function() {
         </div>
     </div>
 
-<script src="assets/js/jquery-1.10.2.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+<script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
 <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>

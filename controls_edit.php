@@ -79,8 +79,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?php echo APP_NAME; ?> - Edit Control</title>
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="assets/js/theme.js"></script>
+    <link href="assets/css/theme-variables.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap5.min.css" rel="stylesheet" />
+    <link href="assets/css/css/all.min.css" rel="stylesheet" />
+    <link href="assets/css/css/v4-shims.min.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
@@ -100,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <?php if (!empty($errors)): ?>
                 <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <strong>Please fix the following errors:</strong>
                     <ul>
                         <?php foreach ($errors as $error): ?>
@@ -112,11 +115,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="row">
                     <div class="col-md-8">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="card">
+                            <div class="card-header">
                                 <i class="fa fa-edit"></i> Control Information
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <form method="post" action="controls_edit.php?id=<?php echo $control_id; ?>">
                                     <div class="form-group">
                                         <label>Control Name <span class="text-danger">*</span></label>
@@ -161,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <button type="submit" class="btn btn-primary">
                                             <i class="fa fa-save"></i> Update Control
                                         </button>
-                                        <a href="controls.php" class="btn btn-default">
+                                        <a href="controls.php" class="btn btn-secondary">
                                             <i class="fa fa-times"></i> Cancel
                                         </a>
                                     </div>
@@ -171,11 +174,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
 
                     <div class="col-md-4">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
+                        <div class="card border-info">
+                            <div class="card-header">
                                 <i class="fa fa-info-circle"></i> Control Details
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <dl>
                                     <dt>Control ID</dt>
                                     <dd><?php echo $control['control_id']; ?></dd>
@@ -193,11 +196,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <?php if ($usage['count'] > 0): ?>
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">
+                        <div class="card border-warning">
+                            <div class="card-header">
                                 <i class="fa fa-exclamation-triangle"></i> In Use
                             </div>
-                            <div class="panel-body">
+                            <div class="card-body">
                                 <p>This control is linked to <?php echo $usage['count']; ?> risk(s).</p>
                                 <p>Changes to this control will affect all linked risks.</p>
                             </div>
@@ -210,9 +213,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap5.bundle.min.js"></script>
+    <script src="assets/js/sidebar-menu.js"></script>
     <script src="assets/js/custom.js"></script>
+<script src="assets/js/global-search.js"></script>
 </body>
 </html>
